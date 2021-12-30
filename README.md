@@ -1,5 +1,5 @@
 # PyGAF
-Groundwater Analytic Flow
+Python package for Groundwater Analytic Flow
 
 ## Description
 
