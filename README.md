@@ -1,6 +1,6 @@
 # PyGAF
 Groundwater Analytic Flow
 
-## About
+## Description
 
 ## Examples
