@@ -1,6 +1,6 @@
 import setuptools
 
-long_description = 'Python package for evaluation of closed-form groundwater flow solutions'
+long_description = 'Python modules for exploring analytic solutions to groundwater flow problems'
 
 setuptools.setup(
     name='pygaf',
