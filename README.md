@@ -1,5 +1,4 @@
-# PyGAF
-**Py**thon **G**roundwater **A**nalytic **F**low
+# PyGAF - Python **G**roundwater **A**nalytic **F**low
 
 Python modules for exploring analytic solutions to groundwater flow problems.
 
