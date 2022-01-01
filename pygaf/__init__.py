@@ -1,31 +1,38 @@
 
 """
-PyGAF: python modules for evaluating and exploring analytic solutions
-to groundwater flow problems.
+PyGAF - Python Groundwater Analytic Flow.
 
-PyGAF stands for Python Groundwater Analytic Flow.
-
-The package concept is to provide an educational and practical
-environment for exploration of groundwater flow concepts and published
-analytic (closed-form) mathematical solutions.
-
-PyGAF has the following main modules:
-  aq.py - aquifer classes
-  well.py - well classes
-  stress.py - aquifer stress classes
-  welflo.py - well flow solution classes
-  rch.py - groundwater recharge solution classes
+Educational and practical environment for evaluating, displaying
+and exploring analytic solutions to groundwater flow models.
 """
 
-from pygaf import aq
-from pygaf import well
-from pygaf import stress
-from pygaf import welflo
+from .aq import (
+  Aquifer,
+  D1RadConf,
+  D1RadUnconf,
+  D1FiniteConf,
+  D1FiniteUnconf,
+  D1SemifiniteConf,
+  D1SemifiniteUnconf
+)
+from .well import (
+  Well,
+  Steady,
+  Transient
+)
+from .stress import StressSeries
+from .solutions import *
 
 _all__ = [
-    'aq',
-    'well',
-    'stress',
-    'welflo',
-    'rch'
+  'Aquifer',
+  'D1RadConf',
+  'D1RadUnconf',
+  'D1FiniteConf',
+  'D1FiniteUnconf',
+  'D1SemifiniteConf',
+  'D1SemifiniteUnconf',
+  'Well',
+  'Steady',
+  'Transient',
+  'StressSeries'
 ]
