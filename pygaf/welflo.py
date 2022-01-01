@@ -1,8 +1,5 @@
-################################################
-class Theis:
-    """
-    Theis (1935) well solution.
-    """
+class TheisWell:
+    """Theis (1935) well solution."""
     is_infinite = True
     is_finite = False
     is_homogeneous = True
