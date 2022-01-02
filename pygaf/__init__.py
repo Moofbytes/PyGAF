@@ -6,33 +6,15 @@ Educational and practical environment for evaluating, displaying
 and exploring analytic solutions to groundwater flow models.
 """
 
-from .aq import (
+from .aquifers import (
   Aquifer,
-  D1RadConf,
-  D1RadUnconf,
-  D1FiniteConf,
-  D1FiniteUnconf,
-  D1SemifiniteConf,
-  D1SemifiniteUnconf
+  AqRadConf,
+  AqRadUnconf,
+  Aq1dFiniteConf,
+  Aq1dFiniteUnconf,
+  Aq1dSemifiniteConf,
+  Aq1dSemifiniteUnconf
 )
-from .well import (
-  Well,
-  Steady,
-  Transient
-)
-from .stress import StressSeries
+from .wells import Well, SteadyWell, TransientWell
+from .stresses import StressSeries
 from .solutions import *
-
-_all__ = [
-  'Aquifer',
-  'D1RadConf',
-  'D1RadUnconf',
-  'D1FiniteConf',
-  'D1FiniteUnconf',
-  'D1SemifiniteConf',
-  'D1SemifiniteUnconf',
-  'Well',
-  'Steady',
-  'Transient',
-  'StressSeries'
-]
