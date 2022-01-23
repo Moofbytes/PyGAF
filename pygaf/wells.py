@@ -39,11 +39,6 @@ class SteadyWell(Well):
         Well penetration depth as a fraction of aquifer depth (default 1)
     name : str
         Well name (default '')
-
-    Properties:
-    ----------
-    state : str
-        Well flow state (extract, inject or off)
     """
     is_steady = True
     is_transient = False

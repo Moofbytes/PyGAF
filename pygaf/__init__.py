@@ -17,4 +17,5 @@ from .aquifers import (
 )
 from .wells import Well, SteadyWell, TransientWell
 from .stresses import StressSeries
+from .grids import WellGrid
 from .solutions import *

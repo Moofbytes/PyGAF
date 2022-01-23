@@ -1,39 +1,38 @@
 class StressSeries:
     """
-    Timeseries of stress periods and stress values.
+    Timeseries of stress periods and values.
 
     Arguments:
     ---------
     periods : float
-        List of stress period lengths [units: T], (default [])
+        List of stress period lengths; used if from_csv is an empty string
+        [units: T], (default [])
     values : float
-        List of stress period values [units: consistent], (default [])
-    from_csv : bool
-        Read stress data from a csv file (default False)
-    csv : str
-        File path of csv file to read (default ''). If empty, then
-        no data are imported.
-
-    Returns:
-    -------
-    Pandas dataframe
+        List of stress period values, one per stress period; used if from_csv is
+        an empty string [units: consistent], (default [])
+    from_csv : str
+        File path of csv file to read stress data from; no data are read if the
+        string is empty (default '')
     """
-    def __init__(self, periods=[], values=[], from_csv=False, csv=''):
-        import pandas
+    def __init__(self, periods=[], values=[], from_csv=''):
+        from pandas import read_csv
         self.periods = periods
         self.values = values
-        if from_csv:
-            self.series = pandas.read_csv(csv, names=['periods', 'values'])
-            self.periods = list(self.series['periods'])
-            self.values = list(self.series['values'])
-        else:
-            if len(periods) != len(values):
-                print('Error! the number of periods and values do not match.')
-                return
-            else:
-                self.series = pandas.DataFrame()
-                self.series['periods'] = periods
-                self.series['values'] = values
+        if from_csv != '':
+            df = read_csv(from_csv, names=['periods', 'values'])
+            self.periods = list(df['periods'])
+            self.values = list(df['values'])
+        # Checks
+        if len(self.periods) != len(self.values):
+            print('Error! the number of periods and values do not match.')
+
+    @property
+    def series(self):
+        """ Stress series dataframe."""
+        from pandas import DataFrame
+        d = {'periods':self.periods, 'values':self.values}
+        return DataFrame(data=d)
+
         return
 
     def plot(self, dw=8):
