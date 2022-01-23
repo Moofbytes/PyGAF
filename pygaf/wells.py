@@ -1,6 +1,8 @@
 class Well:
     """Parent well class."""
-    def __init__(self, r, pd, name):
+    def __init__(self, x, y, r, pd, name):
+        self.x = x
+        self.y = y
         self.r = r
         self.pd = pd
         self.name = name
@@ -25,6 +27,10 @@ class SteadyWell(Well):
 
     Arguments:
     ---------
+    x : float
+        Well x coordinate (default 0.0)
+    y : float
+        Well y coordinate (default 0.0)
     r : float
         Well radius [units: L] (default 0.05)
     q : float
@@ -41,8 +47,8 @@ class SteadyWell(Well):
     """
     is_steady = True
     is_transient = False
-    def __init__(self, r=0.05, q=0.0, pd=1, name=''):
-        super().__init__(r, pd, name)
+    def __init__(self, x=0.0, y=0.0, r=0.05, q=0.0, pd=1, name=''):
+        super().__init__(x, y, r, pd, name)
         self.q = q
         self.title = self.name
         return
@@ -62,6 +68,7 @@ class SteadyWell(Well):
         print('WELL INFORMATION')
         print('Name:', self.name)
         print('Type: steady state')
+        print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
         print('Radius:', self.r, '[L]')
         print('Well rate:', self.q, '[L3/T]')
         print('State:', self.state)
@@ -73,6 +80,10 @@ class TransientWell(Well):
 
     Arguments:
     ---------
+    x : float
+        Well x coordinate (default 0.0)
+    y : float
+        Well y coordinate (default 0.0)
     r : float
         Well radius [units: L] (default 0.05)
     ss : pandas dataframe
@@ -90,8 +101,8 @@ class TransientWell(Well):
     import pandas
     is_steady = False
     is_transient = True
-    def __init__(self, r=0.05, ss=None, pd=1, name=''):
-        super().__init__(r, pd, name)
+    def __init__(self, x=0.0, y=0.0, r=0.05, ss=None, pd=1, name=''):
+        super().__init__(x, y, r, pd, name)
         self.ss = ss
         self.title = self.name
         return
@@ -114,6 +125,7 @@ class TransientWell(Well):
         print('WELL INFORMATION')
         print('Name:', self.name)
         print('Type: transient')
+        print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
         print('Radius:', self.r, '[L]')
         unique_states = list(set(self.state))
         print('Unique well states:', unique_states)
