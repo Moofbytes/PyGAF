@@ -29,9 +29,13 @@ class StressSeries:
     @property
     def series(self):
         """ Stress series dataframe."""
-        from pandas import DataFrame
-        d = {'periods':self.periods, 'values':self.values}
-        return DataFrame(data=d)
+        if len(self.periods) != len(self.values):
+            print('Error! the number of periods and values do not match.')
+            return
+        else:
+            from pandas import DataFrame
+            d = {'periods':self.periods, 'values':self.values}
+            return DataFrame(data=d)
 
         return
 
@@ -44,6 +48,9 @@ class StressSeries:
             Width of plot figure (default 8)
         """
         import matplotlib.pyplot as plt
+        if len(self.periods) != len(self.values):
+            print('Error! the number of periods and values do not match.')
+            return
         plot_times, plot_values = [], []
         for i in range(len(self.periods)):
             plot_times.append(sum(self.periods[0:i]))
