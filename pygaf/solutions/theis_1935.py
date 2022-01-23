@@ -50,9 +50,9 @@ class TheisWell:
             List of times to evaluate radius of influence (default [1])
         plot : bool
             Display a graph of radius of influence (default True)
-        csv : storage
+        csv : str
             Filepath of csv file for results export (default '' - no export)
-        xlsx : storage
+        xlsx : str
             Filepath of xlsx file for results export (default '' - no export)
 
         Returns:
@@ -112,9 +112,9 @@ class TheisWell:
             List of times to evaluate drawdown (default [1])
         r : float
             List of radii to evaluate drawdown (default [1])
-        csv : storage
+        csv : str
             Filepath of csv file for results export (default '' - no export)
-        xlsx : storage
+        xlsx : str
             Filepath of xlsx file for results export (default '' - no export)
 
         Returns:
@@ -125,11 +125,8 @@ class TheisWell:
         from scipy.special import expn
         import pandas
         # Checks
-        if min(t) <= 0:
-            print('Error! All times must be greater than 0.')
-            return
-        if min(r) <= 0:
-            print('Error! All radii must be greater than 0.')
+        if min(t) <= 0 or min(r) <= 0:
+            print('Error! All times and radii must be greater than 0.')
             return
         # Drawdown
         d = {'Time':t}
@@ -165,3 +162,53 @@ class TheisWell:
             df.to_excel(xlsx, sheet_name='ri')
             print('Results exported to:', xlsx)
         return df
+
+    def dd_grid(self, t=1, gr=100, gs=10, plot=True, csv='', xlsx=''):
+        """
+        Compute a rectangular grid of drawdown values.
+
+        Keyword Arguments:
+        -----------------
+        t : float
+            Drawdown time (default [1])
+        gr : float
+            Radius defining the extent of the solution grid (default 100)
+        gs : float
+            Grid spacing (default 10)
+        csv : str
+            Filepath of csv file for results export (default '' - no export)
+        xlsx : str
+            Filepath of xlsx file for results export (default '' - no export)
+
+        Returns:
+        -------
+        Pandas dataframe
+        """
+        import pandas
+        from numpy import sqrt
+        max_grid_points = 2500
+        min_grid_points = 25
+        # Checks
+        if gr <= 0 or gs <= 0 or t <= 0:
+            print('Error! Time, grid radius and spacing must be greater than 0.')
+            return
+        if gs >= gr:
+            print('Error! Grid spacing must be less than grid radius.')
+            return
+        num_points = (1 + 2*gr/gs)**2
+        if num_points > max_grid_points:
+            gs = 2*gr/(sqrt(max_grid_points)-1)
+            num_points = (1 + 2*gr/gs)**2
+            print('Notice! the number of grid points exceeds', max_grid_points)
+            print('The grid spacing is re-set to', round(gs, 3))
+        elif num_points < min_grid_points:
+            gs = gr/2
+            num_points = (1 + 2*gr/gs)**2
+            print('Notice! the number of grid points subceeds', min_grid_points)
+            print('The grid spacing is re-set to', round(gs, 3))
+        num_lines = sqrt(num_points)
+        print('Number of grid points is', num_points)
+        row_values = [
+            x for x in range(-gr, self.w.r, gs)
+        ]
+        return row_values
