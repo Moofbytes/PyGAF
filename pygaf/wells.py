@@ -1,10 +1,10 @@
 class Well:
     """Parent well class."""
-    def __init__(self, x, y, r, pd, name):
+    def __init__(self, x, y, r, pf, name):
         self.x = x
         self.y = y
         self.r = r
-        self.pd = pd
+        self.pf = pf
         self.name = name
         return
 
@@ -23,17 +23,18 @@ class SteadyWell(Well):
         Well radius [units: L] (default 0.05)
     q : float
         Well rate [units: L3/T] (default 0)
-    pd : float
+    pf : float
         Well penetration depth as a fraction of aquifer depth (default 1)
     name : str
         Well name (default '')
     """
     is_steady = True
     is_transient = False
-    def __init__(self, x=0.0, y=0.0, r=0.05, q=0.0, pd=1, name=''):
-        super().__init__(x, y, r, pd, name)
+    def __init__(self, x=0.0, y=0.0, r=0.05, q=0.0, pf=1, name='unnamed'):
+        super().__init__(x, y, r, pf, name)
         self.q = q
-        self.title = self.name
+        self.type = 'Steady state'
+        self.name = self.name
         return
 
     @property
@@ -46,15 +47,15 @@ class SteadyWell(Well):
         self._r = v
 
     @property
-    def pd(self):
-        return self._pd
-    @pd.setter
-    def pd(self, v):
+    def pf(self):
+        return self._pf
+    @pf.setter
+    def pf(self, v):
         if not (v > 0 and v <= 1):
             raise Exception(
             'Well penetration must be greater than 0 and less than or equal 1.'
             )
-        self._pd = v
+        self._pf = v
 
     @property
     def state(self):
@@ -69,11 +70,11 @@ class SteadyWell(Well):
     def info(self):
         """Print the well information."""
         print('WELL INFORMATION')
+        print('Type:', self.type)
         print('Name:', self.name)
-        print('Type: steady state')
         print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
         print('Radius:', self.r, '[L]')
-        print('Penetration:', self.pd)
+        print('Penetration:', self.pf)
         print('Well rate:', self.q, '[L3/T]')
         print('State:', self.state)
         return
@@ -92,7 +93,7 @@ class TransientWell(Well):
         Well radius [units: L] (default 0.05)
     ss : pandas dataframe
         pyGAF stress series
-    pd : float
+    pf : float
         Well penetration depth as a fraction of aquifer depth (default 1)
     name : str
         Well name (default '')
@@ -101,10 +102,11 @@ class TransientWell(Well):
     is_transient = True
     import pandas
     from .stresses import StressSeries
-    def __init__(self, x=0.0, y=0.0, r=0.05, ss=StressSeries(), pd=1, name=''):
-        super().__init__(x, y, r, pd, name)
+    def __init__(self, x=0.0, y=0.0, r=0.05, ss=StressSeries(), pf=1, name='unnamed'):
+        super().__init__(x, y, r, pf, name)
         self.ss = ss
-        self.title = self.name
+        self.type = 'Transient state'
+        self.name = self.name
         return
 
     @property
@@ -117,15 +119,15 @@ class TransientWell(Well):
         self._r = v
 
     @property
-    def pd(self):
-        return self._pd
-    @pd.setter
-    def pd(self, v):
+    def pf(self):
+        return self._pf
+    @pf.setter
+    def pf(self, v):
         if not (v > 0 and v <= 1):
             raise Exception(
             'Well penetration must be greater than 0 and less than or equal 1.'
             )
-        self._pd = v
+        self._pf = v
 
     @property
     def state(self):
@@ -143,12 +145,12 @@ class TransientWell(Well):
     def info(self):
         """Print the well information."""
         print('WELL INFORMATION')
+        print('Type:', self.type)
         print('Name:', self.name)
-        print('Type: transient')
         print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
         print('Radius:', self.r, '[L]')
-        print('Penetration:', self.pd)
-        print('Stress series', len(self.ss.periods), 'stress periods')
+        print('Penetration:', self.pf)
+        print('Stress periods:', len(self.ss.periods))
         unique_states = list(set(self.state))
         print('Unique well states:', unique_states)
         return
