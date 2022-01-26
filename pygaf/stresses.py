@@ -24,14 +24,17 @@ class StressSeries:
             self.values = list(df['values'])
         # Checks
         if len(self.periods) != len(self.values):
-            print('Error! the number of periods and values do not match.')
+            raise Exception(
+            'Error! the number of periods and values must match.'
+            )
 
     @property
     def series(self):
         """ Stress series dataframe."""
         if len(self.periods) != len(self.values):
-            print('Error! the number of periods and values do not match.')
-            return
+            raise Exception(
+            'Error! the number of periods and values must match.'
+            )
         else:
             from pandas import DataFrame
             d = {'periods':self.periods, 'values':self.values}
@@ -48,9 +51,12 @@ class StressSeries:
             Width of plot figure (default 8)
         """
         import matplotlib.pyplot as plt
+        # Checks
         if len(self.periods) != len(self.values):
-            print('Error! the number of periods and values do not match.')
-            return
+            raise Exception(
+            'Error! the number of periods and values must match.'
+            )
+        # Plot
         plot_times, plot_values = [], []
         for i in range(len(self.periods)):
             plot_times.append(sum(self.periods[0:i]))

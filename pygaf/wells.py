@@ -6,18 +6,6 @@ class Well:
         self.r = r
         self.pd = pd
         self.name = name
-
-        if self.r < 0:
-            print('Error! well radius should be positive.')
-            return
-        elif self.r > 1:
-            print('Notice! well radius is greater than 1 [L]')
-        if self.pd <= 0 or self.pd > 1:
-            print('Error! well penetration depth should be between 0 and 1.')
-            return
-        elif self.pd < 0.5:
-            print('Notice! well penetration is less than half aquifer thickness.')
-
         return
 
 
@@ -49,6 +37,24 @@ class SteadyWell(Well):
         return
 
     @property
+    def r(self):
+        return self._r
+    @r.setter
+    def r(self, v):
+        if not (v > 0):
+            raise Exception('Well radius must be greater than zero.')
+        self._r = v
+
+    @property
+    def pd(self):
+        return self._pd
+    @pd.setter
+    def pd(self, v):
+        if not (v > 0 and v <= 1):
+            raise Exception('Well penetration must be > 0 and <= 1.')
+        self._pd = v
+
+    @property
     def state(self):
         """Well state."""
         if self.q < 0.0:
@@ -65,6 +71,7 @@ class SteadyWell(Well):
         print('Type: steady state')
         print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
         print('Radius:', self.r, '[L]')
+        print('Penetration:', self.pd)
         print('Well rate:', self.q, '[L3/T]')
         print('State:', self.state)
         return
@@ -103,6 +110,24 @@ class TransientWell(Well):
         return
 
     @property
+    def r(self):
+        return self._r
+    @r.setter
+    def r(self, v):
+        if not (v > 0):
+            raise Exception('Well radius must be greater than zero.')
+        self._r = v
+
+    @property
+    def pd(self):
+        return self._pd
+    @pd.setter
+    def pd(self, v):
+        if not (v > 0 and v <= 1):
+            raise Exception('Well penetration must be > 0 and <= 1.')
+        self._pd = v
+
+    @property
     def state(self):
         """Well state."""
         s = []
@@ -122,6 +147,7 @@ class TransientWell(Well):
         print('Type: transient')
         print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
         print('Radius:', self.r, '[L]')
+        print('Penetration:', self.pd)
         unique_states = list(set(self.state))
         print('Unique well states:', unique_states)
         return
