@@ -42,7 +42,7 @@ class SteadyWell(Well):
     @r.setter
     def r(self, v):
         if not (v > 0):
-            raise Exception('Well radius must be greater than zero.')
+            raise Exception('Well radius must be greater than 0.')
         self._r = v
 
     @property
@@ -51,7 +51,9 @@ class SteadyWell(Well):
     @pd.setter
     def pd(self, v):
         if not (v > 0 and v <= 1):
-            raise Exception('Well penetration must be > 0 and <= 1.')
+            raise Exception(
+            'Well penetration must be greater than 0 and less than or equal 1.'
+            )
         self._pd = v
 
     @property
@@ -115,7 +117,7 @@ class TransientWell(Well):
     @r.setter
     def r(self, v):
         if not (v > 0):
-            raise Exception('Well radius must be greater than zero.')
+            raise Exception('Well radius must be greater than 0.')
         self._r = v
 
     @property
@@ -124,7 +126,9 @@ class TransientWell(Well):
     @pd.setter
     def pd(self, v):
         if not (v > 0 and v <= 1):
-            raise Exception('Well penetration must be > 0 and <= 1.')
+            raise Exception(
+            'Well penetration must be greater than 0 and less than or equal 1.'
+            )
         self._pd = v
 
     @property

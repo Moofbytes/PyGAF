@@ -57,14 +57,35 @@ class AqRadConf(Aquifer):
     def __init__(self, K=1, Ss=1e-4, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Ss = Ss
-
-        for prop in [self.K, self.Ss, self.B]:
-            if prop < 0:
-                print('Error! all aquifer properties should be positive')
-                return
-
         self.title = '1D, radial, confined homogeneous aquifer'
         return
+
+    @property
+    def K(self):
+        return self._K
+    @K.setter
+    def K(self, v):
+        if not (v > 0):
+            raise Exception('Hydraulic conductivity (K) must be positive.')
+        self._K = v
+
+    @property
+    def Ss(self):
+        return self._Ss
+    @Ss.setter
+    def Ss(self, v):
+        if not (v > 0):
+            raise Exception('Specific storage (Ss) must be positive.')
+        self._Ss = v
+
+    @property
+    def B(self):
+        return self._B
+    @B.setter
+    def B(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer thickness (B) must be positive.')
+        self._B = v
 
     @property
     def S(self):
@@ -161,14 +182,37 @@ class AqRadUnconf(Aquifer):
     def __init__(self, K=1, Sy=0.1, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Sy = Sy
-
-        for prop in [self.K, self.Sy, self.B]:
-            if prop < 0:
-                print('Error! all aquifer properties should be positive')
-                return
-
         self.title = '1D, radial, unconfined homogeneous aquifer'
         return
+
+    @property
+    def K(self):
+        return self._K
+    @K.setter
+    def K(self, v):
+        if not (v > 0):
+            raise Exception('Hydraulic conductivity (K) must be positive.')
+        self._K = v
+
+    @property
+    def Sy(self):
+        return self._Sy
+    @Sy.setter
+    def Sy(self, v):
+        if not (v > 0 and v < 1):
+            raise Exception(
+            'Specific yield (Sy) must be positive and less than 1.'
+            )
+        self._Sy = v
+
+    @property
+    def B(self):
+        return self._B
+    @B.setter
+    def B(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer thickness (B) must be positive.')
+        self._B = v
 
     @property
     def S(self):
@@ -268,14 +312,44 @@ class Aq1dFiniteConf(Aquifer):
         super().__init__(K, B, bot)
         self.Ss = Ss
         self.L = L
-
-        for prop in [K, Ss, B, L]:
-            if prop < 0:
-                print('Error! all aquifer parameters should be positive.')
-                return
-
         self.title = '1D, finite, confined homogeneous aquifer'
         return
+
+    @property
+    def K(self):
+        return self._K
+    @K.setter
+    def K(self, v):
+        if not (v > 0):
+            raise Exception('Hydraulic conductivity (K) must be positive.')
+        self._K = v
+
+    @property
+    def Ss(self):
+        return self._Ss
+    @Ss.setter
+    def Ss(self, v):
+        if not (v > 0):
+            raise Exception('Specific storage (Ss) must be positive.')
+        self._Ss = v
+
+    @property
+    def B(self):
+        return self._B
+    @B.setter
+    def B(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer thickness (B) must be positive.')
+        self._B = v
+
+    @property
+    def L(self):
+        return self._L
+    @L.setter
+    def L(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer length (L) must be positive.')
+        self._L = v
 
     @property
     def S(self):
@@ -381,14 +455,46 @@ class Aq1dFiniteUnconf(Aquifer):
         super().__init__(K, B, bot)
         self.Sy = Sy
         self.L = L
-
-        for prop in [K, Sy, B, L]:
-            if prop < 0:
-                print('Error! all aquifer parameters should be positive.')
-                return
-
         self.title = '1D, finite, unconfined homogeneous aquifer'
         return
+
+    @property
+    def K(self):
+        return self._K
+    @K.setter
+    def K(self, v):
+        if not (v > 0):
+            raise Exception('Hydraulic conductivity (K) must be positive.')
+        self._K = v
+
+    @property
+    def Sy(self):
+        return self._Sy
+    @Sy.setter
+    def Sy(self, v):
+        if not (v > 0 and v < 1):
+            raise Exception(
+            'Specific yield (Sy) must be positive and less than 1.'
+            )
+        self._Sy = v
+
+    @property
+    def B(self):
+        return self._B
+    @B.setter
+    def B(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer thickness (B) must be positive.')
+        self._B = v
+
+    @property
+    def L(self):
+        return self._L
+    @L.setter
+    def L(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer length (L) must be positive.')
+        self._L = v
 
     @property
     def T(self):
@@ -495,14 +601,35 @@ class Aq1dSemifiniteConf(Aquifer):
     def __init__(self, K=1, Ss=1e-4, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Ss = Ss
-
-        for prop in [K, Ss, B]:
-            if prop < 0:
-                print('Error! all aquifer parameters should be positive.')
-                return
-
         self.title = '1D, semi-infinite, confined homogeneous aquifer'
         return
+
+    @property
+    def K(self):
+        return self._K
+    @K.setter
+    def K(self, v):
+        if not (v > 0):
+            raise Exception('Hydraulic conductivity (K) must be positive.')
+        self._K = v
+
+    @property
+    def Ss(self):
+        return self._Ss
+    @Ss.setter
+    def Ss(self, v):
+        if not (v > 0):
+            raise Exception('Specific storage (Ss) must be positive.')
+        self._Ss = v
+
+    @property
+    def B(self):
+        return self._B
+    @B.setter
+    def B(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer thickness (B) must be positive.')
+        self._B = v
 
     @property
     def S(self):
@@ -600,14 +727,37 @@ class Aq1dSemifiniteUnconf(Aquifer):
     def __init__(self, K=1, Sy=0.1, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Sy = Sy
-
-        for prop in [K, Sy, B]:
-            if prop < 0:
-                print('Error! all aquifer parameters should be positive.')
-                return
-
         self.title = '1D, semi-infinite, unconfined homogeneous aquifer'
         return
+
+    @property
+    def K(self):
+        return self._K
+    @K.setter
+    def K(self, v):
+        if not (v > 0):
+            raise Exception('Hydraulic conductivity (K) must be positive.')
+        self._K = v
+
+    @property
+    def Sy(self):
+        return self._Sy
+    @Sy.setter
+    def Sy(self, v):
+        if not (v > 0 and v < 1):
+            raise Exception(
+            'Specific yield (Sy) must be positive and less than 1.'
+            )
+        self._Sy = v
+
+    @property
+    def B(self):
+        return self._B
+    @B.setter
+    def B(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer thickness (B) must be positive.')
+        self._B = v
 
     @property
     def T(self):
