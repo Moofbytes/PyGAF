@@ -57,7 +57,8 @@ class AqRadConf(Aquifer):
     def __init__(self, K=1, Ss=1e-4, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Ss = Ss
-        self.title = '1D, radial, confined homogeneous aquifer'
+        self.type = '1D, radial, confined homogeneous aquifer'
+        self.title = self.type
         return
 
     @property
@@ -100,7 +101,7 @@ class AqRadConf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
-        print('Type:', self.title)
+        print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific storativity:', self.Ss, '[1/L]')
         print('Aquifer thickness:', self.B, '[L]')
@@ -182,7 +183,8 @@ class AqRadUnconf(Aquifer):
     def __init__(self, K=1, Sy=0.1, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Sy = Sy
-        self.title = '1D, radial, unconfined homogeneous aquifer'
+        self.type = '1D, radial, unconfined homogeneous aquifer'
+        self.title = self.type
         return
 
     @property
@@ -227,7 +229,7 @@ class AqRadUnconf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
-        print('Type:', self.title)
+        print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific yield:', self.Sy, '[1]')
         print('Static saturated thickness:', self.B, '[L]')
@@ -312,7 +314,8 @@ class Aq1dFiniteConf(Aquifer):
         super().__init__(K, B, bot)
         self.Ss = Ss
         self.L = L
-        self.title = '1D, finite, confined homogeneous aquifer'
+        self.type = '1D, finite, confined homogeneous aquifer'
+        self.title = self.type
         return
 
     @property
@@ -364,7 +367,7 @@ class Aq1dFiniteConf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
-        print('Type:', self.title)
+        print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific storativity:', self.Ss, '[1/L]')
         print('Thickness:', self.B, '[L]')
@@ -455,7 +458,8 @@ class Aq1dFiniteUnconf(Aquifer):
         super().__init__(K, B, bot)
         self.Sy = Sy
         self.L = L
-        self.title = '1D, finite, unconfined homogeneous aquifer'
+        self.type = '1D, finite, unconfined homogeneous aquifer'
+        self.title = self.type
         return
 
     @property
@@ -514,7 +518,7 @@ class Aq1dFiniteUnconf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
-        print('Type:', self.title)
+        print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific yield:', self.Sy, '[1]')
         print('Static saturated thickness:', self.B, '[L]')
@@ -601,7 +605,8 @@ class Aq1dSemifiniteConf(Aquifer):
     def __init__(self, K=1, Ss=1e-4, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Ss = Ss
-        self.title = '1D, semi-infinite, confined homogeneous aquifer'
+        self.type = '1D, semi-infinite, confined homogeneous aquifer'
+        self.title = self.type
         return
 
     @property
@@ -644,7 +649,7 @@ class Aq1dSemifiniteConf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
-        print('Type:', self.title)
+        print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific storativity:', self.Ss, '[1/L]')
         print('Thickness:', self.B, '[L]')
@@ -727,7 +732,8 @@ class Aq1dSemifiniteUnconf(Aquifer):
     def __init__(self, K=1, Sy=0.1, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Sy = Sy
-        self.title = '1D, semi-infinite, unconfined homogeneous aquifer'
+        self.type = '1D, semi-infinite, unconfined homogeneous aquifer'
+        self.title = self.type
         return
 
     @property
@@ -777,7 +783,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
-        print('Type:', self.title)
+        print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific yield:', self.Sy, '[1]')
         print('Static saturated thickness:', self.B, '[L]')

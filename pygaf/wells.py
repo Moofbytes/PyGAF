@@ -96,16 +96,12 @@ class TransientWell(Well):
         Well penetration depth as a fraction of aquifer depth (default 1)
     name : str
         Well name (default '')
-
-    Properties:
-    ----------
-    state : str
-        Well flow state (extract, inject or off)
     """
-    import pandas
     is_steady = False
     is_transient = True
-    def __init__(self, x=0.0, y=0.0, r=0.05, ss=None, pd=1, name=''):
+    import pandas
+    from .stresses import StressSeries
+    def __init__(self, x=0.0, y=0.0, r=0.05, ss=StressSeries(), pd=1, name=''):
         super().__init__(x, y, r, pd, name)
         self.ss = ss
         self.title = self.name
@@ -152,6 +148,7 @@ class TransientWell(Well):
         print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
         print('Radius:', self.r, '[L]')
         print('Penetration:', self.pd)
+        print('Stress series', len(self.ss.periods), 'stress periods')
         unique_states = list(set(self.state))
         print('Unique well states:', unique_states)
         return
