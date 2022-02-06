@@ -13,58 +13,125 @@ class WellGrid:
     """
     from .wells import SteadyWell
     def __init__(self, well=SteadyWell(), gr=100, gs=10, plot=True, csv=''):
-        from numpy import sqrt
         self.well = well
         self.gr = gr
         self.gs = gs
-        self.max_points = 2500
-        self.min_points = 25
-        # Checks
-        if self.gr <= 0 or self.gs <= 0:
-            print('Error! Grid radius and spacing must be greater than 0.')
-            return
-        if self.gs >= self.gr:
-            print('Error! Grid spacing must be less than grid radius.')
-            return
-        # Grid setup
-        num_points = (1 + 2*self.gr/self.gs)**2
-        if num_points > self.max_points:
-            self.gs = 2*self.gr/(sqrt(self.max_points)-1)
-            num_points = (1 + 2*self.gr/self.gs)**2
-            print('Notice! the number of grid points exceeds', self.max_points)
-            print('The grid spacing is re-set to', round(self.gs, 3))
-        elif num_points < self.min_points:
+        self.max_pts = 2500
+        self.min_pts = 25
+
+    @property
+    def gr(self):
+        return self._gr
+    @gr.setter
+    def gr(self, v):
+        if not (v > 0):
+            raise Exception('Grid radius must be greater than 0..')
+        self._gr = v
+
+    @property
+    def gs(self):
+        return self._gs
+    @gs.setter
+    def gs(self, v):
+        if not (v > 0):
+            raise Exception('Grid spacing must be greater than 0.')
+        self._gs = v
+
+    @property
+    def npts(self):
+        """Number of grid points."""
+        from numpy import sqrt
+        np = round((1 + 2*self.gr/self.gs)**2)
+        if np > self.max_pts:
+            self.gs = 2*self.gr/(sqrt(self.max_pts)-1)
+            return round((1 + 2*self.gr/self.gs)**2)
+        elif np < self.min_pts:
             self.gs = self.gr/2
-            num_points = (1 + 2*self.gr/self.gs)**2
-            print('Notice! the number of grid points subceeds', self.min_points)
-            print('The grid spacing is re-set to', round(self.gs, 3))
-        #self.nrow = int(sqrt(num_points))
-        #self.ncol = int(sqrt(num_points))
-        print('Number of grid points is', round(num_points, 0))
-        #self.local_x = list(linspace(-self.gr, self.gr, num_grid_lines))
-        #self.local_y = list(linspace(-self.gr, self.gr, num_grid_lines))
-        #self.world_x = [x + self.well.x for x in self.local_x]
-        #self.world_y = [y + self.well.y for y in grid_local_y]
-        #grid_r = [
-            #[sqrt(x**2 + y**2) for x in self.local_x]
-            #for y in grid_local_y
-            #]
-        #print(self.local_x)
-        #print(grid_world_x)
-    @property
-    def num_points(self):
-        if self.gr <= 0 or self.gs <= 0:
-            print('Error! Grid radius and spacing must be greater than 0.')
-            return
-        elif self.gs >= self.gr:
-            print('Error! Grid spacing must be less than grid radius.')
-            return
-
+            return round((1 + 2*self.gr/self.gs)**2)
+        else:
+            return np
 
     @property
-    def local_x(self):
+    def grdim(self):
+        """Number of grid rows and columns."""
+        from numpy import sqrt
+        nrow = round(sqrt(self.npts))
+        return nrow
+
+    @property
+    def locx(self):
         """Local x coordinates of the grid."""
-        return list(linspace(-self.gr, self.gr, self.ncol))
+        from numpy import linspace
+        row = list(linspace(-self.gr, self.gr, self.grdim))
+        return [row for _ in range(self.grdim)]
 
+    @property
+    def locy(self):
+        """Local y coordinates of the grid."""
+        from numpy import linspace
+        col = list(linspace(-self.gr, self.gr, self.grdim))
+        return [col for _ in range(self.grdim)]
 
+    @property
+    def worldx(self):
+        """World x coordinates of the grid"""
+        wx = [
+        [x + self.well.x for x in self.locx[r]]
+        for r in range(self.grdim)
+        ]
+        return wx
+
+    @property
+    def worldy(self):
+        """World y coordinates of the grid"""
+        wy = [
+        [y + self.well.y for y in self.locy[r]]
+        for r in range(self.grdim)
+        ]
+        return wy
+
+    @property
+    def rad_pts(self):
+        """Radii of grid points from well."""
+        from numpy import sqrt
+        r = [
+        [sqrt(self.locx[i][j]**2 + self.locy[j][i]**2)
+        for i in range(self.grdim)]
+        for j in range(self.grdim)
+        ]
+        return r
+
+    def info(self):
+        """Print the well grid information."""
+        print('WELL GRID INFORMATION')
+        if self.npts == self.min_pts:
+            print('Notice! grid spacing was increased to achieve minimum',
+            self.min_pts, 'grid points.')
+        if self.npts == self.max_pts:
+            print('Notice! grid spacing was decresed to achieve maximum',
+            self.max_pts, 'grid points.')
+        print('Grid radius:', round(self.gr, 1))
+        print('Grid spacing:', round(self.gs, 2))
+        print('Number of rows:', self.grdim)
+        print('Number of cols:', self.grdim)
+
+    def draw(self, frame='local'):
+        """Draw the grid points."""
+        from matplotlib import pyplot as plt
+        if frame == 'local':
+            for i in range(self.grdim):
+                for j in range(self.grdim):
+                    plt.plot(self.locx[i][j], self.locy[j][i], '.', c='grey')
+            plt.plot(0, 0, 'o', c='red')
+            plt.title('Local coordinates')
+            plt.axis('equal')
+            plt.show()
+        if frame == 'world':
+            for i in range(self.grdim):
+                for j in range(self.grdim):
+                    plt.plot(self.worldx[i][j], self.worldy[j][i], '.', c='grey')
+            plt.plot(self.well.x, self.well.y, 'o', c='red')
+            plt.title('World coordinates')
+            plt.axis('equal')
+            plt.show()
         return
