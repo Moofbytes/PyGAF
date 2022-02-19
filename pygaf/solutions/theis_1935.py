@@ -27,9 +27,8 @@ class TheisWell:
         if not w.is_steady:
             print('Error! The solution assumes a steady state well.')
             return
-        self.T = aq.T
-        self.S = aq.S
-        self.q = w.q
+        self.aq = aq
+        self.well = w
         self.qf = 0.99
         self.title = 'Theis (1935) well flow solution'
         return
@@ -38,6 +37,30 @@ class TheisWell:
     def qfp(self):
         """Fraction of pumped volume."""
         return self.qf
+
+    def info(self):
+        """Print the solution information."""
+        print('SOLUTION REFERENCE')
+        print('------------------')
+        print(
+        'Theis (1935) - The relation between the lowering of the piezometric' +
+        '\nsurface and the rate and duration of discharge of a well using' +
+        '\nground-water storage.'
+        )
+        print('-------')
+        print('AQUIFER')
+        print('Type:', self.aq.type)
+        print('Transmissivity:', round(self.aq.T, 1), '[L2/T]')
+        print('Storage coefficient:', self.aq.S, '[1]')
+        print('Difussivity:', round(self.aq.D, 1), '[1]')
+        print('----')
+        print('WELL')
+        print('Type:', self.well.type)
+        print('Coordinates:', round(self.well.x, 1), ",", round(self.well.y, 1))
+        print('Radius:', round(self.well.r, 2), '[L]')
+        print('Penetration:', round(self.well.pf, 2), '[1]')
+        print('Rate:', round(self.well.q, 1), '[L3/T]')
+        print('State:', self.well.state)
 
     def ri(self, t=[1], plot=True, csv='', xlsx=''):
         """
@@ -71,7 +94,7 @@ class TheisWell:
         # Radius of influence
         ri = []
         for tim in t:
-            ri.append(sqrt(-4.0 * self.T * tim * log(1-self.qfp) / self.S))
+            ri.append(sqrt(-4.0 * self.aq.T * tim * log(1-self.qfp) / self.aq.S))
         d = {'Time':t, 'ri':ri}
         df = pandas.DataFrame(data=d)
         df.set_index('Time', inplace=True)
@@ -82,9 +105,9 @@ class TheisWell:
             plt.xlim(0, None)
             plt.ylim(0, None)
             plt.title('Radius of Influence\n' +
-                'T = ' + str(self.T) +
-                ', S = ' + str(self.S) +
-                ', q =' + str(self.q) +
+                'T = ' + str(self.aq.T) +
+                ', S = ' + str(self.aq.S) +
+                ', q =' + str(self.well.q) +
                 ', qf = ' + str(self.qfp)
                 )
             plt.show()
@@ -135,19 +158,23 @@ class TheisWell:
         for rad in r:
             dd = []
             for tim in t:
-                u = (rad**2) * self.S / (4.0 * self.T * tim)
+                u = (rad**2) * self.aq.S / (4.0 * self.aq.T * tim)
                 W = expn(1, u) # Well Function
-                dd.append(self.q * W / (4.0 * pi * self.T))
+                dd.append(self.well.q * W / (4.0 * pi * self.aq.T))
             df['r' + str(rad)] = dd
         # Plot results
         if plot:
             import matplotlib.pyplot as plt
             df.plot(grid=True, marker='.', ylabel='Displacement')
             plt.title('Drawdown\n' +
-                'T = ' + str(self.T) +
-                ', S = ' + str(self.S) +
-                ', q = ' + str(self.q)
+                'T = ' + str(self.aq.T) +
+                ', S = ' + str(self.aq.S) +
+                ', q = ' + str(self.well.q)
                 )
+            plt.legend(
+                r, ncol=5, mode='expand', loc='upper left',
+                bbox_to_anchor=(0,-0.1, 1, -0.1)
+            )
             plt.show()
         # Export result to csv
         if csv != '':

@@ -104,6 +104,7 @@ class WellGrid:
     def info(self):
         """Print the well grid information."""
         print('WELL GRID INFORMATION')
+        print('---------------------')
         if self.npts == self.min_pts:
             print('Notice! grid spacing was increased to achieve minimum',
             self.min_pts, 'grid points.')
@@ -123,7 +124,7 @@ class WellGrid:
                 for j in range(self.grdim):
                     plt.plot(self.locx[i][j], self.locy[j][i], '.', c='grey')
             plt.plot(0, 0, 'o', c='red')
-            plt.title('Local coordinates')
+            plt.title('Well Grid in Local Coordinates')
             plt.axis('equal')
             plt.show()
         if frame == 'world':
@@ -131,7 +132,7 @@ class WellGrid:
                 for j in range(self.grdim):
                     plt.plot(self.worldx[i][j], self.worldy[j][i], '.', c='grey')
             plt.plot(self.well.x, self.well.y, 'o', c='red')
-            plt.title('World coordinates')
+            plt.title('Well Grid in World Coordinates')
             plt.axis('equal')
             plt.show()
         return
