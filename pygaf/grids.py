@@ -116,10 +116,18 @@ class WellGrid:
         print('Number of rows:', self.grdim)
         print('Number of cols:', self.grdim)
 
-    def draw(self, frame='local'):
-        """Draw the grid points."""
+    def draw(self, world=False):
+        """
+        Draw the grid points.
+
+        Arguments:
+        ---------
+        world : bool
+            Display the grid plot in 'local' or 'world' coordinates (Default
+            'local' with well at 0, 0)
+        """
         from matplotlib import pyplot as plt
-        if frame == 'local':
+        if not world:
             for i in range(self.grdim):
                 for j in range(self.grdim):
                     plt.plot(self.locx[i][j], self.locy[j][i], '.', c='grey')
@@ -127,7 +135,7 @@ class WellGrid:
             plt.title('Well Grid in Local Coordinates')
             plt.axis('equal')
             plt.show()
-        if frame == 'world':
+        else:
             for i in range(self.grdim):
                 for j in range(self.grdim):
                     plt.plot(self.worldx[i][j], self.worldy[j][i], '.', c='grey')

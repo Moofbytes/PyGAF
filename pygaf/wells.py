@@ -70,6 +70,7 @@ class SteadyWell(Well):
     def info(self):
         """Print the well information."""
         print('WELL INFORMATION')
+        print('----------------')
         print('Type:', self.type)
         print('Name:', self.name)
         print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
@@ -145,6 +146,7 @@ class TransientWell(Well):
     def info(self):
         """Print the well information."""
         print('WELL INFORMATION')
+        print('----------------')
         print('Type:', self.type)
         print('Name:', self.name)
         print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))

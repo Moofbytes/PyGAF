@@ -40,21 +40,21 @@ class TheisWell:
 
     def info(self):
         """Print the solution information."""
-        print('SOLUTION REFERENCE')
-        print('------------------')
+        print('METHOD REFERENCE')
+        print('----------------')
         print(
         'Theis (1935) - The relation between the lowering of the piezometric' +
         '\nsurface and the rate and duration of discharge of a well using' +
         '\nground-water storage.'
         )
+        print('\nAQUIFER')
         print('-------')
-        print('AQUIFER')
         print('Type:', self.aq.type)
         print('Transmissivity:', round(self.aq.T, 1), '[L2/T]')
         print('Storage coefficient:', self.aq.S, '[1]')
         print('Difussivity:', round(self.aq.D, 1), '[1]')
+        print('\nWELL')
         print('----')
-        print('WELL')
         print('Type:', self.well.type)
         print('Coordinates:', round(self.well.x, 1), ",", round(self.well.y, 1))
         print('Radius:', round(self.well.r, 2), '[L]')
@@ -67,8 +67,8 @@ class TheisWell:
         Compute radius of influence from which qf fraction of the pumped volume
         has been drawn (0 < qf < 1.0).
 
-        Keyword Arguments:
-        -----------------
+        Arguments:
+        ---------
         t : float
             List of times to evaluate radius of influence (default [1])
         plot : bool
@@ -129,8 +129,8 @@ class TheisWell:
         """
         Compute drawdown at radii and times.
 
-        Keyword Arguments:
-        -----------------
+        Arguments:
+        ---------
         t : float
             List of times to evaluate drawdown (default [1])
         r : float
@@ -156,12 +156,12 @@ class TheisWell:
         df = pandas.DataFrame(data=d)
         df.set_index('Time', inplace=True)
         for rad in r:
-            dd = []
+            drawdown = []
             for tim in t:
                 u = (rad**2) * self.aq.S / (4.0 * self.aq.T * tim)
                 W = expn(1, u) # Well Function
-                dd.append(self.well.q * W / (4.0 * pi * self.aq.T))
-            df['r' + str(rad)] = dd
+                drawdown.append(self.well.q * W / (4.0 * pi * self.aq.T))
+            df['r' + str(rad)] = drawdown
         # Plot results
         if plot:
             import matplotlib.pyplot as plt
@@ -190,18 +190,21 @@ class TheisWell:
             print('Results exported to:', xlsx)
         return df
 
-    def dd_grid(self, t=1, gr=100, gs=10, plot=True, csv='', xlsx=''):
+    def dd_grid(self, grid, t=1, plot=True, world=False, csv='', xlsx=''):
         """
         Compute a rectangular grid of drawdown values.
 
-        Keyword Arguments:
-        -----------------
+        Arguments:
+        ---------
+        grid : object
+            PyGAF WellGrid object
         t : float
-            Drawdown time (default [1])
-        gr : float
-            Radius defining the extent of the solution grid (default 100)
-        gs : float
-            Grid spacing (default 10)
+            Time to evaluate drawdown (default [1])
+        plot : bool
+            Display a drawdown plot (default True)
+        world : bool
+            Display the drawdown plot in 'local' or 'world' coordinates
+            (Default 'local')
         csv : str
             Filepath of csv file for results export (default '' - no export)
         xlsx : str
@@ -211,31 +214,37 @@ class TheisWell:
         -------
         Pandas dataframe
         """
-        import pandas
-        from numpy import sqrt
-        max_grid_points = 2500
-        min_grid_points = 25
-        # Checks
-        if gr <= 0 or gs <= 0 or t <= 0:
-            print('Error! Time, grid radius and spacing must be greater than 0.')
-            return
-        if gs >= gr:
-            print('Error! Grid spacing must be less than grid radius.')
-            return
-        num_points = (1 + 2*gr/gs)**2
-        if num_points > max_grid_points:
-            gs = 2*gr/(sqrt(max_grid_points)-1)
-            num_points = (1 + 2*gr/gs)**2
-            print('Notice! the number of grid points exceeds', max_grid_points)
-            print('The grid spacing is re-set to', round(gs, 3))
-        elif num_points < min_grid_points:
-            gs = gr/2
-            num_points = (1 + 2*gr/gs)**2
-            print('Notice! the number of grid points subceeds', min_grid_points)
-            print('The grid spacing is re-set to', round(gs, 3))
-        num_lines = sqrt(num_points)
-        print('Number of grid points is', num_points)
-        row_values = [
-            x for x in range(-gr, self.w.r, gs)
-        ]
-        return row_values
+        from numpy import pi
+        from scipy.special import expn
+        import matplotlib.pyplot as plt
+        from matplotlib import ticker
+        self.grid = grid
+        if not world:
+            x = self.grid.locx[0]
+            y = self.grid.locy[0]
+            wx, wy = 0, 0
+        else:
+            x = self.grid.worldx[0]
+            y = self.grid.worldy[0]
+            wx, wy = self.grid.well.x, self.grid.well.y
+        drawdown = []
+        for i in range(self.grid.grdim): # loop rows
+            rr = self.grid.rad_pts[i]
+            for i, r in enumerate(rr):
+                if r <= self.grid.well.r:
+                    rr[i] = self.grid.well.r
+            ur = [(r**2) * self.aq.S / (4.0 * self.aq.T * t) for r in rr]
+            Wr = [expn(1, u) for u in ur]
+            drawdown.append([self.grid.well.q * W / (4.0 * pi * self.aq.T) for W in Wr])
+        #fig, ax = plt.subplots()
+        cm = plt.cm.get_cmap('Blues')
+        plt.contourf(x, y, drawdown, cmap=cm.reversed())
+        plt.colorbar()
+        cs = plt.contour(x, y, drawdown, linewidths=[0.5], colors=['black'])
+        plt.clabel(cs, inline=1, fontsize=10)
+        plt.plot(wx, wy, 'o', c='red')
+        plt.title('Displacement at r < ' + str(self.grid.gr) + ' and t = ' + str(t))
+        plt.grid(True)
+        plt.axis('equal')
+        plt.show()
+        return

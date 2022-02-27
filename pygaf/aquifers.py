@@ -101,6 +101,7 @@ class AqRadConf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
+        print('-------------------')
         print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific storativity:', self.Ss, '[1/L]')
@@ -229,6 +230,7 @@ class AqRadUnconf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
+        print('-------------------')
         print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific yield:', self.Sy, '[1]')
@@ -367,6 +369,7 @@ class Aq1dFiniteConf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
+        print('-------------------')
         print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific storativity:', self.Ss, '[1/L]')
@@ -518,6 +521,7 @@ class Aq1dFiniteUnconf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
+        print('-------------------')
         print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific yield:', self.Sy, '[1]')
@@ -649,6 +653,7 @@ class Aq1dSemifiniteConf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
+        print('-------------------')
         print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific storativity:', self.Ss, '[1/L]')
@@ -783,6 +788,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
     def info(self):
         """Print the aquifer information."""
         print('AQUIFER INFORMATION')
+        print('-------------------')
         print('Type:', self.type)
         print('Hydraulic conductivity:', self.K, '[L/T]')
         print('Specific yield:', self.Sy, '[1]')
