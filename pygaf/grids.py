@@ -6,18 +6,19 @@ class WellGrid:
     ---------
     gr : float
         Radius defining the extent of the solution grid (default 100)
-    gs : float
-        Grid spacing (default 10)
+    gd : float
+        Grid density defining the number of rows/columns - minimum and maximum
+        constraints enforced (default 20)
     csv : str
         Filepath of csv file for results export (default '' - no export)
     """
     from .wells import SteadyWell
-    def __init__(self, well=SteadyWell(), gr=100, gs=10, plot=True, csv=''):
+    def __init__(self, well=SteadyWell(), gr=100, gd=20, plot=True, csv=''):
         self.well = well
         self.gr = gr
-        self.gs = gs
-        self.max_pts = 2500
-        self.min_pts = 25
+        self.gd = gd
+        self.max_gd = 40
+        self.min_gd = 10
 
     @property
     def gr(self):
@@ -25,38 +26,23 @@ class WellGrid:
     @gr.setter
     def gr(self, v):
         if not (v > 0):
-            raise Exception('Grid radius must be greater than 0..')
+            raise Exception('Grid radius must be greater than 0.')
         self._gr = v
-
-    @property
-    def gs(self):
-        return self._gs
-    @gs.setter
-    def gs(self, v):
-        if not (v > 0):
-            raise Exception('Grid spacing must be greater than 0.')
-        self._gs = v
-
-    @property
-    def npts(self):
-        """Number of grid points."""
-        from numpy import sqrt
-        np = round((1 + 2*self.gr/self.gs)**2)
-        if np > self.max_pts:
-            self.gs = 2*self.gr/(sqrt(self.max_pts)-1)
-            return round((1 + 2*self.gr/self.gs)**2)
-        elif np < self.min_pts:
-            self.gs = self.gr/2
-            return round((1 + 2*self.gr/self.gs)**2)
-        else:
-            return np
 
     @property
     def grdim(self):
         """Number of grid rows and columns."""
-        from numpy import sqrt
-        nrow = round(sqrt(self.npts))
-        return nrow
+        if self.gd < self.min_gd:
+            return self.min_gd
+        elif self.gd > self.max_gd:
+            return self.max_gd
+        else:
+            return int(self.gd)
+
+    @property
+    def npts(self):
+        """Number of grid points."""
+        return self.grdim**2
 
     @property
     def locx(self):
@@ -105,16 +91,15 @@ class WellGrid:
         """Print the well grid information."""
         print('WELL GRID INFORMATION')
         print('---------------------')
-        if self.npts == self.min_pts:
-            print('Notice! grid spacing was increased to achieve minimum',
-            self.min_pts, 'grid points.')
-        if self.npts == self.max_pts:
-            print('Notice! grid spacing was decresed to achieve maximum',
-            self.max_pts, 'grid points.')
+        if self.npts == self.min_gd**2:
+            print('Notice! grid spacing may have been increased to enforce the',
+            'minimum grid density of', self.min_gd**2, 'points.')
+        if self.npts == self.max_gd**2:
+            print('Notice! grid spacing may have been decreased to enforce the',
+            'maximum grid density of', self.max_gd**2, 'points.')
         print('Grid radius:', round(self.gr, 1))
-        print('Grid spacing:', round(self.gs, 2))
-        print('Number of rows:', self.grdim)
-        print('Number of cols:', self.grdim)
+        print('Number of grid points:', self.npts)
+        print('Number of grid rows:', self.grdim)
 
     def draw(self, world=False):
         """
@@ -130,7 +115,10 @@ class WellGrid:
         if not world:
             for i in range(self.grdim):
                 for j in range(self.grdim):
-                    plt.plot(self.locx[i][j], self.locy[j][i], '.', c='grey')
+                    plt.plot(
+                    self.locx[i][j], self.locy[j][i], '.', markersize=1,
+                    c='black'
+                    )
             plt.plot(0, 0, 'o', c='red')
             plt.title('Well Grid in Local Coordinates')
             plt.axis('equal')
@@ -138,7 +126,10 @@ class WellGrid:
         else:
             for i in range(self.grdim):
                 for j in range(self.grdim):
-                    plt.plot(self.worldx[i][j], self.worldy[j][i], '.', c='grey')
+                    plt.plot(
+                    self.worldx[i][j], self.worldy[j][i], '.', markersize=1,
+                    c='black'
+                    )
             plt.plot(self.well.x, self.well.y, 'o', c='red')
             plt.title('Well Grid in World Coordinates')
             plt.axis('equal')

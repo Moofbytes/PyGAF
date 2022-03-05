@@ -47,20 +47,6 @@ class TheisWell:
         '\nsurface and the rate and duration of discharge of a well using' +
         '\nground-water storage.'
         )
-        print('\nAQUIFER')
-        print('-------')
-        print('Type:', self.aq.type)
-        print('Transmissivity:', round(self.aq.T, 1), '[L2/T]')
-        print('Storage coefficient:', self.aq.S, '[1]')
-        print('Difussivity:', round(self.aq.D, 1), '[1]')
-        print('\nWELL')
-        print('----')
-        print('Type:', self.well.type)
-        print('Coordinates:', round(self.well.x, 1), ",", round(self.well.y, 1))
-        print('Radius:', round(self.well.r, 2), '[L]')
-        print('Penetration:', round(self.well.pf, 2), '[1]')
-        print('Rate:', round(self.well.q, 1), '[L3/T]')
-        print('State:', self.well.state)
 
     def ri(self, t=[1], plot=True, csv='', xlsx=''):
         """
@@ -235,16 +221,26 @@ class TheisWell:
                     rr[i] = self.grid.well.r
             ur = [(r**2) * self.aq.S / (4.0 * self.aq.T * t) for r in rr]
             Wr = [expn(1, u) for u in ur]
-            drawdown.append([self.grid.well.q * W / (4.0 * pi * self.aq.T) for W in Wr])
-        #fig, ax = plt.subplots()
+            drawdown.append(
+            [self.grid.well.q * W / (4.0 * pi * self.aq.T) for W in Wr]
+            )
         cm = plt.cm.get_cmap('Blues')
-        plt.contourf(x, y, drawdown, cmap=cm.reversed())
-        plt.colorbar()
-        cs = plt.contour(x, y, drawdown, linewidths=[0.5], colors=['black'])
-        plt.clabel(cs, inline=1, fontsize=10)
-        plt.plot(wx, wy, 'o', c='red')
-        plt.title('Displacement at r < ' + str(self.grid.gr) + ' and t = ' + str(t))
-        plt.grid(True)
-        plt.axis('equal')
+        fig, (ax1, ax2) = plt.subplots(
+        2, 1, gridspec_kw={'height_ratios': [4, 1]}, figsize=(6, 7.6)
+        )
+        fig.suptitle(
+        'Displacement at r < ' + str(self.grid.gr) + ' and t = ' + str(t)
+        )
+        ax1.contourf(x, y, drawdown, cmap=cm.reversed())
+        #plt.colorbar()
+        cs = ax1.contour(x, y, drawdown, linewidths=[0.5], colors=['black'])
+        ax1.clabel(cs, inline=1, fontsize=10)
+        ax1.plot(wx, wy, 'o', c='red')
+        ax1.set_title('Displacement Contours')
+        ax1.grid(True)
+        ax1.axis('equal')
+        ax2.plot(x, drawdown[int(self.grid.grdim/2)], lw=2)
+        ax2.set_title('Radial Displacement')
+        ax2.grid(True)
         plt.show()
         return
