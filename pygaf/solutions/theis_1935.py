@@ -232,7 +232,6 @@ class TheisWell:
         'Displacement at r < ' + str(self.grid.gr) + ' and t = ' + str(t)
         )
         ax1.contourf(x, y, drawdown, cmap=cm.reversed())
-        #plt.colorbar()
         cs = ax1.contour(x, y, drawdown, linewidths=[0.5], colors=['black'])
         ax1.clabel(cs, inline=1, fontsize=10)
         ax1.plot(wx, wy, 'o', c='red')

@@ -7,15 +7,33 @@ and exploring analytic solutions to groundwater flow models.
 """
 
 from .aquifers import (
-  Aquifer,
-  AqRadConf,
-  AqRadUnconf,
-  Aq1dFiniteConf,
-  Aq1dFiniteUnconf,
-  Aq1dSemifiniteConf,
-  Aq1dSemifiniteUnconf
+    Aquifer,
+    AqRadConf,
+    AqRadUnconf,
+    Aq1dFiniteConf,
+    Aq1dFiniteUnconf,
+    Aq1dSemifiniteConf,
+    Aq1dSemifiniteUnconf
+ )
+
+from .wells import (
+    Well,
+    SteadyWell,
+    TransientWell
 )
-from .wells import Well, SteadyWell, TransientWell
-from .stresses import StressSeries
-from .grids import WellGrid
+
+from .stresses import (
+    StressSeries
+)
+
+from .grids import (
+    WellGrid
+)
+
+from .basins import (
+    Basin,
+    RectBasin,
+    CircBasin
+)
+
 from .solutions import *

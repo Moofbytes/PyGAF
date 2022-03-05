@@ -100,6 +100,7 @@ class WellGrid:
         print('Grid radius:', round(self.gr, 1))
         print('Number of grid points:', self.npts)
         print('Number of grid rows:', self.grdim)
+        return
 
     def draw(self, world=False):
         """
@@ -112,26 +113,26 @@ class WellGrid:
             'local' with well at 0, 0)
         """
         from matplotlib import pyplot as plt
+        fig, ax = plt.subplots(1, 1, figsize=(5, 5))
         if not world:
             for i in range(self.grdim):
                 for j in range(self.grdim):
-                    plt.plot(
+                    ax.plot(
                     self.locx[i][j], self.locy[j][i], '.', markersize=1,
                     c='black'
                     )
-            plt.plot(0, 0, 'o', c='red')
-            plt.title('Well Grid in Local Coordinates')
-            plt.axis('equal')
-            plt.show()
+            ax.plot(0, 0, 'o', c='red')
+            ax.set_title('Well Grid in Local Coordinates')
+            ax.axis('equal')
         else:
             for i in range(self.grdim):
                 for j in range(self.grdim):
-                    plt.plot(
+                    ax.plot(
                     self.worldx[i][j], self.worldy[j][i], '.', markersize=1,
                     c='black'
                     )
-            plt.plot(self.well.x, self.well.y, 'o', c='red')
-            plt.title('Well Grid in World Coordinates')
-            plt.axis('equal')
-            plt.show()
+            ax.plot(self.well.x, self.well.y, 'o', c='red')
+            ax.set_title('Well Grid in World Coordinates')
+            ax.axis('equal')
+        plt.show()
         return
