@@ -183,21 +183,21 @@ class BasinGrid:
 
     @property
     def locx(self):
-        """Local x coordinates of the grid."""
+        """Local x coordinates of the grid unrotated."""
         from numpy import linspace
         row = list(linspace(-self.gr, self.gr, self.grdim))
         return [row for _ in range(self.grdim)]
 
     @property
     def locy(self):
-        """Local y coordinates of the grid."""
+        """Local y coordinates of the grid unrotated."""
         from numpy import linspace
         col = list(linspace(-self.gr, self.gr, self.grdim))
         return [col for _ in range(self.grdim)]
 
     @property
     def worldx(self):
-        """World x coordinates of the grid"""
+        """World x coordinates of the grid unrotated."""
         wx = [
         [x + self.basin.cx for x in self.locx[r]]
         for r in range(self.grdim)
@@ -206,7 +206,7 @@ class BasinGrid:
 
     @property
     def worldy(self):
-        """World y coordinates of the grid"""
+        """World y coordinates of the grid unrotated."""
         wy = [
         [y + self.basin.cy for y in self.locy[r]]
         for r in range(self.grdim)
@@ -215,7 +215,7 @@ class BasinGrid:
 
     @property
     def dx_pts(self):
-        """Distances of grid points from basin center in x direction."""
+        """x distances of grid points from the basin center unrotated."""
         dx = [
             [self.locx[i][j] for j in range(self.grdim)]
             for i in range(self.grdim)
@@ -224,7 +224,7 @@ class BasinGrid:
 
     @property
     def dy_pts(self):
-        """Distances of grid points from basin center in y direction."""
+        """y distances of grid points from the basin center unrotated."""
         dy = [
             [self.locy[i][j] for i in range(self.grdim)]
             for j in range(self.grdim)
