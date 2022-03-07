@@ -1,6 +1,6 @@
 class Aquifer:
     """Parent aquifer class."""
-    def __init__(self, K=1, B=10, bot=0):
+    def __init__(self, K, B, bot):
         self.K = K
         self.B = B
         self.bot = bot
@@ -17,9 +17,9 @@ class Aquifer:
         return self.bot + self.B
 
 
-class Aq2dConf(Aquifer):
+class AqRadConf(Aquifer):
     """
-    2D confined aquifer.
+    1D, radial confined aquifer.
 
     Arguments:
     ---------
@@ -48,15 +48,16 @@ class Aq2dConf(Aquifer):
     is_finite = False
     is_homogeneous = True
     is_heterogeneous = False
+    is_radial = True
     is_1d = False
-    is_2d = True
+    is_2d = False
     is_confined = True
     is_leaky = False
     is_unconfined = False
     def __init__(self, K=1, Ss=1e-4, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Ss = Ss
-        self.type = '2D, confined homogeneous aquifer'
+        self.type = '1D, radial, confined homogeneous aquifer'
         self.title = self.type
         return
 
@@ -110,7 +111,6 @@ class Aq2dConf(Aquifer):
         print('Diffusivity:', self.D, '[L2/T]')
         print('Bottom elevation:', self.bot, '[RL]')
         print('Top elevation:', self.top, '[RL]')
-        print()
         return
 
     def draw(self, dw=8):
@@ -130,10 +130,13 @@ class Aq2dConf(Aquifer):
         ax.add_patch(plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # bottom aquitard
         ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', facecolor='white')) # aquifer
         ax.add_patch(plt.Rectangle((0, h*0.9), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # top aquitard
+        ax.add_line(plt.Line2D((w/2, w/2), (-h*0.05, h*1.1), color='black', linestyle='-.', linewidth=1)) # radial axis
+        ax.arrow(w/2, h*1.1, w/10, 0, overhang=1, head_width=h/20, color='black', fill=False) # radius arrow
         ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
         ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer top tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.top) +' RL', fontsize=12)
+        ax.text(w/2, h*1.2, 'r = 0', fontsize=12, horizontalalignment='center')
         ax.text(w*0.5, -h*0.2, self.title, fontsize=12, horizontalalignment='center', verticalalignment='top')
         plt.axis('scaled')
         plt.axis('off')
@@ -141,9 +144,9 @@ class Aq2dConf(Aquifer):
         return
 
 
-class Aq2dUnconf(Aquifer):
+class AqRadUnconf(Aquifer):
     """
-    2D unconfined aquifer.
+    1D, radial unconfined aquifer.
 
     Arguments:
     ---------
@@ -172,15 +175,16 @@ class Aq2dUnconf(Aquifer):
     is_semifinite = False
     is_homogeneous = True
     is_heterogeneous = False
+    is_radial = True
     is_1d = False
-    is_2d = True
+    is_2d = False
     is_confined = False
     is_leaky = False
     is_unconfined = True
     def __init__(self, K=1, Sy=0.1, B=10, bot=0):
         super().__init__(K, B, bot)
         self.Sy = Sy
-        self.type = '2D, unconfined homogeneous aquifer'
+        self.type = '1D, radial, unconfined homogeneous aquifer'
         self.title = self.type
         return
 
@@ -234,7 +238,6 @@ class Aq2dUnconf(Aquifer):
         print('Static transmissivity:', self.T, '[L2/T]')
         print('Bottom elevation:', self.bot, '[RL]')
         print('Static water level:', self.swl, '[RL]')
-        print()
         return
 
     def draw(self, dw=8):
@@ -256,13 +259,13 @@ class Aq2dUnconf(Aquifer):
         ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', facecolor='white')) # aquifer
         ax.add_line(plt.Line2D((0, w), (h*0.9, h*0.9), color='black', lw=0.5)) # water table
         ax.add_patch(plt.Polygon(np.array([[0.95*w/3, h], [w/3, h*0.9], [1.05*w/3, h]]), closed=True, edgecolor='black', facecolor='white'))
-        #ax.add_line(plt.Line2D((w/2, w/2), (-h*0.05, h), color='black', linestyle='-.', linewidth=1)) # radial axis
-        #ax.arrow(w/2, h, w/10, 0, overhang=1, head_width=h/20, color='black', fill=False) # radius arrow
+        ax.add_line(plt.Line2D((w/2, w/2), (-h*0.05, h), color='black', linestyle='-.', linewidth=1)) # radial axis
+        ax.arrow(w/2, h, w/10, 0, overhang=1, head_width=h/20, color='black', fill=False) # radius arrow
         ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
         ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer top tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.swl) +' RL', fontsize=12)
-        #ax.text(w/2, h*1.1, 'r = 0', fontsize=12, horizontalalignment='center')
+        ax.text(w/2, h*1.1, 'r = 0', fontsize=12, horizontalalignment='center')
         ax.text(w*0.5, -h*0.2, self.title, fontsize=12, horizontalalignment='center', verticalalignment='top')
         plt.axis('scaled')
         plt.axis('off')
@@ -377,7 +380,6 @@ class Aq1dFiniteConf(Aquifer):
         print('Diffusivity:', self.D, '[L2/T]')
         print('Bottom elevation:', self.bot, '[RL]')
         print('Top elevation:', self.top, '[RL]')
-        print()
         return
 
     def draw(self, dw=8):
@@ -528,7 +530,6 @@ class Aq1dFiniteUnconf(Aquifer):
         print('Static transmissivity:', self.T, '[L2/T]')
         print('Bottom elevation:', self.bot, '[RL]')
         print('Static water table:', self.swl, '[RL]')
-        print()
         return
 
     def draw(self, dw=8):
@@ -662,7 +663,6 @@ class Aq1dSemifiniteConf(Aquifer):
         print('Diffusivity:', self.D, '[L2/T]')
         print('Bottom elevation:', self.bot, '[RL]')
         print('Top elevation:', self.top, '[RL]')
-        print()
         return
 
     def draw(self, dw=8):
@@ -796,7 +796,6 @@ class Aq1dSemifiniteUnconf(Aquifer):
         print('Static transmissivity:', self.T, '[L2/T]')
         print('Bottom elevation:', self.bot, '[RL]')
         print('Static water table:', self.swl, '[RL]')
-        print()
         return
 
     def draw(self, dw=8):

@@ -8,8 +8,8 @@ and exploring analytic solutions to groundwater flow models.
 
 from .aquifers import (
     Aquifer,
-    Aq2dConf,
-    Aq2dUnconf,
+    AqRadConf,
+    AqRadUnconf,
     Aq1dFiniteConf,
     Aq1dFiniteUnconf,
     Aq1dSemifiniteConf,
@@ -27,8 +27,7 @@ from .stresses import (
 )
 
 from .grids import (
-    WellGrid,
-    BasinGrid
+    WellGrid
 )
 
 from .basins import (
