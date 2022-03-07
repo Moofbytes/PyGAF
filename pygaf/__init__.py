@@ -27,7 +27,8 @@ from .stresses import (
 )
 
 from .grids import (
-    WellGrid
+    WellGrid,
+    BasinGrid
 )
 
 from .basins import (
