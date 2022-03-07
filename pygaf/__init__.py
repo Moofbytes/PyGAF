@@ -8,8 +8,8 @@ and exploring analytic solutions to groundwater flow models.
 
 from .aquifers import (
     Aquifer,
-    AqRadConf,
-    AqRadUnconf,
+    Aq2dConf,
+    Aq2dUnconf,
     Aq1dFiniteConf,
     Aq1dFiniteUnconf,
     Aq1dSemifiniteConf,
