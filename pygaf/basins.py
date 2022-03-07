@@ -89,32 +89,33 @@ class RectBasin(Basin):
     @property
     def verts(self):
         values = {
-            'll':(self.cx-self.lx/2, self.cy-self.ly/2),
-            'ul':(self.cx-self.lx/2, self.cy+self.ly/2),
-            'lr':(self.cx+self.lx/2, self.cy-self.ly/2),
-            'ur':(self.cx+self.lx/2, self.cy+self.ly/2)
+            'll' : (self.cx-self.lx/2, self.cy-self.ly/2),
+            'ul' : (self.cx-self.lx/2, self.cy+self.ly/2),
+            'lr' : (self.cx+self.lx/2, self.cy-self.ly/2),
+            'ur' : (self.cx+self.lx/2, self.cy+self.ly/2)
             }
         return values
 
     @property
     def verts_rot(self):
+        from pygaf.utils import rotate_point
         values = {
-            'll' : self.rot_point(
+            'll' : rotate_point(
                 self.cx, self.cy,
                 self.verts['ll'][0], self.verts['ll'][1],
                 self.rot_rad
                 ),
-            'ul' : self.rot_point(
+            'ul' : rotate_point(
                 self.cx, self.cy,
                 self.verts['ul'][0], self.verts['ul'][1],
                 self.rot_rad
                 ),
-            'lr' : self.rot_point(
+            'lr' : rotate_point(
                 self.cx, self.cy,
                 self.verts['lr'][0], self.verts['lr'][1],
                 self.rot_rad
                 ),
-            'ur' : self.rot_point(
+            'ur' : rotate_point(
                 self.cx, self.cy,
                 self.verts['ur'][0], self.verts['ur'][1],
                 self.rot_rad
@@ -122,27 +123,27 @@ class RectBasin(Basin):
         }
         return values
 
-    def rot_point(self, x0, y0, x1, y1, phi):
-        """
-        Rotate a point around a point.
+    #def rot_point(self, x0, y0, x1, y1, phi):
+        #"""
+        #Rotate a point around a point.
 
-        Arguments:
-        ---------
-        x0 : float
-            x coordinate of ceter of rotation [L]
-        y0 : float
-            y coordinate of center of rotation [L]
-        x1 : float
-            x coordinate of point to be rotated [L]
-        y1 : float
-            y coordinate of point to be rotated [L]
-        phi : float
-            Angle of clockwise rotation [radians]
-        """
-        from numpy import cos, sin
-        x1_rot = x0 + (x1-x0)*cos(-phi) - (y1-y0)*sin(-phi)
-        y1_rot = y0 + (y1-y0)*cos(-phi) + (x1-x0)*sin(-phi)
-        return (x1_rot, y1_rot)
+        #Arguments:
+        #---------
+        #x0 : float
+            #x coordinate of ceter of rotation [L]
+        #y0 : float
+            #y coordinate of center of rotation [L]
+        #x1 : float
+            #x coordinate of point to be rotated [L]
+        #y1 : float
+            #y coordinate of point to be rotated [L]
+        #phi : float
+            #Angle of clockwise rotation [radians]
+        #"""
+        #from numpy import cos, sin
+        #x1_rot = x0 + (x1-x0)*cos(-phi) - (y1-y0)*sin(-phi)
+        #y1_rot = y0 + (y1-y0)*cos(-phi) + (x1-x0)*sin(-phi)
+        #return (x1_rot, y1_rot)
 
     def info(self):
         """Print the basin information."""
@@ -169,12 +170,12 @@ class RectBasin(Basin):
         """
         import matplotlib.pyplot as plt
         from matplotlib.patches import Polygon, Circle
-        phi = self.rot
+        from pygaf.utils import rotate_point
         dl = max([self.lx, self.ly])/25
         plt.figure(figsize=(dw, dw))
         ax = plt.gca()
         ax.add_patch(
-            plt.Polygon(
+            Polygon(
                 (self.verts_rot['ll'], self.verts_rot['lr'],
                 self.verts_rot['ur'], self.verts_rot['ul']),
                 fill=True, facecolor='silver', edgecolor='black', linewidth=2
@@ -186,15 +187,17 @@ class RectBasin(Basin):
             fontsize=12, horizontalalignment='center',
             verticalalignment='center'
             )
-        loc = self.rot_point(self.cx, self.cy, self.cx, self.cy+dl+self.ly/2,
-        self.rot_rad)
+        loc = rotate_point(
+            self.cx, self.cy, self.cx, self.cy+dl+self.ly/2, self.rot_rad
+            )
         ax.text(
             loc[0], loc[1], str(self.lx), fontsize=12,
             horizontalalignment='center', verticalalignment='center',
             rotation=-self.rot
             )
-        loc = self.rot_point(self.cx, self.cy, self.cx-dl-self.lx/2, self.cy,
-        self.rot_rad)
+        loc = rotate_point(
+            self.cx, self.cy, self.cx-dl-self.lx/2, self.cy, self.rot_rad
+            )
         ax.text(
             loc[0], loc[1], str(self.ly), fontsize=12,
             horizontalalignment='center', verticalalignment='center',

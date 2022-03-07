@@ -1,4 +1,4 @@
-def rot_point_clockwise(self, x0, y0, x1, y1, phi):
+def rotate_point(x0, y0, x1, y1, phi):
     """
     Rotate a point clockwise about a point.
 
