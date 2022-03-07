@@ -78,6 +78,7 @@ class SteadyWell(Well):
         print('Penetration:', self.pf)
         print('Well rate:', self.q, '[L3/T]')
         print('State:', self.state)
+        print()
         return
 
 
@@ -155,6 +156,7 @@ class TransientWell(Well):
         print('Stress periods:', len(self.ss.periods))
         unique_states = list(set(self.state))
         print('Unique well states:', unique_states)
+        print()
         return
 
     def plot(self, dw=8):
