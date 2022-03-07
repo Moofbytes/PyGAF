@@ -1,9 +1,20 @@
 class Basin:
     """Parent basin class."""
-    def __init__(self, cx, cy, name):
+    def __init__(self, cx=0.0, cy=0.0, name='unnamed'):
         self.cx = cx
         self.cy = cy
         self.name = name
+        return
+
+    def info(self):
+        """Print the basin information."""
+        print('BASIN INFORMATION')
+        print('-----------------')
+        print('Type: parent class')
+        print('Name:', self.name)
+        print('Basin center: (' + str(round(self.cx, 1)) + ', ' +\
+            str(round(self.cy, 1)) + ') [L]')
+        print()
         return
 
 class RectBasin(Basin):
@@ -20,15 +31,19 @@ class RectBasin(Basin):
         Basin length in x direction (default 10)
     ly : float
         Basin length in y direction (default 10)
+    rot : float
+        Clockwise rotation angle (deg) of basin (constrained to values
+        between -90 and 90, default 0)
     name : str
         Basin name (default '')
     """
     is_rectangular = True
     is_circular = False
-    def __init__(self, cx=0.0, cy=0.0, lx=10, ly=10, name='unnamed'):
+    def __init__(self, cx=0.0, cy=0.0, lx=10, ly=10, rot=0, name='unnamed'):
         super().__init__(cx, cy, name)
         self.lx = lx
         self.ly = ly
+        self.rot = rot
         self.type = 'Rectangular basin'
         self.title = self.type
         return
@@ -52,9 +67,82 @@ class RectBasin(Basin):
         self._ly = v
 
     @property
+    def rot(self):
+        return self._rot
+    @rot.setter
+    def rot(self, v):
+        if v <= -90 or v >= 90:
+            raise Exception('Rotation angle must be between -90 and 90 deg.')
+        self._rot = v
+
+    @property
+    def rot_rad(self):
+        """Basin rotation in radians"""
+        from numpy import pi
+        return self.rot*2*pi/360
+
+    @property
     def area(self):
         """Basin area."""
         return self.lx * self.ly
+
+    @property
+    def verts(self):
+        values = {
+            'll':(self.cx-self.lx/2, self.cy-self.ly/2),
+            'ul':(self.cx-self.lx/2, self.cy+self.ly/2),
+            'lr':(self.cx+self.lx/2, self.cy-self.ly/2),
+            'ur':(self.cx+self.lx/2, self.cy+self.ly/2)
+            }
+        return values
+
+    @property
+    def verts_rot(self):
+        values = {
+            'll' : self.rot_point(
+                self.cx, self.cy,
+                self.verts['ll'][0], self.verts['ll'][1],
+                self.rot_rad
+                ),
+            'ul' : self.rot_point(
+                self.cx, self.cy,
+                self.verts['ul'][0], self.verts['ul'][1],
+                self.rot_rad
+                ),
+            'lr' : self.rot_point(
+                self.cx, self.cy,
+                self.verts['lr'][0], self.verts['lr'][1],
+                self.rot_rad
+                ),
+            'ur' : self.rot_point(
+                self.cx, self.cy,
+                self.verts['ur'][0], self.verts['ur'][1],
+                self.rot_rad
+                )
+        }
+        return values
+
+    def rot_point(self, x0, y0, x1, y1, phi):
+        """
+        Rotate a point around a point.
+
+        Arguments:
+        ---------
+        x0 : float
+            x coordinate of ceter of rotation [L]
+        y0 : float
+            y coordinate of center of rotation [L]
+        x1 : float
+            x coordinate of point to be rotated [L]
+        y1 : float
+            y coordinate of point to be rotated [L]
+        phi : float
+            Angle of clockwise rotation [radians]
+        """
+        from numpy import cos, sin
+        x1_rot = x0 + (x1-x0)*cos(-phi) - (y1-y0)*sin(-phi)
+        y1_rot = y0 + (y1-y0)*cos(-phi) + (x1-x0)*sin(-phi)
+        return (x1_rot, y1_rot)
 
     def info(self):
         """Print the basin information."""
@@ -62,10 +150,12 @@ class RectBasin(Basin):
         print('-----------------')
         print('Type:', self.type)
         print('Name:', self.name)
-        print('Basin center:', round(self.cx, 1), ',', round(self.cy, 1))
+        print('Basin center: (' + str(round(self.cx, 1)) + ', ' +\
+            str(round(self.cy, 1)) + ') [L]')
         print('Basin x length:', self.lx, '[L]')
         print('Basin y length:', self.ly, '[L]')
         print('Basin area:', self.area, '[L2]')
+        print('Rotation angle:', self.rot, '[deg cw]')
         return
 
     def draw(self, dw=5):
@@ -78,24 +168,38 @@ class RectBasin(Basin):
             Width of aquifer drawing (default 5)
         """
         import matplotlib.pyplot as plt
-        w = self.lx
-        h = self.ly
-        cx=self.cx
-        cy=self.cy
-        dl = max([w, h])/50
+        from matplotlib.patches import Polygon, Circle
+        phi = self.rot
+        dl = max([self.lx, self.ly])/25
         plt.figure(figsize=(dw, dw))
         ax = plt.gca()
-        ax.add_patch(plt.Rectangle((-w/2, -h/2), width=w, height=h, facecolor='silver', edgecolor='black', linewidth=2)) # basin
-        ax.add_line(plt.Line2D(((-w/2)-dl, (w/2)+dl), (0, 0), color='grey', linestyle='-.', linewidth=1)) # x axis
-        ax.add_line(plt.Line2D((0, 0), ((-h/2)-dl, (h/2)+dl), color='grey', linestyle='-.', linewidth=1)) # y axis
-        ax.arrow(0, (h/2)+(2*dl), (w/2)-dl, 0, overhang=1, head_width=dl, color='black', linewidth=0.5, fill=False)
-        ax.arrow(0, (h/2)+(2*dl), -(w/2)+dl, 0, overhang=1, head_width=dl, color='black', linewidth=0.5, fill=False)
-        ax.arrow(-(w/2)-(2*dl), 0, 0, (h/2)-dl, overhang=1, head_width=dl, color='black', linewidth=0.5, fill=False)
-        ax.arrow(-(w/2)-(2*dl), 0, 0, -(h/2)+dl, overhang=1, head_width=dl, color='black', linewidth=0.5, fill=False)
-        ax.text(0, (-h/2)-dl, self.title, fontsize=12, horizontalalignment='center', verticalalignment='top')
-        ax.text(0, 0, '('+str(cx)+', '+str(cy)+')', fontsize=12, horizontalalignment='center', verticalalignment='bottom')
-        ax.text(0, (h/2)+(2*dl), w, fontsize=12, horizontalalignment='center', verticalalignment='bottom')
-        ax.text(-(w/2)-(2*dl), 0, h, fontsize=12, horizontalalignment='right', verticalalignment='center', rotation=90)
+        ax.add_patch(
+            plt.Polygon(
+                (self.verts_rot['ll'], self.verts_rot['lr'],
+                self.verts_rot['ur'], self.verts_rot['ul']),
+                fill=True, facecolor='silver', edgecolor='black', linewidth=2
+                )
+            )
+        plt.plot(self.cx, self.cy, '.', color='black')
+        ax.text(
+            self.cx, self.cy-dl, '('+str(self.cx)+', '+str(self.cy)+')',
+            fontsize=12, horizontalalignment='center',
+            verticalalignment='center'
+            )
+        loc = self.rot_point(self.cx, self.cy, self.cx, self.cy+dl+self.ly/2,
+        self.rot_rad)
+        ax.text(
+            loc[0], loc[1], str(self.lx), fontsize=12,
+            horizontalalignment='center', verticalalignment='center',
+            rotation=-self.rot
+            )
+        loc = self.rot_point(self.cx, self.cy, self.cx-dl-self.lx/2, self.cy,
+        self.rot_rad)
+        ax.text(
+            loc[0], loc[1], str(self.ly), fontsize=12,
+            horizontalalignment='center', verticalalignment='center',
+            rotation=-self.rot+90
+            )
         plt.axis('scaled')
         plt.axis('off')
         plt.show()
@@ -151,7 +255,8 @@ class CircBasin(Basin):
         print('-----------------')
         print('Type:', self.type)
         print('Name:', self.name)
-        print('Basin center:', round(self.cx, 1), ',', round(self.cy, 1))
+        print('Basin center: (' + str(round(self.cx, 1)) + ', ' +\
+            str(round(self.cy, 1)) + ') [L]')
         print('Basin diameter:', self.diam, '[L]')
         print('Basin radius:', self.rad, '[L]')
         print('Basin area:', round(self.area, 1), '[L2]')
@@ -167,19 +272,30 @@ class CircBasin(Basin):
             Width of aquifer drawing (default 5)
         """
         import matplotlib.pyplot as plt
-        r = self.rad
-        dr = r/25
-        cx=self.cx
-        cy=self.cy
+        from matplotlib.patches import Circle
+        dr = self.rad/25
         plt.figure(figsize=(dw, dw))
         ax = plt.gca()
-        ax.add_patch(plt.Circle((0, 0), radius=self.rad, facecolor='silver', edgecolor='black', linewidth=2)) # basin
-        ax.add_line(plt.Line2D((-r-dr, r+dr), (0, 0), color='grey', linestyle='-.', linewidth=1)) # x axis
-        ax.add_line(plt.Line2D((0, 0), (-r-dr, r+dr), color='grey', linestyle='-.', linewidth=1)) # y axis
-        ax.arrow(0, 0, 0.65*r, 0.65*r, overhang=1, head_width=1.5*dr, color='black', linewidth=0.5, fill=False)
-        ax.text(0.5*r, 0.5*r, round(r, 1), fontsize=12, horizontalalignment='center', verticalalignment='top', rotation=45)
-        ax.text(0, -r-(2*dr), self.title, fontsize=12, horizontalalignment='center', verticalalignment='top')
-        ax.text(0, 0, '('+str(cx)+', '+str(cy)+')', fontsize=12, horizontalalignment='center', verticalalignment='top')
+        ax.add_patch(
+            Circle(
+                (self.cx, self.cy), radius=self.rad, facecolor='silver',
+                edgecolor='black', linewidth=2
+                )
+            ) # basin
+        plt.plot(self.cx, self.cy, '.', color='black')
+        ax.arrow(
+            self.cx, self.cy, 0, self.rad-2*dr, overhang=1, head_width=1.5*dr,
+            color='black', linewidth=0.5, fill=False
+            )
+        ax.text(
+            self.cx-2*dr, self.cy+0.33*self.rad, round(self.rad, 1),
+            fontsize=12, horizontalalignment='center',
+            verticalalignment='bottom', rotation=90
+            )
+        ax.text(
+            self.cx, self.cy, '('+str(self.cx)+', '+str(self.cy)+')',
+            fontsize=12, horizontalalignment='center', verticalalignment='top'
+            )
         plt.axis('scaled')
         plt.axis('off')
         plt.show()
