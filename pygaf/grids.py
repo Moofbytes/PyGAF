@@ -8,17 +8,17 @@ class WellGrid:
         Radius defining the extent of the solution grid (default 100)
     gd : float
         Grid density defining the number of rows/columns - minimum and maximum
-        constraints enforced (default 20)
+        constraints enforced (default 21)
     csv : str
         Filepath of csv file for results export (default '' - no export)
     """
     from .wells import SteadyWell
-    def __init__(self, well=SteadyWell(), gr=100, gd=20, plot=True, csv=''):
+    def __init__(self, well=SteadyWell(), gr=100, gd=21, plot=True, csv=''):
         self.well = well
         self.gr = gr
         self.gd = gd
-        self.max_gd = 40
-        self.min_gd = 10
+        self.max_gd = 41
+        self.min_gd = 11
 
     @property
     def gr(self):
@@ -45,93 +45,65 @@ class WellGrid:
         return self.grdim**2
 
     @property
-    def locx(self):
-        """Local x coordinates of the grid."""
-        from numpy import linspace
-        row = list(linspace(-self.gr, self.gr, self.grdim))
-        return [row for _ in range(self.grdim)]
-
-    @property
-    def locy(self):
-        """Local y coordinates of the grid."""
-        from numpy import linspace
-        col = list(linspace(-self.gr, self.gr, self.grdim))
-        return [col for _ in range(self.grdim)]
-
-    @property
-    def worldx(self):
-        """World x coordinates of the grid"""
-        wx = [
-            [x + self.well.x for x in self.locx[r]] for r in range(self.grdim)
-        ]
-        return wx
-
-    @property
-    def worldy(self):
-        """World y coordinates of the grid"""
-        wy = [
-            [y + self.well.y for y in self.locy[r]] for r in range(self.grdim)
-        ]
-        return wy
-
-    @property
-    def rad_pts(self):
-        """Radii of grid points from well."""
-        from numpy import sqrt
-        r = [
-            [sqrt(self.locx[i][j]**2 + self.locy[j][i]**2)
-            for i in range(self.grdim)] for j in range(self.grdim)
-        ]
-        return r
+    def pts(self):
+        """Grid points attriubutes."""
+        import pandas
+        import numpy
+        from pygaf.utils import add_constant_to_list
+        df = pandas.DataFrame()
+        row = list(numpy.linspace(-self.gr, self.gr, self.grdim))
+        rows = [row for _ in range(self.grdim)]
+        cols = [[row[i] for _ in range(self.grdim)] for i in range(self.grdim)]
+        df['locx'] = list(numpy.array(rows).flat)
+        df['locy'] = list(numpy.array(cols).flat)
+        df['worldx'] = add_constant_to_list(list(df.locx), self.well.x)
+        df['worldy'] = add_constant_to_list(list(df.locy), self.well.y)
+        df['rad'] = numpy.sqrt(df.locx**2 + df.locy**2)
+        return df
 
     def info(self):
         """Print the well grid information."""
         print('WELL GRID INFORMATION')
         print('---------------------')
         if self.npts == self.min_gd**2:
-            print('Notice! grid spacing may have been increased to enforce the',
+            print('Notice! grid spacing has been increased to enforce the',
             'minimum grid density of', self.min_gd**2, 'points.')
         if self.npts == self.max_gd**2:
-            print('Notice! grid spacing may have been decreased to enforce the',
+            print('Notice! grid spacing has been decreased to enforce the',
             'maximum grid density of', self.max_gd**2, 'points.')
         print('Grid radius:', round(self.gr, 1))
         print('Number of grid points:', self.npts)
-        print('Number of grid rows:', self.grdim)
+        print('Grid density:', self.grdim)
         print()
         return
 
-    def draw(self, world=False):
+    def draw(self, local=False):
         """
         Draw the grid points.
 
         Arguments:
         ---------
-        world : bool
-            Display the grid plot in 'local' or 'world' coordinates (Default
-            'local' with well at 0, 0)
+        local : bool
+            Display the grid plot in local coordinates with the well at 0, 0
+            (Default False )
         """
         from matplotlib import pyplot as plt
         fig, ax = plt.subplots(1, 1, figsize=(5, 5))
-        if not world:
-            for i in range(self.grdim):
-                for j in range(self.grdim):
-                    ax.plot(
-                    self.locx[i][j], self.locy[j][i], '.', markersize=1,
-                    c='black'
-                    )
-            ax.plot(0, 0, '.', c='red')
-            ax.set_title('Well Grid in Local Coordinates')
-            ax.axis('equal')
+        if local:
+            x, y = list(self.pts.locx), list(self.pts.locy)
+            cx, cy = 0, 0
+            title = 'Well Grid in Local Coordinates'
         else:
-            for i in range(self.grdim):
-                for j in range(self.grdim):
-                    ax.plot(
-                    self.worldx[i][j], self.worldy[j][i], '.', markersize=1,
-                    c='black'
-                    )
-            ax.plot(self.well.x, self.well.y, '.', c='red')
-            ax.set_title('Well Grid in World Coordinates')
-            ax.axis('equal')
+            x, y = list(self.pts.worldx), list(self.pts.worldy)
+            cx, cy = self.well.x, self.well.y
+            title = 'Well Grid'
+        ax.plot(x, y, '.', markersize=1, c='black')
+        #for i in range(self.grdim):
+            #for j in range(self.grdim):
+                #ax.plot(x[i][j], y[i][j], '.', markersize=1, c='black')
+        ax.plot(cx, cy, '.', c='red')
+        ax.set_title(title)
+        ax.axis('equal')
         plt.show()
         return
 
@@ -150,12 +122,12 @@ class BasinGrid:
         Filepath of csv file for results export (default '' - no export)
     """
     from .basins import Basin
-    def __init__(self, basin=Basin(), gr=100, gd=20, plot=True, csv=''):
+    def __init__(self, basin=Basin(), gr=100, gd=21, plot=True, csv=''):
         self.basin = basin
         self.gr = gr
         self.gd = gd
-        self.max_gd = 40
-        self.min_gd = 10
+        self.max_gd = 41
+        self.min_gd = 11
 
     @property
     def gr(self):
@@ -182,102 +154,66 @@ class BasinGrid:
         return self.grdim**2
 
     @property
-    def locx(self):
-        """Local x coordinates of the grid unrotated."""
-        from numpy import linspace
-        row = list(linspace(-self.gr, self.gr, self.grdim))
-        return [row for _ in range(self.grdim)]
-
-    @property
-    def locy(self):
-        """Local y coordinates of the grid unrotated."""
-        from numpy import linspace
-        col = list(linspace(-self.gr, self.gr, self.grdim))
-        return [col for _ in range(self.grdim)]
-
-    @property
-    def worldx(self):
-        """World x coordinates of the grid unrotated."""
-        wx = [
-        [x + self.basin.cx for x in self.locx[r]]
-        for r in range(self.grdim)
-        ]
-        return wx
-
-    @property
-    def worldy(self):
-        """World y coordinates of the grid unrotated."""
-        wy = [
-        [y + self.basin.cy for y in self.locy[r]]
-        for r in range(self.grdim)
-        ]
-        return wy
-
-    @property
-    def dx_pts(self):
-        """x distances of grid points from the basin center unrotated."""
-        dx = [
-            [self.locx[i][j] for j in range(self.grdim)]
-            for i in range(self.grdim)
-        ]
-        return dx
-
-    @property
-    def dy_pts(self):
-        """y distances of grid points from the basin center unrotated."""
-        dy = [
-            [self.locy[i][j] for i in range(self.grdim)]
-            for j in range(self.grdim)
-        ]
-        return dy
+    def pts(self):
+        """Grid points attriubutes."""
+        import pandas
+        import numpy
+        from pygaf.utils import add_constant_to_list
+        from pygaf.utils import rotate_grid
+        df = pandas.DataFrame()
+        row = list(numpy.linspace(-self.gr, self.gr, self.grdim))
+        rows = [row for _ in range(self.grdim)]
+        cols = [[row[i] for _ in range(self.grdim)] for i in range(self.grdim)]
+        df['locx'] = list(numpy.array(rows).flat)
+        df['locy'] = list(numpy.array(cols).flat)
+        df['rotx'], df['roty'] = rotate_grid(
+            0, 0, list(df.locx), list(df.locy), self.basin.rot_rad
+        )
+        df['worldx'] = add_constant_to_list(list(df.rotx), self.basin.cx)
+        df['worldy'] = add_constant_to_list(list(df.roty), self.basin.cy)
+        df['dx'] = list(df.locx)
+        df['dy'] = list(df.locy)
+        return df
 
     def info(self):
         """Print the basin grid information."""
         print('BASIN GRID INFORMATION')
         print('----------------------')
         if self.npts == self.min_gd**2:
-            print('Notice! grid spacing may have been increased to enforce the',
+            print('Notice! grid spacing has been increased to enforce the',
             'minimum grid density of', self.min_gd**2, 'points.')
         if self.npts == self.max_gd**2:
-            print('Notice! grid spacing may have been decreased to enforce the',
+            print('Notice! grid spacing has been decreased to enforce the',
             'maximum grid density of', self.max_gd**2, 'points.')
         print('Grid radius:', round(self.gr, 1))
         print('Number of grid points:', self.npts)
-        print('Number of grid rows:', self.grdim)
+        print('Grid density:', self.grdim)
         print()
         return
 
-    def draw(self, world=False):
+    def draw(self, local=False):
         """
         Draw the grid points.
 
         Arguments:
         ---------
-        world : bool
-            Display the grid plot in 'local' or 'world' coordinates (Default
-            'local' with well at 0, 0)
+        local : bool
+            Display the grid plot in local coordinates with the well at 0, 0
+            (Default False )
         """
         from matplotlib import pyplot as plt
         fig, ax = plt.subplots(1, 1, figsize=(5, 5))
-        if not world:
-            for i in range(self.grdim):
-                for j in range(self.grdim):
-                    ax.plot(
-                    self.locx[i][j], self.locy[j][i], '.', markersize=1,
-                    c='black'
-                    )
-            ax.plot(0, 0, '.', c='red')
-            ax.set_title('Basin Grid in Local Coordinates')
-            ax.axis('equal')
+        if local:
+            x, y = list(self.pts.locx), list(self.pts.locy)
+            cx, cy = 0, 0
+            title = 'Basin Grid in Local Coordinates'
         else:
-            for i in range(self.grdim):
-                for j in range(self.grdim):
-                    ax.plot(
-                    self.worldx[i][j], self.worldy[j][i], '.', markersize=1,
-                    c='black'
-                    )
-            ax.plot(self.basin.cx, self.basin.cy, '.', c='red')
-            ax.set_title('Basin Grid in World Coordinates')
-            ax.axis('equal')
+            x, y = list(self.pts.worldx), list(self.pts.worldy)
+            cx, cy = self.basin.cx, self.basin.cy
+            title = 'Basin Grid'
+        ax.plot(x, y, '.', markersize=1, c='black')
+        ax.plot(cx, cy, '.', c='red')
+        ax.set_title(title)
+        ax.axis('equal')
         plt.show()
         return
