@@ -6,6 +6,8 @@
 Welcome to PyGAF's documentation!
 =================================
 
+PyGAF has its documentation hosted on Read the Docs.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
