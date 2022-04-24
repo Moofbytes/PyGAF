@@ -21,7 +21,7 @@ project = 'PyGAF'
 copyright = '2022, Tony Smith'
 author = 'Tony Smith'
 release = '0.1'
-version = '0.1.0`
+version = '0.1.0'
 
 
 # -- General configuration ---------------------------------------------------
