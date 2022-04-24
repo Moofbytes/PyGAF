@@ -6,7 +6,10 @@
 Welcome to PyGAF's documentation!
 =================================
 
-PyGAF has its documentation hosted on Read the Docs.
+PyGAF is a Python package for evaluation and display of anakytic solutions to groundwater flow. 
+The package name is an acronym of Python Groundwater Analytic Flow.
+
+PyGAF's documentation is hosted on Read the Docs.
 
 .. toctree::
    :maxdepth: 2
