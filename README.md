@@ -1,3 +1,3 @@
 # PyGAF - Python Groundwater Analytic Flow
 
-A **Py**thon package for evaluating, displaying and exploring selected **G**roundwater **A**nalytic **F**low solutions.
+A Python package for evaluating, displaying and exploring analytic groundwater flow solutions. The package name is an acronym of **Python** **G**roundwater **A**nalytic **F**low.
