@@ -1,4 +1,4 @@
-pyemu package
+PyGAF package
 =============
 
 Subpackages
