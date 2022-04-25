@@ -1,54 +1,44 @@
 def add_constant_to_list(list, const):
-    """
-    Add a constant value to all items in a list
+    """Add a constant value to each item of a list.
 
-    Arguments:
-    ---------
-    list : float
-        2d list of values
-    const : float
-        Constant value to add to each list item
+    Args:
+        list (float) : 2d list of numeric values.
+        const (float) : Constant value to add to each list item.
 
     Returns:
-    -------
-    2d list
+        2d list.
+
     """
     import numpy
     arr = numpy.add(list, const)
     return arr.tolist()
 
 def deg2rad(deg):
-    """
-    Convert degrees to radians for an anglke between -90 and 90 deg.
+    """Convert degrees to radians for an angle between -90 and 90 deg.
 
-    Arguments:
-    ---------
-    deg : float
-        Angle in degrees.
+    Args:
+        deg (float) : Angle in degrees.
+
+    Returns:
+        Angle in radians.
+
     """
     from numpy import pi
     return deg*2*pi/360
 
 def rotate_point(x0, y0, x1, y1, phi):
-    """
-    Rotate the coordinates of a point.
+    """Rotate the coordinates of a point.
 
-    Arguments:
-    ---------
-    x0 : float
-        x coordinate of ceter of rotation
-    y0 : float
-        y coordinate of center of rotation
-    x1 : float
-        x coordinate of point to be rotated
-    y1 : float
-        y coordinate of point to be rotated
-    phi : float
-        Angle of clockwise rotation in radians
+    Args:
+        x0 (float) : X coordinate of ceter of rotation.
+        y0 (float) : Y coordinate of center of rotation.
+        x1 (float) : X coordinate of point to be rotated.
+        y1 (float) : Y coordinate of point to be rotated.
+        phi (float) : Angle of clockwise rotation in radians.
 
     Returns:
-    -------
-    Tupple of rotated x and y coordinates
+        Tupple of rotated x and y coordinates.
+
     """
     from numpy import cos, sin
     x1r = x0 + (x1-x0)*cos(-phi) - (y1-y0)*sin(-phi)
@@ -56,21 +46,17 @@ def rotate_point(x0, y0, x1, y1, phi):
     return (x1r, y1r)
 
 def rotate_grid(x0, y0, x, y, phi):
-    """
-    Rotate the coordinates of a grid.
+    """Rotate the coordinates of a grid.
 
-    Arguments:
-    ---------
-    x0 : float
-        x coordinate of ceter of rotation
-    y0 : float
-        y coordinate of center of rotation
-    x : float
-        1d list of grid x coordinates
-    y : float
-        1d list of grid y coordinates
-    phi : float
-        Angle of clockwise rotation in radians
+    Args:
+        x0 (float) : X coordinate of ceter of rotation.
+        y0 (float) : Y coordinate of center of rotation.
+        x (float) : 1d list of grid x coordinates.
+        y (float) : 1d list of grid y coordinates.
+        phi (float) : Angle of clockwise rotation in radians.
+
+    Returns:
+        Rotated x as 1d lsit, rotated y as 1d list.
 
     """
     from pygaf.utils import rotate_point
@@ -84,20 +70,17 @@ def rotate_grid(x0, y0, x, y, phi):
 
 def rotate_grid_2d(x0, y0, x, y, phi):
     """
-    Rotate the coordinates of a grid.
+    Rotate the coordinates of a grid in 2d format.
 
-    Arguments:
-    ---------
-    x0 : float
-        x coordinate of ceter of rotation
-    y0 : float
-        y coordinate of center of rotation
-    x : float
-        2d list of grid x coordinates
-    y : float
-        2d list of grid y coordinates
-    phi : float
-        Angle of clockwise rotation in radians
+    Args:
+        x0 (float) : X coordinate of ceter of rotation.
+        y0 (float) : Y coordinate of center of rotation.
+        x (float) : 2d list of grid x coordinates.
+        y (float) : 2d list of grid y coordinates.
+        phi (float) : Angle of clockwise rotation in radians.
+
+    Returns:
+        Rotated x as 2d list, rotated y as 2d list.
 
     """
     from pygaf.utils import rotate_point

@@ -1,16 +1,14 @@
 class WellGrid:
-    """
-    Rectangular well grid with well at the grid center.
+    """Rectangular well grid class with well at grid center.
 
-    Arguments:
-    ---------
-    gr : float
-        Radius defining the extent of the solution grid (default 100)
-    gd : float
-        Grid density defining the number of rows/columns - minimum and maximum
-        constraints enforced (default 21)
-    csv : str
-        Filepath of csv file for results export (default '' - no export)
+    Attributes:
+        gr (float) : Radius defining the extent of the solution grid (units L,
+            default 100.0).
+        gd (int) : Grid density defining the number of rows and columns;
+            minimum and maximum constraints are enforced (default 21).
+        csv (str) : Filepath of csv file for results export (default ''
+            no export).
+
     """
     from .wells import SteadyWell
     def __init__(self, well=SteadyWell(), gr=100, gd=21, plot=True, csv=''):
@@ -22,7 +20,13 @@ class WellGrid:
 
     @property
     def gr(self):
+        """float : Grid radius.
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
         return self._gr
+
     @gr.setter
     def gr(self, v):
         if not (v > 0):
@@ -31,7 +35,7 @@ class WellGrid:
 
     @property
     def grdim(self):
-        """Number of grid rows and columns."""
+        """int : Number of grid rows and columns."""
         if self.gd < self.min_gd:
             return self.min_gd
         elif self.gd > self.max_gd:
@@ -41,12 +45,15 @@ class WellGrid:
 
     @property
     def npts(self):
-        """Number of grid points."""
+        """int : Number of grid points."""
         return self.grdim**2
 
     @property
     def pts(self):
-        """Grid points attriubutes."""
+        """pandas dataframe : Grid points attriubutes including local grid
+        point coordinates, world grid point coordinates and radius values of
+        grid points.
+        """
         import pandas
         import numpy
         from pygaf.utils import add_constant_to_list
@@ -62,7 +69,12 @@ class WellGrid:
         return df
 
     def info(self):
-        """Print the well grid information."""
+        """Print the well grid information.
+
+        Returns:
+            Screen printout of well grid information.
+
+        """
         print('WELL GRID INFORMATION')
         print('---------------------')
         if self.npts == self.min_gd**2:
@@ -78,14 +90,12 @@ class WellGrid:
         return
 
     def draw(self, local=False):
-        """
-        Draw the grid points.
+        """Draw the grid points.
 
-        Arguments:
-        ---------
-        local : bool
-            Display the grid plot in local coordinates with the well at 0, 0
-            (Default False )
+        Args:
+            local (bool) : Display the grid plot in local coordinates with
+                the well at 0, 0 (default False ).
+
         """
         from matplotlib import pyplot as plt
         fig, ax = plt.subplots(1, 1, figsize=(5, 5))
@@ -108,18 +118,16 @@ class WellGrid:
         return
 
 class BasinGrid:
-    """
-    Rectangular basin grid with basin center at the grid center.
+    """ Rectangular basin grid class with basin center at grid center.
 
-    Arguments:
-    ---------
-    gr : float
-        Radius defining the extent of the solution grid (default 100)
-    gd : float
-        Grid density defining the number of rows/columns - minimum and maximum
-        constraints enforced (default 20)
-    csv : str
-        Filepath of csv file for results export (default '' - no export)
+    Attributes:
+        gr (float) : Radius defining the extent of the solution grid (units L,
+            default 100.0).
+        gd (int) : Grid density defining the number of rows and columns;
+            minimum and maximum constraints are enforced (default 21).
+        csv (str) : Filepath of csv file for results export (default ''
+            no export).
+
     """
     from .basins import Basin
     def __init__(self, basin=Basin(), gr=100, gd=21, plot=True, csv=''):
@@ -131,7 +139,13 @@ class BasinGrid:
 
     @property
     def gr(self):
+        """float : Grid radius.
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
         return self._gr
+
     @gr.setter
     def gr(self, v):
         if not (v > 0):
@@ -140,7 +154,7 @@ class BasinGrid:
 
     @property
     def grdim(self):
-        """Number of grid rows and columns."""
+        """int : Number of grid rows and columns."""
         if self.gd < self.min_gd:
             return self.min_gd
         elif self.gd > self.max_gd:
@@ -150,12 +164,14 @@ class BasinGrid:
 
     @property
     def npts(self):
-        """Number of grid points."""
+        """int : Number of grid points."""
         return self.grdim**2
 
     @property
     def pts(self):
-        """Grid points attriubutes."""
+        """pandas dataframe : Grid points attriubutes including local grid
+        point coordinates and world grid point coordinates.
+        """
         import pandas
         import numpy
         from pygaf.utils import add_constant_to_list
@@ -176,7 +192,12 @@ class BasinGrid:
         return df
 
     def info(self):
-        """Print the basin grid information."""
+        """Print the basin grid information.
+
+        Returns:
+            Screen printout of basin grid information.
+
+        """
         print('BASIN GRID INFORMATION')
         print('----------------------')
         if self.npts == self.min_gd**2:
@@ -192,14 +213,12 @@ class BasinGrid:
         return
 
     def draw(self, local=False):
-        """
-        Draw the grid points.
+        """Draw the grid points.
 
-        Arguments:
-        ---------
-        local : bool
-            Display the grid plot in local coordinates with the well at 0, 0
-            (Default False )
+        Args:
+            local (bool) : Display the grid plot in local coordinates with
+                the well at 0, 0 (default False).
+
         """
         from matplotlib import pyplot as plt
         fig, ax = plt.subplots(1, 1, figsize=(5, 5))

@@ -1,6 +1,17 @@
 class Well:
-    """Parent well class."""
+    """Parent well class.
+
+    Attributes:
+        x (float) : Well x coordinate (units L, default 0.0).
+        y (float) : Well y coordinate (units L, default 0.0).
+        r (float) : Well radius (units L, default 0.05).
+        pf (float) : Well penetration depth (fraction of aquifer depth,
+            default 1.0).
+        name (str) : Well name (default '').
+
+    """
     def __init__(self, x, y, r, pf, name):
+
         self.x = x
         self.y = y
         self.r = r
@@ -10,23 +21,17 @@ class Well:
 
 
 class SteadyWell(Well):
-    """
-    Steady state well.
+    """Steady state well subclass.
 
-    Arguments:
-    ---------
-    x : float
-        Well x coordinate (default 0.0)
-    y : float
-        Well y coordinate (default 0.0)
-    r : float
-        Well radius [units: L] (default 0.05)
-    q : float
-        Well rate [units: L3/T] (default 0)
-    pf : float
-        Well penetration depth as a fraction of aquifer depth (default 1)
-    name : str
-        Well name (default '')
+    Attributes:
+        x (float) : Well x coordinate (units L, default 0.0).
+        y (float) : Well y coordinate (units L, default 0.0).
+        r (float) : Well radius (units L, default 0.05).
+        q (float) : Well rate (units L3/T, default 0.0).
+        pf (float) : Well penetration depth (fraction of aquifer depth,
+            default 1.0).
+        name (str) : Well name (default '').
+
     """
     is_steady = True
     is_transient = False
@@ -39,7 +44,13 @@ class SteadyWell(Well):
 
     @property
     def r(self):
+        """float : Well radius.
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
         return self._r
+
     @r.setter
     def r(self, v):
         if not (v > 0):
@@ -48,7 +59,13 @@ class SteadyWell(Well):
 
     @property
     def pf(self):
+        """float: Well penetration depth.
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
         return self._pf
+
     @pf.setter
     def pf(self, v):
         if not (v > 0 and v <= 1):
@@ -59,7 +76,7 @@ class SteadyWell(Well):
 
     @property
     def state(self):
-        """Well state."""
+        """str: Well state."""
         if self.q < 0.0:
             return 'extract'
         elif self.q > 0.0:
@@ -68,7 +85,12 @@ class SteadyWell(Well):
             return 'off'
 
     def info(self):
-        """Print the well information."""
+        """Print the well information.
+
+        Returns:
+            Screen printout of well information.
+
+        """
         print('WELL INFORMATION')
         print('----------------')
         print('Type:', self.type)
@@ -83,22 +105,18 @@ class SteadyWell(Well):
 
 
 class TransientWell(Well):
-    """Transient well.
+    """Transient well subclass.
 
-    Arguments:
-    ---------
-    x : float
-        Well x coordinate (default 0.0)
-    y : float
-        Well y coordinate (default 0.0)
-    r : float
-        Well radius [units: L] (default 0.05)
-    ss : pandas dataframe
-        pyGAF stress series
-    pf : float
-        Well penetration depth as a fraction of aquifer depth (default 1)
-    name : str
-        Well name (default '')
+    Attributes:
+        x (float) : Well x coordinate (units L, default 0.0).
+        y (float) : Well y coordinate (units L, default 0.0).
+        r (float) : Well radius (units L, default 0.05).
+        ss (pandas dataframe) : pyGAF stress series (default
+            pygaf.stresses.StressSeries).
+        pf (float) : Well penetration depth (fraction of aquifer depth,
+            default 1.0).
+        name (str) : Well name (default '').
+
     """
     is_steady = False
     is_transient = True
@@ -113,7 +131,13 @@ class TransientWell(Well):
 
     @property
     def r(self):
+        """float : Well radius.
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
         return self._r
+
     @r.setter
     def r(self, v):
         if not (v > 0):
@@ -122,7 +146,13 @@ class TransientWell(Well):
 
     @property
     def pf(self):
+        """float: Well penetration depth.
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
         return self._pf
+
     @pf.setter
     def pf(self, v):
         if not (v > 0 and v <= 1):
@@ -133,7 +163,7 @@ class TransientWell(Well):
 
     @property
     def state(self):
-        """Well state."""
+        """str: Well state."""
         s = []
         for rate in self.ss.series['values']:
             if rate < 0.0:
@@ -145,7 +175,12 @@ class TransientWell(Well):
         return s
 
     def info(self):
-        """Print the well information."""
+        """Print the well information.
+
+        Returns:
+            Screen printout of well information.
+
+        """
         print('WELL INFORMATION')
         print('----------------')
         print('Type:', self.type)
@@ -160,13 +195,14 @@ class TransientWell(Well):
         return
 
     def plot(self, dw=8):
-        """
-        Plot the well stresses.
+        """Plot the well stress series.
 
-        Arguments:
-        ---------
-        dw : float
-            Width of plot figure (default 8)
+        Args:
+            dw (float) : Width of plotted figure (default 8.0).
+
+        Returns:
+            Screen output.
+
         """
         import matplotlib.pyplot as plt
         periods = [p for p in list(self.ss.series['periods'])]
