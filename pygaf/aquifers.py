@@ -1,12 +1,17 @@
 class Aquifer:
-    """Parent aquifer class.
+    """Aquifer parent class.
+
+    The aquifer parent class defines attributes and properties common to all
+    aquifers. They include the aquifer transmissivity (defined by hydraulic
+    conductivity and thickness), the aquifer elevation datum and an aquifer
+    label for use in figures.
 
     Attributes:
         K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         B (float) : Aquifer thickness (units L, default 10.0).
         bot (float) : Aquifer bottom elevation (units L reduced level,
             default 0.0).
-        name (str) : Aquifer name (default 'Unnamed Aquifer').
+        name (str) : Aquifer label (default 'Unnamed Aquifer').
 
     """
     def __init__(self, K=1, B=10, bot=0, name='Unnamed Aquifer'):
@@ -30,7 +35,10 @@ class Aquifer:
 
 
 class Aq2dConf(Aquifer):
-    """2D confined aquifer subclass.
+    """2D confined aquifer class.
+
+    Aquifer subclass defining a horizontal, 2D confined aquifer with infinite
+    lateral extent and confined storage.
 
     Attributes:
         Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
@@ -175,6 +183,9 @@ class Aq2dConf(Aquifer):
 
 class Aq2dUnconf(Aquifer):
     """2D unconfined aquifer subclass.
+
+    Aquifer subclass defining a horizontal, 2D unconfined aquifer with infinite
+    lateral extent and unconfined storage.
 
     Attributes:
         Sy (float) : Aquifer specific yield (units 1, default 0.1).
@@ -326,6 +337,9 @@ class Aq2dUnconf(Aquifer):
 class Aq1dFiniteConf(Aquifer):
     """1D, finite confined aquifer subclass.
 
+    Aquifer subclass defining a horizontal, 1D confined aquifer with finite
+    lateral extent and confined storage.
+
     Attributes:
         Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
         L (float) : Aquifer length (units L, default 1000.0).
@@ -342,9 +356,8 @@ class Aq1dFiniteConf(Aquifer):
     is_confined = True
     is_leaky = False
     is_unconfined = False
-    def __init__(
-    self, K=1, Ss=1e-4, B=10, L=1000, bot=0, name='Unnamed Aquifer'
-    ):
+    def __init__(self, K=1, Ss=1e-4, B=10, L=1000, bot=0,
+    name='Unnamed Aquifer'):
         super().__init__(K, B, bot, name)
         self.Ss = Ss
         self.L = L
@@ -504,6 +517,9 @@ class Aq1dFiniteConf(Aquifer):
 
 class Aq1dFiniteUnconf(Aquifer):
     """1D, finite unconfined aquifer subclass.
+
+    Aquifer subclass defining a horizontal, 1D unconfined aquifer with finite
+    lateral extent and unconfined storage.
 
     Attributes:
         Sy (float) : Aquifer specific yield (units 1, default 0.1).
@@ -692,6 +708,9 @@ class Aq1dFiniteUnconf(Aquifer):
 class Aq1dSemifiniteConf(Aquifer):
     """1D, semi-infinite confined aquifer subclass.
 
+    Aquifer subclass defining a horizontal, 1D confined aquifer with semi-finite
+    (semi-infinite) lateral extent and confined storage.
+
     Attributes:
         Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
 
@@ -845,6 +864,9 @@ class Aq1dSemifiniteConf(Aquifer):
 
 class Aq1dSemifiniteUnconf(Aquifer):
     """1D, semi-infinite unconfined aquifer subclass.
+
+    Aquifer subclass defining a horizontal, 1D unconfined aquifer with
+    semi-finite (semi-infinte) lateral extent and unconfined storage.
 
     Attributes:
         Sy (float) : Aquifer specific yield (units 1, default 0.1).
