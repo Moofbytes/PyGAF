@@ -5,12 +5,11 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
 
-   pygaf.solutions
+   solutions
 
-Submodules
-----------
+Modules
+-------
 
 pygaf.aquifers module
 ---------------------
