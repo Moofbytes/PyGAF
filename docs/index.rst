@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PyGAF's documentation!
-=================================
+Welcome to PyGAF's documentation
+================================
 
 PyGAF is a Python package for evaluation and display of analytic solutions for groundwater flow. 
 The package name is an acronym of ``Py``\ thon ``G``\ roundwater ``A``\ nalytic ``F``\ flow.
