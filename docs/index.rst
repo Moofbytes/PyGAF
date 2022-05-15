@@ -11,15 +11,22 @@ The package name is an acronym of ``Py``\ thon ``G``\ roundwater ``A``\ nalytic 
 
 PyGAF's documentation is hosted on Read the Docs.
 
+.. note::
+
+   This project is under active development.
+
+Contents
+--------
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+
+   usage
 
 
 
-Indices and tables
-==================
+#Indices and tables
+#==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+#* :ref:`genindex`
+#* :ref:`modindex`
+#* :ref:`search`
