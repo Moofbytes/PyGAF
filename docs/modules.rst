@@ -3,6 +3,6 @@ PyGAF modules
 
 .. toctree::
 
-   aquifers
-   wells
-   basins
+   pygaf.aquifers
+   pygaf.wells
+   pygaf.basins
