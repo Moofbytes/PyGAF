@@ -12,10 +12,18 @@ Subpackages
 Submodules
 ----------
 
-pyemu.aquifers module
+pygaf.aquifers module
 ---------------
 
-.. automodule:: pyemu.aquifers
+.. automodule:: pygaf.aquifers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pygaf.wells module
+---------------
+
+.. automodule:: pygaf.wells
    :members:
    :undoc-members:
    :show-inheritance:
