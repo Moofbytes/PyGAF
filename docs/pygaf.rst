@@ -13,7 +13,7 @@ Submodules
 ----------
 
 pygaf.aquifers module
----------------
+---------------------
 
 .. automodule:: pygaf.aquifers
    :members:
@@ -21,7 +21,7 @@ pygaf.aquifers module
    :show-inheritance:
 
 pygaf.wells module
----------------
+------------------
 
 .. automodule:: pygaf.wells
    :members:
