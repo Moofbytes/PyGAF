@@ -1,0 +1,18 @@
+version: 1
+
+build:
+  tools:
+    python: "3.7"
+
+sphinx:
+  fail_on_warning: true
+  
+formats:
+  - pdf
+  - epub
+
+python:
+  # Install our python package before building the docs
+  install:
+    - method: pip
+      path: .
