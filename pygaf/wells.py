@@ -24,13 +24,7 @@ class SteadyWell(Well):
     """Steady state well subclass.
 
     Attributes:
-        x (float) : Well x coordinate (units L, default 0.0).
-        y (float) : Well y coordinate (units L, default 0.0).
-        r (float) : Well radius (units L, default 0.05).
         q (float) : Well rate (units L3/T, default 0.0).
-        pf (float) : Well penetration depth (fraction of aquifer depth,
-            default 1.0).
-        name (str) : Well name (default '').
 
     """
     is_steady = True
@@ -108,21 +102,16 @@ class TransientWell(Well):
     """Transient well subclass.
 
     Attributes:
-        x (float) : Well x coordinate (units L, default 0.0).
-        y (float) : Well y coordinate (units L, default 0.0).
-        r (float) : Well radius (units L, default 0.05).
         ss (pandas dataframe) : pyGAF stress series (default
             pygaf.stresses.StressSeries).
-        pf (float) : Well penetration depth (fraction of aquifer depth,
-            default 1.0).
-        name (str) : Well name (default '').
 
     """
     is_steady = False
     is_transient = True
     import pandas
     from .stresses import StressSeries
-    def __init__(self, x=0.0, y=0.0, r=0.05, ss=StressSeries(), pf=1, name='unnamed'):
+    def __init__(self, x=0.0, y=0.0, r=0.05, ss=StressSeries(), pf=1,
+    name='unnamed'):
         super().__init__(x, y, r, pf, name)
         self.ss = ss
         self.type = 'Transient state'

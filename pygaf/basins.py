@@ -43,10 +43,7 @@ class CircBasin(Basin):
     """Circular basin subclass.
 
     Attributes:
-        cx (float) : Basin center x coordinate (units L, default 0.0).
-        cy (float) : Basin center y coordinate (units L, default 0.0).
         diam (float) : Basin diameter (default 10.0).
-        name (str) : Basin name (default 'unnamed').
 
     """
     is_rectangular = False
@@ -117,25 +114,23 @@ class CircBasin(Basin):
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
         ax.add_patch(
-            Circle(
-                (self.cx, self.cy), radius=self.rad, facecolor='silver',
-                edgecolor='black', linewidth=2
-                )
-            ) # basin
+            Circle((self.cx, self.cy), radius=self.rad, facecolor='silver',
+            edgecolor='black', linewidth=2)
+        ) # basin
         plt.plot(self.cx, self.cy, '.', color='black')
         ax.arrow(
             self.cx, self.cy, 0, self.rad-2*dr, overhang=1, head_width=1.5*dr,
             color='black', linewidth=0.5, fill=False
-            )
+        )
         ax.text(
             self.cx-2*dr, self.cy+0.33*self.rad, round(self.rad, 1),
             fontsize=12, horizontalalignment='center',
             verticalalignment='bottom', rotation=90
-            )
+        )
         ax.text(
             self.cx, self.cy, '('+str(self.cx)+', '+str(self.cy)+')',
             fontsize=12, horizontalalignment='center', verticalalignment='top'
-            )
+        )
         plt.axis('scaled')
         plt.axis('off')
         plt.tight_layout()
@@ -146,13 +141,8 @@ class RectBasin(Basin):
     """Rectangular basin subclass.
 
     Attributes:
-        cx (float) : Basin center x coordinate (units L, default 0.0).
-        cy (float) : Basin center y coordinate (units L, default 0.0).
-        x (float) : Basin length in x direction (default 10.0)
+        lx (float) : Basin length in x direction (default 10.0)
         ly (float) : Basin length in y direction (default 10.0)
-        rot (float) : Basin rotation angle in degrees clockwise; constrained
-            to values between -90 and 90 deg (default 0.0).
-        name (str) : Basin name (default 'Unnamed Basin').
 
     """
     is_rectangular = True
@@ -222,8 +212,8 @@ class RectBasin(Basin):
     def verts(self):
         """dict : x and y coordinates of basin verticies.
 
-        Vertex keys 'll' - lower left, 'up' - upper left, 'lr' - lower right and
-        'up' - upper right.
+        Vertex keys 'll' - lower left, 'up' - upper left, 'lr' - lower right
+        and 'up' - upper right.
         """
         values = {
             'll' : (self.cx-self.lx/2, self.cy-self.ly/2),
@@ -237,8 +227,8 @@ class RectBasin(Basin):
     def verts_rot(self):
         """dict : x and y rotated coordinates of basin verticies.
 
-        Vertex keys 'll' - lower left, 'up' - upper left, 'lr' - lower right and
-        'up' - upper right.
+        Vertex keys 'll' - lower left, 'up' - upper left, 'lr' - lower right
+        and 'up' - upper right.
         """
         from pygaf.utils import rotate_point
         values = {
@@ -300,34 +290,32 @@ class RectBasin(Basin):
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
         ax.add_patch(
-            Polygon(
-                (self.verts_rot['ll'], self.verts_rot['lr'],
-                self.verts_rot['ur'], self.verts_rot['ul']),
-                fill=True, facecolor='silver', edgecolor='black', linewidth=2
-                )
-            )
+            Polygon((self.verts_rot['ll'], self.verts_rot['lr'],
+            self.verts_rot['ur'], self.verts_rot['ul']), fill=True,
+            facecolor='silver', edgecolor='black', linewidth=2)
+        )
         plt.plot(self.cx, self.cy, '.', color='black')
         ax.text(
             self.cx, self.cy-dl, '('+str(self.cx)+', '+str(self.cy)+')',
             fontsize=12, horizontalalignment='center',
             verticalalignment='center'
-            )
+        )
         loc = rotate_point(
             self.cx, self.cy, self.cx, self.cy+dl+self.ly/2, self.rot_rad
-            )
+        )
         ax.text(
             loc[0], loc[1], str(self.lx), fontsize=12,
             horizontalalignment='center', verticalalignment='center',
             rotation=-self.rot
-            )
+        )
         loc = rotate_point(
             self.cx, self.cy, self.cx-dl-self.lx/2, self.cy, self.rot_rad
-            )
+        )
         ax.text(
             loc[0], loc[1], str(self.ly), fontsize=12,
             horizontalalignment='center', verticalalignment='center',
             rotation=-self.rot+90
-            )
+        )
         plt.axis('scaled')
         plt.axis('off')
         plt.tight_layout()

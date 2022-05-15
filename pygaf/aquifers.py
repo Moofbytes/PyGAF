@@ -145,11 +145,24 @@ class Aq2dConf(Aquifer):
         fig = plt.figure(figsize=(w, h))
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
-        ax.add_patch(plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # bottom aquitard
-        ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', facecolor='white')) # aquifer
-        ax.add_patch(plt.Rectangle((0, h*0.9), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # top aquitard
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer top tick
+        ax.add_patch(
+            plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # bottom aquitard
+        ax.add_patch(
+            plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...',
+            facecolor='white')
+        ) # aquifer
+        ax.add_patch(
+            plt.Rectangle((0, h*0.9), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # top aquitard
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)
+        ) # aquifer bottom tick
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # aquifer top tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.top) +' RL', fontsize=12)
         plt.axis('scaled')
@@ -279,12 +292,27 @@ class Aq2dUnconf(Aquifer):
         fig = plt.figure(figsize=(w, h))
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
-        ax.add_patch(plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # bottom aquitard
-        ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', facecolor='white')) # aquifer
-        ax.add_line(plt.Line2D((0, w), (h*0.9, h*0.9), color='black', lw=0.5)) # water table
-        ax.add_patch(plt.Polygon(np.array([[0.95*w/3, h], [w/3, h*0.9], [1.05*w/3, h]]), closed=True, edgecolor='black', facecolor='white'))
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer top tick
+        ax.add_patch(
+            plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # bottom aquitard
+        ax.add_patch(
+            plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...',
+            facecolor='white')
+        ) # aquifer
+        ax.add_line(
+            plt.Line2D((0, w), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # water table
+        ax.add_patch(
+            plt.Polygon(np.array([[0.95*w/3, h], [w/3, h*0.9], [1.05*w/3, h]]),
+            closed=True, edgecolor='black', facecolor='white')
+        )
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)
+        ) # aquifer bottom tick
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # aquifer top tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.swl) +' RL', fontsize=12)
         plt.axis('scaled')
@@ -433,17 +461,39 @@ class Aq1dFiniteConf(Aquifer):
         fig = plt.figure(figsize=(w, h))
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
-        ax.add_patch(plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # bottom aquitard
-        ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', facecolor='white', edgecolor='black')) # aquifer
-        ax.add_patch(plt.Rectangle((0, h*0.9), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # top aquitard
-        ax.add_line(plt.Line2D((0, 0), (-h*0.05, h*1.05), color='black', linestyle='-.', linewidth=1)) # x = 0
-        ax.add_line(plt.Line2D((w, w), (-h*0.05, h*1.05), color='black', linestyle='-.', linewidth=1)) # x = L
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer top tick
+        ax.add_patch(plt.Rectangle(
+            (0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black',
+            hatch='///')
+        ) # bottom aquitard
+        ax.add_patch(
+            plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...',
+            facecolor='white', edgecolor='black')
+        ) # aquifer
+        ax.add_patch(
+            plt.Rectangle((0, h*0.9), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # top aquitard
+        ax.add_line(
+            plt.Line2D((0, 0), (-h*0.05, h*1.05), color='black', linestyle='-.',
+            linewidth=1)
+        ) # x = 0
+        ax.add_line(
+            plt.Line2D((w, w), (-h*0.05, h*1.05), color='black', linestyle='-.',
+            linewidth=1)
+        ) # x = L
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)
+        ) # aquifer bottom tick
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # aquifer top tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.top) +' RL', fontsize=12)
         ax.text(0, h*1.1, 'x = 0', fontsize=12, horizontalalignment='center')
-        ax.text(w, h*1.1, 'x = ' + str(self.L), fontsize=12, horizontalalignment='center')
+        ax.text(
+            w, h*1.1, 'x = ' + str(self.L), fontsize=12,
+            horizontalalignment='center'
+        )
         plt.axis('scaled')
         plt.axis('off')
         plt.tight_layout()
@@ -471,7 +521,8 @@ class Aq1dFiniteUnconf(Aquifer):
     is_confined = False
     is_leaky = False
     is_unconfined = True
-    def __init__(self, K=1, Sy=0.1, B=10, L=1000, bot=0, name='Unnamed Aquifer'):
+    def __init__(self, K=1, Sy=0.1, B=10, L=1000, bot=0,
+    name='Unnamed Aquifer'):
         super().__init__(K, B, bot, name)
         self.Sy = Sy
         self.L = L
@@ -596,17 +647,40 @@ class Aq1dFiniteUnconf(Aquifer):
         fig = plt.figure(figsize=(w, h))
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
-        ax.add_patch(plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # bottom aquitard
-        ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', edgecolor='black', facecolor='white')) # aquifer
-        ax.add_patch(plt.Polygon(np.array([[0.95*w/3, h], [w/3, h*0.9], [1.05*w/3, h]]), closed=True, edgecolor='black', facecolor='white'))
-        ax.add_line(plt.Line2D((0, 0), (-h*0.05, h), color='black', linestyle='-.', linewidth=1)) # x = 0
-        ax.add_line(plt.Line2D((w, w), (-h*0.05, h), color='black', linestyle='-.', linewidth=1)) # x = L
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer top tick
+        ax.add_patch(
+            plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # bottom aquitard
+        ax.add_patch(
+            plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...',
+            edgecolor='black', facecolor='white')
+        ) # aquifer
+        ax.add_patch(
+            plt.Polygon(np.array([[0.95*w/3, h], [w/3, h*0.9], [1.05*w/3, h]]),
+            closed=True, edgecolor='black', facecolor='white')
+        )
+        ax.add_line(
+            plt.Line2D((0, 0), (-h*0.05, h), color='black', linestyle='-.',
+            linewidth=1)
+        ) # x = 0
+        ax.add_line(
+            plt.Line2D((w, w), (-h*0.05, h), color='black', linestyle='-.',
+            linewidth=1)
+        ) # x = L
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)
+        ) # aquifer bottom tick
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black',
+            lw=0.5)
+        ) # aquifer top tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.swl) +' RL', fontsize=12)
         ax.text(0, h*1.1, 'x = 0', fontsize=12, horizontalalignment='center')
-        ax.text(w, h*1.1, 'x = ' + str(self.L), fontsize=12, horizontalalignment='center')
+        ax.text(
+            w, h*1.1, 'x = ' + str(self.L), fontsize=12,
+            horizontalalignment='center'
+        )
         plt.axis('scaled')
         plt.axis('off')
         plt.tight_layout()
@@ -733,13 +807,31 @@ class Aq1dSemifiniteConf(Aquifer):
         fig = plt.figure(figsize=(w, h))
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
-        ax.add_patch(plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # bottom aquitard
-        ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', facecolor='white')) # aquifer
-        ax.add_line(plt.Line2D((0, 0), (0, h), color='black', lw=0.5)) # aquifer boundary
-        ax.add_patch(plt.Rectangle((0, h*0.9), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # top aquitard
-        ax.add_line(plt.Line2D((0, 0), (-h*0.05, h*1.1), color='black', linestyle='-.', linewidth=1)) # x = 0
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer top tick
+        ax.add_patch(
+            plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # bottom aquitard
+        ax.add_patch(
+            plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...',
+            facecolor='white')
+        ) # aquifer
+        ax.add_line(
+            plt.Line2D((0, 0), (0, h), color='black', lw=0.5)
+        ) # aquifer boundary
+        ax.add_patch(
+            plt.Rectangle((0, h*0.9), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # top aquitard
+        ax.add_line(
+            plt.Line2D((0, 0), (-h*0.05, h*1.1), color='black', linestyle='-.',
+            linewidth=1)
+        ) # x = 0
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)
+        ) # aquifer bottom tick
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # aquifer top tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.top) +' RL', fontsize=12)
         ax.text(0, h*1.2, 'x = 0', fontsize=12, horizontalalignment='center')
@@ -877,14 +969,34 @@ class Aq1dSemifiniteUnconf(Aquifer):
         fig = plt.figure(figsize=(w, h))
         fig.suptitle(self.name, fontsize=14, fontweight=530)
         ax = plt.gca()
-        ax.add_patch(plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey', edgecolor='black', hatch='///')) # bottom aqitard
-        ax.add_patch(plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...', facecolor='white')) # aquifer
-        ax.add_line(plt.Line2D((0, w), (h*0.9, h*0.9), color='black', lw=0.5)) # water table
-        ax.add_line(plt.Line2D((0, 0), (0, h*0.9), color='black', lw=0.5)) # aquifer boundary
-        ax.add_patch(plt.Polygon(np.array([[0.95*w/3, h], [w/3, h*0.9], [1.05*w/3, h]]), closed=True, edgecolor='black', facecolor='white'))
-        ax.add_line(plt.Line2D((0, 0), (-h*0.05, h), color='black', linestyle='-.', linewidth=1)) # x = 0
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)) # aquifer bottom tick
-        ax.add_line(plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)) # aquifer bottom tick
+        ax.add_patch(
+            plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # bottom aqitard
+        ax.add_patch(
+            plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...',
+            facecolor='white')
+        ) # aquifer
+        ax.add_line(
+            plt.Line2D((0, w), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # water table
+        ax.add_line(
+            plt.Line2D((0, 0), (0, h*0.9), color='black', lw=0.5)
+        ) # aquifer boundary
+        ax.add_patch(
+            plt.Polygon(np.array([[0.95*w/3, h], [w/3, h*0.9], [1.05*w/3, h]]),
+            closed=True, edgecolor='black', facecolor='white')
+        )
+        ax.add_line(
+            plt.Line2D((0, 0), (-h*0.05, h), color='black', linestyle='-.',
+            linewidth=1)
+        ) # x = 0
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)
+        ) # aquifer bottom tick
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # aquifer bottom tick
         ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
         ax.text(w*1.02, h*0.85, str(self.swl) +' RL', fontsize=12)
         ax.text(0, h*1.1, 'x = 0', fontsize=12, horizontalalignment='center')
