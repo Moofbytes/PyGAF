@@ -1,4 +1,4 @@
-Aquifer classes
+Aquifers module
 ===============
 
 .. automodule:: pygaf.aquifers
