@@ -33,12 +33,7 @@ class Aq2dConf(Aquifer):
     """2D confined aquifer subclass.
 
     Attributes:
-        K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
-        B (float) : Aquifer thickness (units L, default 10.0).
-        bot (float) : Aquifer bottom elevation (units L reduced level,
-            default 0.0).
-        name (str) : Aquifer name (default 'Unnamed Aquifer').
 
     """
     is_infinite = True
@@ -169,12 +164,7 @@ class Aq2dUnconf(Aquifer):
     """2D unconfined aquifer subclass.
 
     Attributes:
-        K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         Sy (float) : Aquifer specific yield (units 1, default 0.1).
-        B (float) : Aquifer thickness (units L, default 10.0).
-        bot (float) : Aquifer bottom elevation (units L reduced level,
-            default 0.0).
-        name (str) : Aquifer name (default 'Unnamed Aquifer').
 
     """
     is_infinite = True
@@ -309,13 +299,8 @@ class Aq1dFiniteConf(Aquifer):
     """1D, finite confined aquifer subclass.
 
     Attributes:
-        K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
-        B (float) : Aquifer thickness (units L, default 10.0).
         L (float) : Aquifer length (units L, default 1000.0).
-        bot (float) : Aquifer bottom elevation (units L reduced level,
-            default 0.0).
-        name (str) : Aquifer name (default 'Unnamed Aquifer').
 
     """
     is_infinite = False
@@ -471,13 +456,8 @@ class Aq1dFiniteUnconf(Aquifer):
     """1D, finite unconfined aquifer subclass.
 
     Attributes:
-        K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         Sy (float) : Aquifer specific yield (units 1, default 0.1).
-        B (float) : Aquifer thickness (units L, default 10.0).
         L (float) : Aquifer length (units L, default 1000.0).
-        bot (float) : Aquifer bottom elevation (units L reduced level,
-            default 0.0).
-        name (str) : Aquifer name (default 'Unnamed Aquifer').
 
     """
     is_infinite = False
@@ -639,12 +619,7 @@ class Aq1dSemifiniteConf(Aquifer):
     """1D, semi-infinite confined aquifer subclass.
 
     Attributes:
-        K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
-        B (float) : Aquifer thickness (units L, default 10.0).
-        bot (float) : Aquifer bottom elevation (units L reduced level,
-            default 0.0).
-        name (str) : Aquifer name (default 'Unnamed Aquifer').
 
     """
     is_infinite = False
@@ -780,12 +755,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
     """1D, semi-infinite unconfined aquifer subclass.
 
     Attributes:
-        K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         Sy (float) : Aquifer specific yield (units 1, default 0.1).
-        B (float) : Aquifer thickness (units L, default 10.0).
-        bot (float) : Aquifer bottom elevation (units L reduced level,
-            default 0.0).
-        name (str) : Aquifer name (default 'Unnamed Aquifer').
 
     """
     is_infinite = False
