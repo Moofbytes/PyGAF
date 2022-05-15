@@ -1,7 +1,6 @@
-pygaf
-=====
+PyGAF modules
+=============
 
 .. toctree::
-   :maxdepth: 4
 
-   pygaf
+   pygaf.aquifers
