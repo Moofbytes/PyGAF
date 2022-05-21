@@ -8,23 +8,9 @@ class TheisWell:
             influence (default 0.99).
 
     """
-    def __init__(self, aq, w):
-        # Checks
-        if not aq.is_2d:
-            print('Error! The solution assumes a 2D aquifer.')
-            return
-        if not aq.is_infinite:
-            print('Error! The solution assumes an infinite aquifer.')
-            return
-        if not aq.is_homogeneous:
-            print('Error! The solution assumes a homogeneous aquifer.')
-            return
-        if not aq.is_confined:
-            print('Error! The solution assumes a confined aquifer.')
-            return
-        if not w.is_steady:
-            print('Error! The solution assumes a steady state well.')
-            return
+    from pygaf.aquifers import Aq2dConf
+    from pygaf.wells import SteadyWell
+    def __init__(self, aq=Aq2dConf(), w=SteadyWell()):
         self.aq = aq
         self.well = w
         self.qf = 0.99
