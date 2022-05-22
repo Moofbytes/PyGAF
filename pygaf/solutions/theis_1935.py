@@ -1,10 +1,13 @@
 class TheisWell:
     """Theis (1935) well solution class.
 
+    The aquifer and well objects of the solution object have PyGAF default
+    values.
+
     Attributes:
-        aq (obj) : Confined aquifer object.
-        w (obj) : Steady state well object.
-        qf (float) : Fraction of pumped volume for calculating radius of
+        aq (obj) : Confined aquifer object with default attributes.
+        w (obj) : Steady state well object with default attributes.
+        qf (float) : Fraction of pumped volume used for calculating radius of
             influence (default 0.99).
 
     """
@@ -45,9 +48,20 @@ class TheisWell:
     def ri(self, t=[1], plot=True, csv='', xlsx=''):
         """Calculate radius of influence at specified times.
 
-        The radius of influence is the radius from which a specified fraction
-        of pumped volume has been drawn at a specified time. The fraction of
-        pumped volume is specified by the solution object qf attribute.
+        Radius of influence is defined as the radius from within which a
+        specified faction qf of the pumped volume has been drawn. The default
+        value for qf is 0.99, defining the radius from which 99% of the pumped
+        volume has been drawn.
+
+        The method evaluates the radius of influence for each time supplied in
+        a list of times t and displays a plot of the results as default. The
+        results plot can be suppressed by setting the method attribute
+        plot=False. The method returns a pandas dataframe with time as the row
+        index and radius of influence as a single column.
+
+        Results can be exported to csv and Excel files if non-blank strings are
+        set for the .csv and/or .xlsx attributes. File names can be supplied
+        with or without file extentions, which are added if ommitted.
 
         Args:
             t (float) : List of times to evaluate radius of influence
@@ -108,7 +122,16 @@ class TheisWell:
     def dd(self, t=[1], r=[1], plot=True, csv='', xlsx=''):
         """Calculate drawdown at specified radii and times.
 
-        Drawdown is calculated at each radius and each time.
+        This method calculates drawdown at each radius and each time supplied.
+        Radius and time are both supplied in lists.  A results plot is displayed
+        as default and can be suppressed by setting plot=False.
+
+        The method returns a pandas dataframe with time as the row index and
+        radius values as the columns.
+
+        Results can be exported to csv and Excel files if non-blank strings are
+        set for the .csv and/or .xlsx attributes. File names can be supplied
+        with or without file extentions, which are added if ommitted.
 
         Args:
             t (float) : List of times to evaluate drawdown (default [1.0]).
@@ -172,6 +195,18 @@ class TheisWell:
     def dd_grid(self, t=1, gr=100, gd=21, plot=True, local=False, csv='',
     xlsx=''):
         """Calculate drawdown values on a regular grid.
+
+        The method evaluates drawdown on a grid of points for the specified
+        well pumping rate q and time t.
+
+        Results are returned in a Pandas dataframe with columns x-coordinate,
+        y-coordinate and drawdown values. A results plot is displayed as default
+        and can be suppressed by setting plot=False.
+
+        Unless otherwise specified, the solution uses a default well grid object
+        with radius 100 and grid density 21 (441 grid points). Other values can
+        be specified using the methods grid radius .gr and grid density .gd
+        attributes.
 
         Args:
             t (float) : Time to evaluate drawdown (default 1.0).
