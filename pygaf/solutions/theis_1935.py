@@ -1,21 +1,23 @@
 class TheisWell:
     """Theis (1935) well solution class.
 
-    The aquifer and well objects of the solution object have PyGAF default
-    values.
+    The solution object consists of an aquifer object, a well grid object and
+    solution methods.
 
     Attributes:
-        aq (obj) : Confined aquifer object with default attributes.
-        w (obj) : Steady state well object with default attributes.
+        aq (obj) : Aq2dConf aquifer object with default attributes.
+        grd (obj) : WellGrid object with q=-1000.0 and other attributes as
+            default values.
         qf (float) : Fraction of pumped volume used for calculating radius of
             influence (default 0.99).
 
     """
     from pygaf.aquifers import Aq2dConf
-    from pygaf.wells import SteadyWell
-    def __init__(self, aq=Aq2dConf(), w=SteadyWell()):
+    from pygaf.grids import WellGrid
+    def __init__(self, aq=Aq2dConf(), grd=WellGrid()):
         self.aq = aq
-        self.well = w
+        self.grid = grd
+        self.well = self.grid.well
         self.qf = 0.99
         return
 
@@ -45,23 +47,23 @@ class TheisWell:
         print('- Steady state and fully penetrating well.')
         print()
 
-    def ri(self, t=[1], plot=True, csv='', xlsx=''):
+    def ri(self, t=[1.0], q=-1000, plot=True, csv='', xlsx=''):
         """Calculate radius of influence at specified times.
 
         Radius of influence is defined as the radius from within which a
         specified faction qf of the pumped volume has been drawn. The default
-        value for qf is 0.99, defining the radius from which 99% of the pumped
-        volume has been drawn.
+        value for qf is 0.99 (radius from which 99% of the pumped volume has
+        been drawn.
 
-        The method evaluates the radius of influence for each time supplied in
-        a list of times t and displays a plot of the results as default. The
-        results plot can be suppressed by setting the method attribute
-        plot=False. The method returns a pandas dataframe with time as the row
-        index and radius of influence as a single column.
+        The method evaluates the radius of influence at specified time list
+        t and well rate q. A results graph is displayed as default and can
+        be suppressed by setting the method attribute plot=False. The method
+        returns a pandas dataframe with time as the row index and ri as the
+        single column.
 
-        Results can be exported to csv and Excel files if non-blank strings are
-        set for the .csv and/or .xlsx attributes. File names can be supplied
-        with or without file extentions, which are added if ommitted.
+        Results can be exported to csv and Excel files by setting non-blank
+        filename strings for the .csv and .xlsx attributes. Filenames can be
+        supplied with or without file extentions, which are added if ommitted.
 
         Args:
             t (float) : List of times to evaluate radius of influence
@@ -78,6 +80,7 @@ class TheisWell:
         """
         from numpy import sqrt, log
         import pandas
+        self.well.q = q
         # Checks
         if self.qfp < 0 or self.qfp > 1:
             print('Error! The value of qf must be between 0 and 1.')
@@ -119,23 +122,24 @@ class TheisWell:
             print('Results exported to:', xlsx)
         return df
 
-    def dd(self, t=[1], r=[1], plot=True, csv='', xlsx=''):
+    def dd(self, t=[1], r=[1], q=-1000.0, plot=True, csv='', xlsx=''):
         """Calculate drawdown at specified radii and times.
 
-        This method calculates drawdown at each radius and each time supplied.
-        Radius and time are both supplied in lists.  A results plot is displayed
-        as default and can be suppressed by setting plot=False.
+        The method calculates drawdown at each radius and time specified in
+        lists t and r and for well rate q. Defaults are t=[1.0], r=[1.0] and
+        q=-1000.0. A drawdown graph is displayed as default and can be
+        suppressed by setting plot=False.
 
-        The method returns a pandas dataframe with time as the row index and
-        radius values as the columns.
+        The method returns a pandas dataframe of drawdown values with time as
+        the row index and radius values as the column headers.
 
-        Results can be exported to csv and Excel files if non-blank strings are
-        set for the .csv and/or .xlsx attributes. File names can be supplied
-        with or without file extentions, which are added if ommitted.
+        Results can be exported to csv and Excel files by setting non-blank
+        filename strings for the .csv and .xlsx attributes. Filenames can be
+        supplied with or without file extentions, which are added if ommitted.
 
         Args:
             t (float) : List of times to evaluate drawdown (default [1.0]).
-            r (float) : List of radii to evaluate drawdown (default [1])
+            r (float) : List of radii to evaluate drawdown (default [1.0]).
             plot (bool) : Display a plot of results (default True).
             csv (str) : Filepath for export of results to csv file; results
                 are exported if the string is not empty (default '').
@@ -149,6 +153,7 @@ class TheisWell:
         from numpy import pi
         from scipy.special import expn
         import pandas
+        self.well.q = q
         # Checks
         if min(t) <= 0 or min(r) <= 0:
             print('Error! All times and radii must be greater than 0.')
@@ -192,29 +197,24 @@ class TheisWell:
             print('Results exported to:', xlsx)
         return df
 
-    def dd_grid(self, t=1, gr=100, gd=21, plot=True, local=False, csv='',
+    def dd_grid(self, t=1.0, q=-1000.0, plot=True, local=False, csv='',
     xlsx=''):
         """Calculate drawdown values on a regular grid.
 
         The method evaluates drawdown on a grid of points for the specified
-        well pumping rate q and time t.
-
-        Results are returned in a Pandas dataframe with columns x-coordinate,
-        y-coordinate and drawdown values. A results plot is displayed as default
-        and can be suppressed by setting plot=False.
+        time and well rate. Default values are t=1.0 and q=-1000.
 
         Unless otherwise specified, the solution uses a default well grid object
-        with radius 100 and grid density 21 (441 grid points). Other values can
-        be specified using the methods grid radius .gr and grid density .gd
-        attributes.
+        with radius 100 and grid density 21 (441 grid points consisting of 21
+        rows and 21 columns). Other values can be specified via the grid
+        object using the grid radius .gr and grid density .gd attributes.
+
+        Results are returned in a Pandas dataframe with column headers x-coord,
+        y-coord and drawdown. A drawdown graph is displayed as default and can
+        be suppressed by setting plot=False.
 
         Args:
             t (float) : Time to evaluate drawdown (default 1.0).
-            gr (float) : Radius defining the extent of the solution grid
-                (default 100.0).
-            gd (int) : Grid density defining the number of gird rows and
-                columns; minimum and maximum constraints are enforced
-                (default 21).
             plot (bool) : Display a plot of results (default True).
             local (bool) : Display the drawdown plot in 'local' coordinates
                 with the well at 0, 0 (Default False).
@@ -227,15 +227,11 @@ class TheisWell:
             Pandas dataframe containing results.
 
         """
-        from pygaf.grids import WellGrid
         from numpy import pi
         from scipy.special import expn
         import matplotlib.pyplot as plt
-        #from matplotlib import ticker
         import pandas
-        self.gr = gr
-        self.gd = gd
-        self.grid = WellGrid(well=self.well, gr=self.gr, gd=self.gd)
+        self.well.q = q
         # Set coordinates
         if local:
             x, y = list(self.grid.pts.locx), list(self.grid.pts.locy)
@@ -255,7 +251,7 @@ class TheisWell:
                 r = self.grid.pts.rad[i-1]
             u = (r**2) * self.aq.S / (4.0 * self.aq.T * t)
             W = expn(1, u)
-            dd = self.grid.well.q * W / (4.0 * pi * self.aq.T)
+            dd = self.well.q * W / (4.0 * pi * self.aq.T)
             radius.append(r)
             drawdown.append(dd)
         # Plot results

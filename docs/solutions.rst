@@ -1,2 +1,2 @@
-PyGAF soultion classes
+PyGAF solution classes
 ======================

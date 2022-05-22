@@ -1,6 +1,11 @@
 class StressSeries:
     """Stress series class containing a timeseries of times and values.
 
+    The stress series can be set manually using lists or loaded from a csv file
+    containing comma separated pairs of times and values, one per line.
+    Exceptions will occur if a period is negative or if the number of periods
+    and stresses do not match.
+
     Attributes:
         periods (float) : List of stress period lengths; used if from_csv is
             an empty string (units T, default [1.0]).
@@ -11,10 +16,14 @@ class StressSeries:
             data are read if the string is empty (default '').
 
     """
-    def __init__(self, periods=[1], values=[0], from_csv=''):
+    def __init__(self, periods=[1], values=[0], from_csv='',
+    title='Stress Series', xlabel='Time', ylabel='Value'):
         from pandas import read_csv
         self.periods = periods
         self.values = values
+        self.title = title
+        self.xlabel = xlabel
+        self.ylabel = ylabel
         if from_csv != '':
             df = read_csv(from_csv, names=['periods', 'values'])
             self.periods = list(df['periods'])
@@ -77,10 +86,10 @@ class StressSeries:
             plot_values.append(self.values[i])
             plot_values.append(self.values[i])
         fig = plt.figure(figsize=(dw, dw/3))
-        plt.plot(plot_times, plot_values, color='orange', linewidth=3)
-        plt.title('Stress Series')
-        plt.xlabel('Time')
-        plt.ylabel('Value')
+        plt.plot(plot_times, plot_values, linewidth=3)
+        plt.title(self.title)
+        plt.xlabel(self.xlabel)
+        plt.ylabel(self.ylabel)
         plt.grid(True)
         plt.show()
         return

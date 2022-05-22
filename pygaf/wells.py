@@ -1,6 +1,10 @@
 class Well:
     """Parent well class.
 
+    The Well parent class defines attributes and properties common to all
+    wells. They include the x and y coordinates of the well, well radius, well
+    penetration depth and a name label for use in figures.
+
     Attributes:
         x (float) : Well x coordinate (units L, default 0.0).
         y (float) : Well y coordinate (units L, default 0.0).
@@ -11,7 +15,6 @@ class Well:
 
     """
     def __init__(self, x, y, r, pf, name):
-
         self.x = x
         self.y = y
         self.r = r
@@ -22,6 +25,15 @@ class Well:
 
 class SteadyWell(Well):
     """Steady state well subclass.
+
+    A subclass of the Well class defining a fully penetrating well with steady
+    state rate.
+
+    The default SteadyWell object has coordinates x=0 and y=0, well radius
+    r=0.05, penetration fraction pf=1 and well rate q=0. The well rate can be
+    negative (state: extract), positive (state: inject) of zero (state: off).
+
+    The .info method displays the well information.
 
     Attributes:
         q (float) : Well rate (units L3/T, default 0.0).
@@ -101,6 +113,18 @@ class SteadyWell(Well):
 class TransientWell(Well):
     """Transient well subclass.
 
+    A subclass of the Well class defining a fully penetrating well with
+    transient rates defined in stress periods.
+
+    The default TransientWell object has well coordinates x= 0 and y= 0, well
+    radius r= 0.05, penetration fraction pf= 1 and default StressSeries object.
+    Well rates can be negative (state: extract), positive (state: inject) or
+    zero (state: off). Exceptions will occur if invalid values are provided for
+    r or pf.
+
+    The .info method displays the well information. The .ss.draw method displays
+    the stress seies as a plot.
+
     Attributes:
         ss (pandas dataframe) : pyGAF stress series (default
             pygaf.stresses.StressSeries).
@@ -110,8 +134,8 @@ class TransientWell(Well):
     is_transient = True
     import pandas
     from .stresses import StressSeries
-    def __init__(self, x=0.0, y=0.0, r=0.05, ss=StressSeries(), pf=1,
-    name='unnamed'):
+    def __init__(self, x=0.0, y=0.0, r=0.05, ss=StressSeries(ylabel='Well rate'),
+    pf=1, name='unnamed'):
         super().__init__(x, y, r, pf, name)
         self.ss = ss
         self.type = 'Transient state'
@@ -181,32 +205,4 @@ class TransientWell(Well):
         unique_states = list(set(self.state))
         print('Unique well states:', unique_states)
         print()
-        return
-
-    def plot(self, dw=8):
-        """Plot the well stress series.
-
-        Args:
-            dw (float) : Width of plotted figure (default 8.0).
-
-        Returns:
-            Screen output.
-
-        """
-        import matplotlib.pyplot as plt
-        periods = [p for p in list(self.ss.series['periods'])]
-        rates = [v for v in list(self.ss.series['values'])]
-        plot_times, plot_rates = [], []
-        for i in range(len(periods)):
-            plot_times.append(sum(periods[0:i]))
-            plot_times.append(sum(periods[0:i+1]))
-            plot_rates.append(rates[i])
-            plot_rates.append(rates[i])
-        fig = plt.figure(figsize=(dw, dw/3))
-        plt.plot(plot_times, plot_rates, linewidth=3)
-        plt.title(self.name)
-        plt.xlabel('Time')
-        plt.ylabel('Well Rate')
-        plt.grid(True)
-        plt.show()
         return
