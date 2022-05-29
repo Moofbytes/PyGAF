@@ -1,5 +1,5 @@
-PyGAF modules
-=============
+Modules
+=======
 
 .. toctree::
 
@@ -8,4 +8,3 @@ PyGAF modules
    basins
    stresses
    utils
-   

@@ -1,12 +1,7 @@
-PyGAF solution classes
-======================
+Solutions
+=========
 
-.. automodule:: pygaf.solutions.theis_1935
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
 
-.. automodule:: pygaf.solutions.glover_1960
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   theis_1935
+   glover_1960
