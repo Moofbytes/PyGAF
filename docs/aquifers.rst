@@ -1,5 +1,5 @@
-Aquifers
-========
+Aquifer classes
+===============
 
 .. automodule:: pygaf.aquifers
    :members:
