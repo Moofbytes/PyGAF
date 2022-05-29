@@ -45,6 +45,8 @@ class Basin:
 class CircBasin(Basin):
     """Circular basin subclass.
 
+    The default CircBasin object has diameter dia=10.0.
+
     Attributes:
         diam (float) : Basin diameter (default 10.0).
 
@@ -139,6 +141,9 @@ class CircBasin(Basin):
 class RectBasin(Basin):
     """Rectangular basin subclass.
 
+    The default RectBasin object has length in x direction lx=10.0, length in
+    y direction ly=10.0 and clockwise rotation angle 0.0 degrees.
+
     Attributes:
         lx (float) : Basin length in x direction (default 10.0)
         ly (float) : Basin length in y direction (default 10.0)
@@ -211,8 +216,8 @@ class RectBasin(Basin):
     def verts(self):
         """dict : x and y coordinates of basin verticies.
 
-        Vertex keys 'll' - lower left, 'up' - upper left, 'lr' - lower right
-        and 'up' - upper right.
+        Vertex keys: ll - lower left, ul - upper left, lr - lower right and
+        ur - upper right.
         """
         values = {
             'll' : (self.cx-self.lx/2, self.cy-self.ly/2),
@@ -226,8 +231,8 @@ class RectBasin(Basin):
     def verts_rot(self):
         """dict : x and y rotated coordinates of basin verticies.
 
-        Vertex keys 'll' - lower left, 'up' - upper left, 'lr' - lower right
-        and 'up' - upper right.
+        Vertex keys: ll - lower left, ul - upper left, lr - lower right and
+        ur - upper right.
         """
         from pygaf.utils import rotate_point
         values = {
