@@ -1,5 +1,13 @@
 class Basin:
-    """Parent basin class.
+    """Basin parent class.
+
+    The Basin parent class defines attributes and properties common to all
+    basins. They include the x and y coordinates of the basin center, rotation
+    angle of the basin in clockwise direction and a name label for use in
+    figures.
+
+    The default Basin object has center at cx=0, cy=0 and rotation angle
+    rot=0.0.
 
     Attributes:
         cx (float) : Basin center x coordinate (units L, default 0.0).
@@ -17,18 +25,13 @@ class Basin:
 
     @property
     def rot_rad(self):
-        """float : Basin rotation angle in radians."""
+        """float : basin rotation angle in radians."""
         from pygaf.utils import deg2rad
         rad = deg2rad(self.rot)
         return rad
 
     def info(self):
-        """Print the basin information.
-
-        Returns:
-            Screen printout of basin information.
-
-        """
+        """Print the basin information."""
         print('BASIN INFORMATION')
         print('-----------------')
         print('Type: parent class')
@@ -57,10 +60,11 @@ class CircBasin(Basin):
 
     @property
     def diam(self):
-        """float: Basin diameter.
+        """float : basin diameter.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
+
         """
         return self._diam
 
@@ -72,22 +76,17 @@ class CircBasin(Basin):
 
     @property
     def rad(self):
-        """float : Basin radius."""
+        """float : basin radius."""
         return self.diam / 2
 
     @property
     def area(self):
-        """float : Basin area."""
+        """float : basin area."""
         from numpy import pi
         return pi * self.rad**2
 
     def info(self):
-        """Print the basin information.
-
-        Returns:
-            Screen printout of basin information.
-
-        """
+        """Print the basin information."""
         print('BASIN INFORMATION')
         print('-----------------')
         print('Type:', self.type)
@@ -101,7 +100,7 @@ class CircBasin(Basin):
         return
 
     def draw(self, dw=4):
-        """Display the basin as a picture.
+        """Display a drawing of the basin.
 
         Args:
             dw (float) : Width of basin drawing (default 4.0).
@@ -160,7 +159,7 @@ class RectBasin(Basin):
 
     @property
     def lx(self):
-        """float: Basin length in x direction.
+        """float : basin length in x direction.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -175,7 +174,7 @@ class RectBasin(Basin):
 
     @property
     def ly(self):
-        """float: Basin length in y direction.
+        """float : basin length in y direction.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -190,7 +189,7 @@ class RectBasin(Basin):
 
     @property
     def rot(self):
-        """float: Basin rotation angle in degrees.
+        """float : basin rotation angle in degrees.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -205,7 +204,7 @@ class RectBasin(Basin):
 
     @property
     def area(self):
-        """float : Basin area."""
+        """float : basin area."""
         return self.lx * self.ly
 
     @property
@@ -256,12 +255,7 @@ class RectBasin(Basin):
         return values
 
     def info(self):
-        """Print the basin information.
-
-        Returns:
-            Screen printout of basin information.
-
-        """
+        """Print the basin information."""
         print('BASIN INFORMATION')
         print('-----------------')
         print('Type:', self.type)
@@ -276,7 +270,7 @@ class RectBasin(Basin):
         return
 
     def draw(self, dw=4):
-        """Display the basin as a picture.
+        """Display a drawing of the basin.
 
         Args:
             dw (float) : Width of basin drawing (default 4.0).

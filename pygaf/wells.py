@@ -1,5 +1,5 @@
 class Well:
-    """Parent well class.
+    """Well parent class.
 
     The Well parent class defines attributes and properties common to all
     wells. They include the x and y coordinates of the well, well radius, well
@@ -30,10 +30,12 @@ class SteadyWell(Well):
     state rate.
 
     The default SteadyWell object has coordinates x=0 and y=0, well radius
-    r=0.05, penetration fraction pf=1 and well rate q=0. The well rate can be
-    negative (state: extract), positive (state: inject) of zero (state: off).
+    r=0.05, penetration fraction pf=1 and well rate q=0. Exceptions occur if
+    invalid values are provided for r or pf. The well rate can be negative,
+    positive or zero and is used to set the .state attribute as extract, inject
+    or off.
 
-    The .info method displays the well information.
+    The .info method displays well information.
 
     Attributes:
         q (float) : Well rate (units L3/T, default 0.0).
@@ -50,7 +52,7 @@ class SteadyWell(Well):
 
     @property
     def r(self):
-        """float : Well radius.
+        """float : well radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -65,7 +67,7 @@ class SteadyWell(Well):
 
     @property
     def pf(self):
-        """float: Well penetration depth.
+        """float : well penetration depth.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -82,7 +84,7 @@ class SteadyWell(Well):
 
     @property
     def state(self):
-        """str: Well state."""
+        """str : well state."""
         if self.q < 0.0:
             return 'extract'
         elif self.q > 0.0:
@@ -91,12 +93,7 @@ class SteadyWell(Well):
             return 'off'
 
     def info(self):
-        """Print the well information.
-
-        Returns:
-            Screen printout of well information.
-
-        """
+        """Print the well information."""
         print('WELL INFORMATION')
         print('----------------')
         print('Type:', self.type)
@@ -118,12 +115,12 @@ class TransientWell(Well):
 
     The default TransientWell object has well coordinates x= 0 and y= 0, well
     radius r= 0.05, penetration fraction pf= 1 and default StressSeries object.
-    Well rates can be negative (state: extract), positive (state: inject) or
-    zero (state: off). Exceptions will occur if invalid values are provided for
-    r or pf.
+    Exceptions occur if invalid values are provided for r or pf. The well rate
+    can be negative, positive or zero and is used to set the .state attribute
+    as extract, inject or off.
 
-    The .info method displays the well information. The .ss.draw method displays
-    the stress seies as a plot.
+    The .info method displays well information and the .ss.draw method displays
+    a timeseries plot of the stress seies.
 
     Attributes:
         ss (pandas dataframe) : pyGAF stress series (default
@@ -144,7 +141,7 @@ class TransientWell(Well):
 
     @property
     def r(self):
-        """float : Well radius.
+        """float : well radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -159,7 +156,7 @@ class TransientWell(Well):
 
     @property
     def pf(self):
-        """float: Well penetration depth.
+        """float : well penetration depth.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -176,7 +173,7 @@ class TransientWell(Well):
 
     @property
     def state(self):
-        """str: Well state."""
+        """str : well state."""
         s = []
         for rate in self.ss.series['values']:
             if rate < 0.0:
@@ -188,12 +185,7 @@ class TransientWell(Well):
         return s
 
     def info(self):
-        """Print the well information.
-
-        Returns:
-            Screen printout of well information.
-
-        """
+        """Print the well information."""
         print('WELL INFORMATION')
         print('----------------')
         print('Type:', self.type)

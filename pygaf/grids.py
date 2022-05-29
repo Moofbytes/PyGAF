@@ -1,17 +1,29 @@
 class WellGrid:
-    """Rectangular well grid class with well at grid center.
+    """Square grid class with regular spacing and well at grid center.
+
+    The default WellGrid object has radius gr=100 defining the square's
+    extent and grid density gd=21. An exception occurs if the grid radius is
+    not positive. Grid density defines the numbers of rows and columns
+    comprising the grid; thus, the default grid has 21 rows x 21 cols = 441
+    grid points. Minimum grid density is constrained to 11 (121 grid points)
+    and maximum grid density is constrained to 41 (1681 grid points). Values
+    for gd outside of these contraints are re-set to the minimum or maximum
+    values as appropriate.
+
+    The .pts property returns the grid points attriubutes including local
+    x-y coordinates, world x-y coordinates and radius values relative to the
+    well location. The .info method displays grid information and the .draw
+    method displays a plot of the grid in either local or world coordinates.
 
     Attributes:
         gr (float) : Radius defining the extent of the solution grid (units L,
             default 100.0).
         gd (int) : Grid density defining the number of rows and columns;
             minimum and maximum constraints are enforced (default 21).
-        csv (str) : Filepath of csv file for results export (default ''
-            no export).
 
     """
     from .wells import SteadyWell
-    def __init__(self, well=SteadyWell(), gr=100, gd=21, plot=True, csv=''):
+    def __init__(self, well=SteadyWell(), gr=100, gd=21):
         self.well = well
         self.gr = gr
         self.gd = gd
@@ -20,7 +32,7 @@ class WellGrid:
 
     @property
     def gr(self):
-        """float : Grid radius.
+        """float : grid radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -35,7 +47,7 @@ class WellGrid:
 
     @property
     def grdim(self):
-        """int : Number of grid rows and columns."""
+        """int : number of grid rows and columns."""
         if self.gd < self.min_gd:
             return self.min_gd
         elif self.gd > self.max_gd:
@@ -45,14 +57,14 @@ class WellGrid:
 
     @property
     def npts(self):
-        """int : Number of grid points."""
+        """int : number of grid points."""
         return self.grdim**2
 
     @property
     def pts(self):
-        """pandas dataframe : Grid points attriubutes including local grid
+        """pandas dataframe : grid point attriubutes including local grid
         point coordinates, world grid point coordinates and radius values of
-        grid points.
+        grid points relative to the well center.
         """
         import pandas
         import numpy
@@ -69,12 +81,7 @@ class WellGrid:
         return df
 
     def info(self):
-        """Print the well grid information.
-
-        Returns:
-            Screen printout of well grid information.
-
-        """
+        """Print the well grid information."""
         print('WELL GRID INFORMATION')
         print('---------------------')
         if self.npts == self.min_gd**2:
@@ -108,9 +115,6 @@ class WellGrid:
             cx, cy = self.well.x, self.well.y
             title = 'Well Grid'
         ax.plot(x, y, '.', markersize=1, c='black')
-        #for i in range(self.grdim):
-            #for j in range(self.grdim):
-                #ax.plot(x[i][j], y[i][j], '.', markersize=1, c='black')
         ax.plot(cx, cy, '.', c='red')
         ax.set_title(title)
         ax.axis('equal')
@@ -118,19 +122,31 @@ class WellGrid:
         return
 
 class BasinGrid:
-    """ Rectangular basin grid class with basin center at grid center.
+    """ Square grid class with basin center at grid center.
+
+    The default BasinGrid object has radius gr=100 defining the square's extent
+    and grid density gd=21. An exception occurs if the grid radius is not
+    positive. Grid density defines the numbers of rows and columns comprising
+    the grid; thus, the default grid has 21 rows x 21 cols = 441 grid points.
+    Minimum grid density is constrained to 11 (121 grid points) and maximum
+    grid density is constrained to 41 (1681 grid points). Values for gd outside
+    of these contraints are re-set to the minimum or maximum values as
+    appropriate.
+
+    The .pts property returns the grid points attriubutes including local
+    x-y coordinates and world x-y coordinates. The .info method displays grid
+    information and the .draw method displays a plot of the grid in either
+    local or world coordinates.
 
     Attributes:
         gr (float) : Radius defining the extent of the solution grid (units L,
             default 100.0).
         gd (int) : Grid density defining the number of rows and columns;
             minimum and maximum constraints are enforced (default 21).
-        csv (str) : Filepath of csv file for results export (default ''
-            no export).
 
     """
     from .basins import Basin
-    def __init__(self, basin=Basin(), gr=100, gd=21, plot=True, csv=''):
+    def __init__(self, basin=Basin(), gr=100, gd=21):
         self.basin = basin
         self.gr = gr
         self.gd = gd
@@ -139,7 +155,7 @@ class BasinGrid:
 
     @property
     def gr(self):
-        """float : Grid radius.
+        """float : grid radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -154,7 +170,7 @@ class BasinGrid:
 
     @property
     def grdim(self):
-        """int : Number of grid rows and columns."""
+        """int : number of grid rows and columns."""
         if self.gd < self.min_gd:
             return self.min_gd
         elif self.gd > self.max_gd:
@@ -164,12 +180,12 @@ class BasinGrid:
 
     @property
     def npts(self):
-        """int : Number of grid points."""
+        """int : number of grid points."""
         return self.grdim**2
 
     @property
     def pts(self):
-        """pandas dataframe : Grid points attriubutes including local grid
+        """pandas dataframe : grid point attriubutes including local grid
         point coordinates and world grid point coordinates.
         """
         import pandas
@@ -192,12 +208,7 @@ class BasinGrid:
         return df
 
     def info(self):
-        """Print the basin grid information.
-
-        Returns:
-            Screen printout of basin grid information.
-
-        """
+        """Print the basin grid information."""
         print('BASIN GRID INFORMATION')
         print('----------------------')
         if self.npts == self.min_gd**2:

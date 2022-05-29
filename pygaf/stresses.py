@@ -1,10 +1,19 @@
 class StressSeries:
-    """Stress series class containing a timeseries of times and values.
+    """Stress series class defining sress periods and values.
 
-    The stress series can be set manually using lists or loaded from a csv file
-    containing comma separated pairs of times and values, one per line.
-    Exceptions will occur if a period is negative or if the number of periods
-    and stresses do not match.
+    The default StressSeries object has default values periods=[1.0] and
+    values=[0.0]. Stress periods and values are provided in corresponding lists,
+    which can be created manually or loaded from a csv file containig
+    comma-separated period and value pairs, one per line. Exceptions occur
+    if a period is negative or if the number of periods and stresses do not
+    match.
+
+    The .plot method displays a timeseries graph of the stress series.
+
+    Example csv file with three stress periods:
+    10,25.6
+    15.2,38.7
+    48,-12
 
     Attributes:
         periods (float) : List of stress period lengths; used if from_csv is
@@ -16,7 +25,7 @@ class StressSeries:
             data are read if the string is empty (default '').
 
     """
-    def __init__(self, periods=[1], values=[0], from_csv='',
+    def __init__(self, periods=[1.0], values=[0.0], from_csv='',
     title='Stress Series', xlabel='Time', ylabel='Value'):
         from pandas import read_csv
         self.periods = periods
@@ -31,7 +40,7 @@ class StressSeries:
 
     @property
     def periods(self):
-        """list (float) : List of stress period lengths.
+        """list (float) : list of stress period lengths.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -46,7 +55,7 @@ class StressSeries:
 
     @property
     def values(self):
-        """list (float) : List of stress period values.
+        """list (float) : list of stress period values.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -63,7 +72,7 @@ class StressSeries:
 
     @property
     def series(self):
-        """ pandas dataframe : Stress series dataframe."""
+        """ pandas dataframe : stress series dataframe."""
         from pandas import DataFrame
         d = {'periods':self.periods, 'values':self.values}
         return DataFrame(data=d)
@@ -72,11 +81,7 @@ class StressSeries:
         """Plot the stress series.
 
         Args:
-            dw (float) : Width of plotted figure (default 8).
-
-        Returns:
-            Screen output.
-
+            dw (float) : Width of figure (default 8).
         """
         import matplotlib.pyplot as plt
         plot_times, plot_values = [], []

@@ -1,14 +1,14 @@
 class TheisWell:
-    """Theis (1935) well solution class.
+    """Theis (1935) radial flow solution.
 
-    The solution object consists of an aquifer object, a well grid object and
-    solution methods.
+    The default TheisWell object uses the default Aq2dConf class and WellGrid
+    class. It's methods include radius of influence .ri, transient drawdown
+    at a point .dd and grid-contoured drawdown at specified time .dd_grid.
 
     Attributes:
-        aq (obj) : Aq2dConf aquifer object with default attributes.
-        grd (obj) : WellGrid object with q=-1000.0 and other attributes as
-            default values.
-        qf (float) : Fraction of pumped volume used for calculating radius of
+        aq (obj) : default Aq2dConf object.
+        grd (obj) : default WellGrid object but with q=-1000.0.
+        qf (float) : fraction of pumped volume used for calculating radius of
             influence (default 0.99).
 
     """
@@ -23,16 +23,11 @@ class TheisWell:
 
     @property
     def qfp(self):
-        """float : Fraction of pumped volume."""
+        """float : fraction of pumped volume."""
         return self.qf
 
     def info(self):
-        """Print the solution information.
-
-        Returns:
-            Screen printout of solution information.
-
-        """
+        """Print the solution information."""
         print('METHOD REFERENCE')
         print('----------------')
         print(
@@ -43,8 +38,8 @@ class TheisWell:
         print('\nConceptual Model:')
         print('- Infinite, confined, uniform and homogeneous aquifer.')
         print('- Radial groundwater flow.')
-        print('- Groundwater recharge neglected.')
         print('- Steady state and fully penetrating well.')
+        print('- No groundwater recharge.')
         print()
 
     def ri(self, t=[1.0], q=-1000, plot=True, csv='', xlsx=''):
@@ -52,30 +47,29 @@ class TheisWell:
 
         Radius of influence is defined as the radius from within which a
         specified faction qf of the pumped volume has been drawn. The default
-        value for qf is 0.99 (radius from which 99% of the pumped volume has
-        been drawn.
+        value for qf is 0.99, corresponding to the radius from which 99% of the
+        pumped volume has been drawn.
 
-        The method evaluates the radius of influence at specified time list
-        t and well rate q. A results graph is displayed as default and can
-        be suppressed by setting the method attribute plot=False. The method
-        returns a pandas dataframe with time as the row index and ri as the
-        single column.
+        Time for calculating ri are provided in a list. A results graph is
+        displayed as default and can be suppressed by setting plot=False. A
+        pandas dataframe is returned with time as the row index and ri as
+        a column.
 
         Results can be exported to csv and Excel files by setting non-blank
         filename strings for the .csv and .xlsx attributes. Filenames can be
         supplied with or without file extentions, which are added if ommitted.
 
         Args:
-            t (float) : List of times to evaluate radius of influence
+            t (float) : list of times to evaluate radius of influence
                 (default [1.0]).
-            plot (bool) : Display a plot of results (default True).
-            csv (str) : Filepath for export of results to csv file; results
-                are exported if the string is not empty (default '').
-            xlsx (str) : Filepath for export of result to xlsx file; results
-                are exported if the string is not empty (default '').
+            plot (bool) : display a plot of results (default True).
+            csv (str) : full filepath for export of results to csv file;
+                results are exported if the string is not empty (default '').
+            xlsx (str) : full filepath for export of result to xlsx file;
+                results are exported if the string is not empty (default '').
 
         Returns:
-            Pandas dataframe containing results.
+            Results in pandas dataframe.
 
         """
         from numpy import sqrt, log
@@ -123,31 +117,30 @@ class TheisWell:
         return df
 
     def dd(self, t=[1], r=[1], q=-1000.0, plot=True, csv='', xlsx=''):
-        """Calculate drawdown at specified radii and times.
+        """Evaluate drawdown at specified radii and times.
 
-        The method calculates drawdown at each radius and time specified in
-        lists t and r and for well rate q. Defaults are t=[1.0], r=[1.0] and
+        Evaluate drawdown at each radius and time specified in the lists t
+        and r and for well rate q. Defaults are t=[1.0], r=[1.0] and
         q=-1000.0. A drawdown graph is displayed as default and can be
         suppressed by setting plot=False.
 
-        The method returns a pandas dataframe of drawdown values with time as
-        the row index and radius values as the column headers.
-
-        Results can be exported to csv and Excel files by setting non-blank
-        filename strings for the .csv and .xlsx attributes. Filenames can be
-        supplied with or without file extentions, which are added if ommitted.
+        A pandas dataframe of drawdown values is returned with time as the row
+        index and radius values as the column headers. Results can be exported
+        to csv and Excel files by setting non-blank filename strings for the
+        .csv and .xlsx attributes. Filenames can be supplied with or without
+        file extentions, which are added if ommitted.
 
         Args:
-            t (float) : List of times to evaluate drawdown (default [1.0]).
-            r (float) : List of radii to evaluate drawdown (default [1.0]).
-            plot (bool) : Display a plot of results (default True).
-            csv (str) : Filepath for export of results to csv file; results
-                are exported if the string is not empty (default '').
-            xlsx (str) : Filepath for export of result to xlsx file; results
-                are exported if the string is not empty (default '').
+            t (float) : list of times to evaluate drawdown (default [1.0]).
+            r (float) : list of radii to evaluate drawdown (default [1.0]).
+            plot (bool) : display a plot of results (default True).
+            csv (str) : full filepath for export of results to csv file;
+                results are exported if the string is not empty (default '').
+            xlsx (str) : full filepath for export of result to xlsx file;
+                results are exported if the string is not empty (default '').
 
         Returns:
-            Pandas dataframe containing results.
+            Results in a pandas dataframe.
 
         """
         from numpy import pi
@@ -199,32 +192,29 @@ class TheisWell:
 
     def dd_grid(self, t=1.0, q=-1000.0, plot=True, local=False, csv='',
     xlsx=''):
-        """Calculate drawdown values on a regular grid.
+        """Evaluate drawdown on a regular grid.
 
-        The method evaluates drawdown on a grid of points for the specified
-        time and well rate. Default values are t=1.0 and q=-1000.
+        Evaluate drawdown on a grid of points at specified time and well rate.
+        Default values are t=1.0 and q=-1000. Unless otherwise specified, a
+        default WellGrid object is used; it can be accessed and adjusted via
+        the .grid.gr (grid radius) and .grid.gd (grid density) attributes.
 
-        Unless otherwise specified, the solution uses a default well grid object
-        with radius 100 and grid density 21 (441 grid points consisting of 21
-        rows and 21 columns). Other values can be specified via the grid
-        object using the grid radius .gr and grid density .gd attributes.
-
-        Results are returned in a Pandas dataframe with column headers x-coord,
-        y-coord and drawdown. A drawdown graph is displayed as default and can
+        Results are returned in a Pandas dataframe with column x-coord, y-coord
+        and drawdown value. A drawdown graph is displayed as default and can
         be suppressed by setting plot=False.
 
         Args:
-            t (float) : Time to evaluate drawdown (default 1.0).
-            plot (bool) : Display a plot of results (default True).
-            local (bool) : Display the drawdown plot in 'local' coordinates
-                with the well at 0, 0 (Default False).
-            csv (str) : Filepath for export of results to csv file; results
-                are exported if the string is not empty (default '').
-            xlsx (str) : Filepath for export of result to xlsx file; results
-                are exported if the string is not empty (default '').
+            t (float) : time of drawdown (default 1.0).
+            plot (bool) : display a plot of results (default True).
+            local (bool) : display the results in 'local' coordinates with the
+                well at coordinates 0.0, 0.0 (Default False).
+            csv (str) : fulll filepath for export of results to csv file;
+                results are exported if the string is not empty (default '').
+            xlsx (str) : full filepath for export of result to xlsx file;
+                results are exported if the string is not empty (default '').
 
         Returns:
-            Pandas dataframe containing results.
+            Results in a pandas dataframe.
 
         """
         from numpy import pi
