@@ -1,5 +1,5 @@
-Solutions
-=========
+Solution classes
+================
 
 .. toctree::
 
