@@ -1,5 +1,5 @@
-Basins
-======
+Basin classes
+=============
 
 .. automodule:: pygaf.basins
    :members:
