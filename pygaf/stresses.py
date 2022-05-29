@@ -11,8 +11,11 @@ class StressSeries:
     The .plot method displays a timeseries graph of the stress series.
 
     Example csv file with three stress periods:
+
     10,25.6
+
     15.2,38.7
+    
     48,-12
 
     Attributes:

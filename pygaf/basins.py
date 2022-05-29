@@ -142,7 +142,7 @@ class RectBasin(Basin):
     """Rectangular basin subclass.
 
     The default RectBasin object has length in x direction lx=10.0, length in
-    y direction ly=10.0 and clockwise rotation angle 0.0 degrees.
+    y direction ly=10.0 and clockwise rotation angle rot=0.0 degrees.
 
     Attributes:
         lx (float) : Basin length in x direction (default 10.0)
