@@ -1,5 +1,5 @@
-Stresses module
-===============
+Stresses
+========
 
 .. automodule:: pygaf.stresses
    :members:

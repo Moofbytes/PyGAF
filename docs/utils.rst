@@ -1,5 +1,5 @@
-Utils module
-============
+Utilities
+=========
 
 .. automodule:: pygaf.utils
    :members:

@@ -1,5 +1,5 @@
-Wells module
-============
+Wells
+=====
 
 .. automodule:: pygaf.wells
    :members:

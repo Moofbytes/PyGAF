@@ -6,7 +6,7 @@ PyGAF solution classes
    :undoc-members:
    :show-inheritance:
 
-   .. automodule:: pygaf.solutions.glover_1960
-      :members:
-      :undoc-members:
-      :show-inheritance:
+.. automodule:: pygaf.solutions.glover_1960
+   :members:
+   :undoc-members:
+   :show-inheritance:
