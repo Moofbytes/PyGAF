@@ -29,8 +29,8 @@ class SteadyWell(Well):
     A subclass of the Well class defining a fully penetrating well with steady
     state rate.
 
-    The default SteadyWell object has coordinates x=0 and y=0, well radius
-    r=0.05, penetration fraction pf=1 and well rate q=0. Exceptions occur if
+    The default SteadyWell object has coordinates x=0.0 and y=0.0, well radius
+    r=0.05, penetration fraction pf=1.0 and well rate q=0.0. Exceptions occur if
     invalid values are provided for r or pf. The well rate can be negative,
     positive or zero and is used to set the .state attribute as extract, inject
     or off.
@@ -113,8 +113,8 @@ class TransientWell(Well):
     A subclass of the Well class defining a fully penetrating well with
     transient rates defined in stress periods.
 
-    The default TransientWell object has well coordinates x= 0 and y= 0, well
-    radius r= 0.05, penetration fraction pf= 1 and default StressSeries object.
+    The default TransientWell object has well coordinates x=0.0 and y=0.0, well
+    radius r=0.05, penetration fraction pf=1.0 and default StressSeries object.
     Exceptions occur if invalid values are provided for r or pf. The well rate
     can be negative, positive or zero and is used to set the .state attribute
     as extract, inject or off.
