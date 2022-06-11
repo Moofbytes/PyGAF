@@ -15,7 +15,7 @@ class StressSeries:
     10,25.6
 
     15.2,38.7
-    
+
     48,-12
 
     Attributes:
@@ -43,7 +43,7 @@ class StressSeries:
 
     @property
     def periods(self):
-        """list (float) : list of stress period lengths.
+        """list (float) : List of stress period lengths.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -58,7 +58,7 @@ class StressSeries:
 
     @property
     def values(self):
-        """list (float) : list of stress period values.
+        """list (float) : List of stress period values.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.

@@ -52,7 +52,7 @@ class SteadyWell(Well):
 
     @property
     def r(self):
-        """float : well radius.
+        """float : Well radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -67,7 +67,7 @@ class SteadyWell(Well):
 
     @property
     def pf(self):
-        """float : well penetration depth.
+        """float : Well penetration depth.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -84,7 +84,7 @@ class SteadyWell(Well):
 
     @property
     def state(self):
-        """str : well state."""
+        """str : Well state."""
         if self.q < 0.0:
             return 'extract'
         elif self.q > 0.0:
@@ -141,7 +141,7 @@ class TransientWell(Well):
 
     @property
     def r(self):
-        """float : well radius.
+        """float : Well radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -156,7 +156,7 @@ class TransientWell(Well):
 
     @property
     def pf(self):
-        """float : well penetration depth.
+        """float : Well penetration depth.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -173,7 +173,7 @@ class TransientWell(Well):
 
     @property
     def state(self):
-        """str : well state."""
+        """str : Well state."""
         s = []
         for rate in self.ss.series['values']:
             if rate < 0.0:

@@ -32,7 +32,7 @@ class WellGrid:
 
     @property
     def gr(self):
-        """float : grid radius.
+        """float : Grid radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -47,7 +47,7 @@ class WellGrid:
 
     @property
     def grdim(self):
-        """int : number of grid rows and columns."""
+        """int : Number of grid rows and columns."""
         if self.gd < self.min_gd:
             return self.min_gd
         elif self.gd > self.max_gd:
@@ -57,7 +57,7 @@ class WellGrid:
 
     @property
     def npts(self):
-        """int : number of grid points."""
+        """int : Number of grid points."""
         return self.grdim**2
 
     @property
@@ -155,7 +155,7 @@ class BasinGrid:
 
     @property
     def gr(self):
-        """float : grid radius.
+        """float : Grid radius.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -170,7 +170,7 @@ class BasinGrid:
 
     @property
     def grdim(self):
-        """int : number of grid rows and columns."""
+        """int : Number of grid rows and columns."""
         if self.gd < self.min_gd:
             return self.min_gd
         elif self.gd > self.max_gd:
@@ -180,7 +180,7 @@ class BasinGrid:
 
     @property
     def npts(self):
-        """int : number of grid points."""
+        """int : Number of grid points."""
         return self.grdim**2
 
     @property

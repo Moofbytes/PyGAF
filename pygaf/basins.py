@@ -25,7 +25,7 @@ class Basin:
 
     @property
     def rot_rad(self):
-        """float : basin rotation angle in radians."""
+        """float : Basin rotation angle in radians."""
         from pygaf.utils import deg2rad
         rad = deg2rad(self.rot)
         return rad
@@ -62,7 +62,7 @@ class CircBasin(Basin):
 
     @property
     def diam(self):
-        """float : basin diameter.
+        """float : Basin diameter.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -78,7 +78,7 @@ class CircBasin(Basin):
 
     @property
     def rad(self):
-        """float : basin radius."""
+        """float : Basin radius."""
         return self.diam / 2
 
     @property
@@ -164,7 +164,7 @@ class RectBasin(Basin):
 
     @property
     def lx(self):
-        """float : basin length in x direction.
+        """float : Basin length in x direction.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -179,7 +179,7 @@ class RectBasin(Basin):
 
     @property
     def ly(self):
-        """float : basin length in y direction.
+        """float : Basin length in y direction.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -194,7 +194,7 @@ class RectBasin(Basin):
 
     @property
     def rot(self):
-        """float : basin rotation angle in degrees.
+        """float : Basin rotation angle in degrees.
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -209,7 +209,7 @@ class RectBasin(Basin):
 
     @property
     def area(self):
-        """float : basin area."""
+        """float : Basin area."""
         return self.lx * self.ly
 
     @property

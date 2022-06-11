@@ -6,9 +6,9 @@ class TheisWell:
     at a point .dd and grid-contoured drawdown at specified time .dd_grid.
 
     Attributes:
-        aq (obj) : default Aq2dConf object.
-        grd (obj) : default WellGrid object but with q=-1000.0.
-        qf (float) : fraction of pumped volume used for calculating radius of
+        aq (obj) : Default Aq2dConf object.
+        grd (obj) : Default WellGrid object but with q=-1000.0.
+        qf (float) : Fraction of pumped volume used for calculating radius of
             influence (default 0.99).
 
     """
@@ -23,7 +23,7 @@ class TheisWell:
 
     @property
     def qfp(self):
-        """float : fraction of pumped volume."""
+        """float : Fraction of pumped volume."""
         return self.qf
 
     def info(self):
@@ -60,12 +60,12 @@ class TheisWell:
         supplied with or without file extentions, which are added if ommitted.
 
         Args:
-            t (float) : list of times to evaluate radius of influence
+            t (float) : List of times to evaluate radius of influence
                 (default [1.0]).
-            plot (bool) : display a plot of results (default True).
-            csv (str) : full filepath for export of results to csv file;
+            plot (bool) : Display a plot of results (default True).
+            csv (str) : Full filepath for export of results to csv file;
                 results are exported if the string is not empty (default '').
-            xlsx (str) : full filepath for export of result to xlsx file;
+            xlsx (str) : Full filepath for export of result to xlsx file;
                 results are exported if the string is not empty (default '').
 
         Returns:
@@ -131,12 +131,12 @@ class TheisWell:
         file extentions, which are added if ommitted.
 
         Args:
-            t (float) : list of times to evaluate drawdown (default [1.0]).
-            r (float) : list of radii to evaluate drawdown (default [1.0]).
-            plot (bool) : display a plot of results (default True).
-            csv (str) : full filepath for export of results to csv file;
+            t (float) : List of times to evaluate drawdown (default [1.0]).
+            r (float) : List of radii to evaluate drawdown (default [1.0]).
+            plot (bool) : Display a plot of results (default True).
+            csv (str) : Full filepath for export of results to csv file;
                 results are exported if the string is not empty (default '').
-            xlsx (str) : full filepath for export of result to xlsx file;
+            xlsx (str) : Full filepath for export of result to xlsx file;
                 results are exported if the string is not empty (default '').
 
         Returns:
@@ -204,13 +204,13 @@ class TheisWell:
         be suppressed by setting plot=False.
 
         Args:
-            t (float) : time of drawdown (default 1.0).
-            plot (bool) : display a plot of results (default True).
-            local (bool) : display the results in 'local' coordinates with the
+            t (float) : Time of drawdown (default 1.0).
+            plot (bool) : Display a plot of results (default True).
+            local (bool) : Display the results in 'local' coordinates with the
                 well at coordinates 0.0, 0.0 (Default False).
-            csv (str) : fulll filepath for export of results to csv file;
+            csv (str) : Full filepath for export of results to csv file;
                 results are exported if the string is not empty (default '').
-            xlsx (str) : full filepath for export of result to xlsx file;
+            xlsx (str) : Full filepath for export of result to xlsx file;
                 results are exported if the string is not empty (default '').
 
         Returns:

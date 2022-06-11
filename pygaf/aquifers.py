@@ -23,12 +23,12 @@ class Aquifer:
 
     @property
     def T(self):
-        """float : aquifer transmissivity (units L2/T, default 10.0)."""
+        """float : Aquifer transmissivity (units L2/T, default 10.0)."""
         return self.K * self.B
 
     @property
     def top(self):
-        """float : aquifer top elevation (unts L, default 10.0)."""
+        """float : Aquifer top elevation (unts L, default 10.0)."""
         return self.bot + self.B
 
 
@@ -46,7 +46,7 @@ class Aq2dConf(Aquifer):
     The .info and .draw methods display the aquifer information and diagram.
 
     Attributes:
-        Ss (float) : aquifer specific storativity (units 1/L, default 1.0e-4).
+        Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
 
     """
     is_infinite = True
@@ -67,7 +67,7 @@ class Aq2dConf(Aquifer):
 
     @property
     def K(self):
-        """float : aquifer hydraulic conductivity (units L/T, default 1.0).
+        """float : Aquifer hydraulic conductivity (units L/T, default 1.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -97,7 +97,7 @@ class Aq2dConf(Aquifer):
 
     @property
     def B(self):
-        """float : aquifer thickness (units L, default 10.0).
+        """float : Aquifer thickness (units L, default 10.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -112,12 +112,12 @@ class Aq2dConf(Aquifer):
 
     @property
     def S(self):
-        """float : aquifer storage coefficient (units 1, default 1.0e-3)."""
+        """float : Aquifer storage coefficient (units 1, default 1.0e-3)."""
         return self.Ss * self.B
 
     @property
     def D(self):
-        """float : aquifer diffusivity (units L2/T, default 1.0e+4)."""
+        """float : Aquifer diffusivity (units L2/T, default 1.0e+4)."""
         return self.T / self.S
 
     def info(self):
@@ -191,7 +191,7 @@ class Aq2dUnconf(Aquifer):
     The .info and .draw methods display the aquifer information and diagram.
 
     Attributes:
-        Sy (float) : aquifer specific yield (units 1, default 0.1).
+        Sy (float) : Aquifer specific yield (units 1, default 0.1).
 
     """
     is_infinite = True
@@ -212,7 +212,7 @@ class Aq2dUnconf(Aquifer):
 
     @property
     def K(self):
-        """float : aquifer hydraulic conductivity (units L/T, default 1.0).
+        """float : Aquifer hydraulic conductivity (units L/T, default 1.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -227,7 +227,7 @@ class Aq2dUnconf(Aquifer):
 
     @property
     def Sy(self):
-        """float : aquifer specific yield (units 1, default 0.1).
+        """float : Aquifer specific yield (units 1, default 0.1).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -244,7 +244,7 @@ class Aq2dUnconf(Aquifer):
 
     @property
     def B(self):
-        """float : aquifer thickness (units L, default 10.0).
+        """float : Aquifer thickness (units L, default 10.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -259,12 +259,12 @@ class Aq2dUnconf(Aquifer):
 
     @property
     def S(self):
-        """float : aquifer storage coefficient (units 1, default 0.1)."""
+        """float : Aquifer storage coefficient (units 1, default 0.1)."""
         return self.Sy
 
     @property
     def swl(self):
-        """float : aquifer static water table elevation (units L reduced level,
+        """float : Aquifer static water table elevation (units L reduced level,
         default 10.0).
         """
         return self.bot + self.B
@@ -288,7 +288,7 @@ class Aq2dUnconf(Aquifer):
         """Display a drawing of the aquifer.
 
         Args:
-            dw (float) : width of figure (default 6.0).
+            dw (float) : Width of figure (default 6.0).
 
         """
         import matplotlib.pyplot as plt
@@ -343,8 +343,8 @@ class Aq1dFiniteConf(Aquifer):
     The .info and .draw methods display the aquifer information and diagram.
 
     Attributes:
-        Ss (float) : aquifer specific storativity (units 1/L, default 1.0e-4).
-        L (float) : aquifer length (units L, default 1000.0).
+        Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
+        L (float) : Aquifer length (units L, default 1000.0).
 
     """
     is_infinite = False
@@ -368,7 +368,7 @@ class Aq1dFiniteConf(Aquifer):
 
     @property
     def K(self):
-        """float : aquifer hydraulic conductivity (units L/T, default 1.0).
+        """float : Aquifer hydraulic conductivity (units L/T, default 1.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -383,7 +383,7 @@ class Aq1dFiniteConf(Aquifer):
 
     @property
     def Ss(self):
-        """float : aquifer specific storativity (units 1/L, default 1.0e-4).
+        """float : Aquifer specific storativity (units 1/L, default 1.0e-4).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -398,7 +398,7 @@ class Aq1dFiniteConf(Aquifer):
 
     @property
     def B(self):
-        """float : aquifer thickness (units L, default 10.0).
+        """float : Aquifer thickness (units L, default 10.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -413,7 +413,7 @@ class Aq1dFiniteConf(Aquifer):
 
     @property
     def L(self):
-        """float : aquifer length (units L, default 1000.0).
+        """float : Aquifer length (units L, default 1000.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -428,12 +428,12 @@ class Aq1dFiniteConf(Aquifer):
 
     @property
     def S(self):
-        """float : aquifer storage coefficient (units 1, default 1.0e-3)."""
+        """float : Aquifer storage coefficient (units 1, default 1.0e-3)."""
         return self.Ss * self.B
 
     @property
     def D(self):
-        """float : aquifer diffusivity (units L2/T, default 1.0e+4)."""
+        """float : Aquifer diffusivity (units L2/T, default 1.0e+4)."""
         return self.T / self.S
 
     def info(self):
@@ -458,7 +458,7 @@ class Aq1dFiniteConf(Aquifer):
         """Display a drawing of the aquifer.
 
         Args:
-            dw (float) : width of figure (default 6.0).
+            dw (float) : Width of figure (default 6.0).
 
         """
         import matplotlib.pyplot as plt
@@ -523,8 +523,8 @@ class Aq1dFiniteUnconf(Aquifer):
     The .info and .draw methods display the aquifer information and diagram.
 
     Attributes:
-        Sy (float) : aquifer specific yield (units 1, default 0.1).
-        L (float) : aquifer length (units L, default 1000.0).
+        Sy (float) : Aquifer specific yield (units 1, default 0.1).
+        L (float) : Aquifer length (units L, default 1000.0).
 
     """
     is_infinite = False
@@ -548,7 +548,7 @@ class Aq1dFiniteUnconf(Aquifer):
 
     @property
     def K(self):
-        """float : aquifer hydraulic conductivity (units L/T, default 1.0).
+        """float : Aquifer hydraulic conductivity (units L/T, default 1.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -563,7 +563,7 @@ class Aq1dFiniteUnconf(Aquifer):
 
     @property
     def Sy(self):
-        """float : aquifer specific yield (units 1, default 0.1).
+        """float : Aquifer specific yield (units 1, default 0.1).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -580,7 +580,7 @@ class Aq1dFiniteUnconf(Aquifer):
 
     @property
     def B(self):
-        """float : aquifer thickness (units L, default 10.0).
+        """float : Aquifer thickness (units L, default 10.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -595,7 +595,7 @@ class Aq1dFiniteUnconf(Aquifer):
 
     @property
     def L(self):
-        """float : aquifer length (units L, default 1000.0).
+        """float : Aquifer length (units L, default 1000.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -610,17 +610,17 @@ class Aq1dFiniteUnconf(Aquifer):
 
     @property
     def T(self):
-        """float : aquifer transmissivity (units L2/T, default 10.0)."""
+        """float : Aquifer transmissivity (units L2/T, default 10.0)."""
         return self.K * self.B
 
     @property
     def S(self):
-        """float : aquifer storage coefficient (units 1, default 0.1)."""
+        """float : Aquifer storage coefficient (units 1, default 0.1)."""
         return self.Sy
 
     @property
     def swl(self):
-        """float : aquifer static water table elevation (units L reduced level,
+        """float : Aquifer static water table elevation (units L reduced level,
         default 10.0).
         """
         return self.bot + self.B
@@ -645,7 +645,7 @@ class Aq1dFiniteUnconf(Aquifer):
         """Display a drawing of the aquifer.
 
         Args:
-            dw (float) : width of figure (default 6.0).
+            dw (float) : Width of figure (default 6.0).
 
         """
         import matplotlib.pyplot as plt
@@ -712,7 +712,7 @@ class Aq1dSemifiniteConf(Aquifer):
     The .info and .draw methods display the aquifer information and diagram.
 
     Attributes:
-        Ss (float) : aquifer specific storativity (units 1/L, default 1.0e-4).
+        Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
 
     """
     is_infinite = False
@@ -734,7 +734,7 @@ class Aq1dSemifiniteConf(Aquifer):
 
     @property
     def K(self):
-        """float : aquifer hydraulic conductivity (units L/T, default 1.0).
+        """float : Aquifer hydraulic conductivity (units L/T, default 1.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -749,7 +749,7 @@ class Aq1dSemifiniteConf(Aquifer):
 
     @property
     def Ss(self):
-        """float : aquifer specific storativity (units 1/L, default 1.0e-4).
+        """float : Aquifer specific storativity (units 1/L, default 1.0e-4).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -764,7 +764,7 @@ class Aq1dSemifiniteConf(Aquifer):
 
     @property
     def B(self):
-        """float : aquifer thickness (units L, default 10.0).
+        """float : Aquifer thickness (units L, default 10.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -779,12 +779,12 @@ class Aq1dSemifiniteConf(Aquifer):
 
     @property
     def S(self):
-        """float : aquifer storage coefficient (units 1, default 1.0e-3)."""
+        """float : Aquifer storage coefficient (units 1, default 1.0e-3)."""
         return self.Ss * self.B
 
     @property
     def D(self):
-        """float : aquifer diffusivity (units L2/T, default 1.0e+4)."""
+        """float : Aquifer diffusivity (units L2/T, default 1.0e+4)."""
         return self.T / self.S
 
     def info(self):
@@ -868,7 +868,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
     The .info and .draw methods display the aquifer information and diagram.
 
     Attributes:
-        Sy (float) : aquifer specific yield (units 1, default 0.1).
+        Sy (float) : Aquifer specific yield (units 1, default 0.1).
 
     """
     is_infinite = False
@@ -890,7 +890,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
 
     @property
     def K(self):
-        """float : aquifer hydraulic conductivity (units L/T, default 1.0).
+        """float : Aquifer hydraulic conductivity (units L/T, default 1.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -905,7 +905,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
 
     @property
     def Sy(self):
-        """float : aquifer specific yield (units 1, default 0.1).
+        """float : Aquifer specific yield (units 1, default 0.1).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -922,7 +922,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
 
     @property
     def B(self):
-        """float : aquifer thickness (units L, default 10.0).
+        """float : Aquifer thickness (units L, default 10.0).
 
         Setter method checks for valid values and triggers an exception if
         invalid values are specified.
@@ -937,17 +937,17 @@ class Aq1dSemifiniteUnconf(Aquifer):
 
     @property
     def T(self):
-        """float : aquifer transmissivity (units L2/T, default 10.0)."""
+        """float : Aquifer transmissivity (units L2/T, default 10.0)."""
         return self.K * self.B
 
     @property
     def S(self):
-        """float : aquifer storage coefficient (units 1, default 0.1)."""
+        """float : Aquifer storage coefficient (units 1, default 0.1)."""
         return self.Sy
 
     @property
     def swl(self):
-        """float : aquifer static water table elevation (units L reduced level,
+        """float : Aquifer static water table elevation (units L reduced level,
         default 10.0).
         """
         return self.bot + self.B
@@ -971,7 +971,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
         """Display a drawing of the aquifer.
 
         Args:
-            dw (float) : width of figure (default 6.0).
+            dw (float) : Width of figure (default 6.0).
 
         """
         import matplotlib.pyplot as plt
