@@ -1,0 +1,17 @@
+LICENSE
+README.md
+setup.py
+pygaf/__init__.py
+pygaf/aquifers.py
+pygaf/basins.py
+pygaf/grids.py
+pygaf/stresses.py
+pygaf/utils.py
+pygaf/wells.py
+pygaf.egg-info/PKG-INFO
+pygaf.egg-info/SOURCES.txt
+pygaf.egg-info/dependency_links.txt
+pygaf.egg-info/top_level.txt
+pygaf/solutions/__init__.py
+pygaf/solutions/glover_1960.py
+pygaf/solutions/theis_1935.py

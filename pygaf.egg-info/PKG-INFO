@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: pygaf
+Version: 0.0.1
+Summary: Python Groundwater Analytic Flow
+Home-page: https://github.com/Moofbytes/PyGAF
+Author: Tony Smith
+Author-email: tony@moofbytes.com
+License: MIT
+Project-URL: Documentation, https://pygaf.readthedocs.io/en/latest/index.html
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Hydrology
+Classifier: Development Status :: 3 - Alpha
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+Evaluation and display of analytic groundwater solutions.
