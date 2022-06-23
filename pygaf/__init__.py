@@ -41,4 +41,10 @@ from .basins import (
     CircBasin
 )
 
+from .bcs import (
+    SteadyBC
+)
+
 from .solutions import *
+
+import pygaf.utils

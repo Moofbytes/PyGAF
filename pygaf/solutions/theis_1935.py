@@ -1,13 +1,14 @@
 class TheisWell:
     """Theis (1935) radial flow solution.
 
-    The default TheisWell object uses the default Aq2dConf class and WellGrid
-    class. It's methods include radius of influence .ri, transient drawdown
-    at a point .dd and grid-contoured drawdown at specified time .dd_grid.
+    The default TheisWell object uses the default Aq2dConf and WellGrid
+    classes. The WellGrid class includes the default Well class. Methods
+    include radius of influence .ri, transient drawdown at a point .dd and
+    grid-contoured drawdown at specified time .dd_grid.
 
     Attributes:
-        aq (obj) : Default Aq2dConf object.
-        grd (obj) : Default WellGrid object but with q=-1000.0.
+        aq (obj) : Aq2dConf aquifer object.
+        grd (obj) : WellGrid object.
         qf (float) : Fraction of pumped volume used for calculating radius of
             influence (default 0.99).
 
@@ -92,7 +93,7 @@ class TheisWell:
         # Results plot
         if plot:
             import matplotlib.pyplot as plt
-            df.plot(grid=True, marker='.', ylabel='Radius')
+            df.plot(grid=True, marker='.', lw=3, alpha=0.5, ylabel='Radius')
             plt.xlim(0, None)
             plt.ylim(0, None)
             plt.title('Radius of Influence\n' +
@@ -166,7 +167,9 @@ class TheisWell:
         # Plot results
         if plot:
             import matplotlib.pyplot as plt
-            df.plot(grid=True, marker='.', ylabel='Displacement')
+            df.plot(
+                grid=True, marker='.', lw=3, alpha=0.5, ylabel='Displacement'
+                )
             plt.title('Drawdown\n' +
                 'T = ' + str(self.aq.T) +
                 ', S = ' + str(self.aq.S) +
@@ -265,7 +268,7 @@ class TheisWell:
             ax2.plot(
                 x[self.grid.grdim*(mid_row-1):self.grid.grdim*mid_row],
                 drawdown[self.grid.grdim*(mid_row-1):self.grid.grdim*mid_row],
-                lw=2
+                '.-', lw=3, alpha=0.5
             )
             ax2.set_title('Radial Displacement')
             ax2.grid(True)

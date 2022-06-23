@@ -5,8 +5,8 @@ class WellGrid:
     extent and grid density gd=21. An exception occurs if the grid radius is
     not positive. Grid density defines the numbers of rows and columns
     comprising the grid; thus, the default grid has 21 rows x 21 cols = 441
-    grid points. Minimum grid density is constrained to 11 (121 grid points)
-    and maximum grid density is constrained to 41 (1681 grid points). Values
+    grid points. Minimum grid density is limited to 11 (121 grid points)
+    and maximum grid density is limited to 41 (1681 grid points). Values
     for gd outside of these contraints are re-set to the minimum or maximum
     values as appropriate.
 
@@ -22,8 +22,8 @@ class WellGrid:
             minimum and maximum constraints are enforced (default 21).
 
     """
-    from .wells import SteadyWell
-    def __init__(self, well=SteadyWell(), gr=100, gd=21):
+    from .wells import Well
+    def __init__(self, well=Well(), gr=100, gd=21):
         self.well = well
         self.gr = gr
         self.gd = gd

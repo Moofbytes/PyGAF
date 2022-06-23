@@ -14,12 +14,24 @@ class Well:
         name (str) : Well name (default '').
 
     """
-    def __init__(self, x, y, r, pf, name):
+    #def __init__(self, x, y, r, pf, name):
+    def __init__(self, x=0.0, y=0.0, r=0.05, pf=1, name='unnamed'):
         self.x = x
         self.y = y
         self.r = r
         self.pf = pf
         self.name = name
+        return
+
+    def info(self):
+        """Print the well information."""
+        print('WELL INFORMATION')
+        print('----------------')
+        print('Name:', self.name)
+        print('Coordinates:', round(self.x, 1), ',', round(self.y, 1))
+        print('Radius:', self.r, '[L]')
+        print('Penetration:', self.pf)
+        print()
         return
 
 
@@ -47,7 +59,7 @@ class SteadyWell(Well):
         super().__init__(x, y, r, pf, name)
         self.q = q
         self.type = 'Steady state'
-        self.name = self.name
+        #self.name = self.name
         return
 
     @property

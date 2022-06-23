@@ -96,3 +96,20 @@ def rotate_grid_2d(x0, y0, x, y, phi):
         rotx.append(rowx)
         roty.append(rowy)
     return rotx, roty
+
+def conductance(K=1.0, B=1.0, W=1.0, L=1.0):
+    """
+    Calculate conductance value from components.
+
+    Args:
+        K (float) : Hydraulic conductivity of external porous medium (units L/T,
+            default 1.0).
+        B (float) : Thickness of external porous media normal to flow (units L,
+            default 1,0).
+        W (float) : Width of external porous medium normal to flow (units L,
+            default 1.0); should be equal to 1.0 for 1D flow,
+        L (float) : Lenghth of external porous medium between the boundary
+            and external head (units L, default 1.0).
+
+    """
+    return K * B * W / L

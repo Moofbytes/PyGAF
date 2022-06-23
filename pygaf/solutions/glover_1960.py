@@ -1,28 +1,18 @@
 class GloverRectBasinSteady:
     """Glover (1960) solution class.
 
+    The default GloverRectBasinSteady object uses the default Aq2dConf and
+    BasinGrid classes. It's methods include impress at a point .impress and
+    grid-contoured impress at specified time .impress_grid.
+
     Attributes:
         aq (obj) : Confined aquifer object.
         basin (obj) : Basin object.
 
     """
-    def __init__(self, aq, basin):
-        # Checks
-        if not aq.is_2d:
-            print('Error! The solution assumes a 2D aquifer.')
-            return
-        if not aq.is_infinite:
-            print('Warning! The solution assumes an infinite aquifer.')
-            return
-        if not aq.is_homogeneous:
-            print('Warning! The solution assumes a homogeneous aquifer.')
-            return
-        if not aq.is_unconfined:
-            print('Warning! The solution assumes a unconfined aquifer.')
-            return
-        if not basin.is_rectangular:
-            print('Error! The solution assumes a rectangular basin.')
-            return
+    from pygaf.aquifers import Aq2dConf
+    from pygaf.grids import BasinGrid
+    def __init__(self, aq=Aq2dConf(), basin=BasinGrid()):
         self.aq = aq
         self.basin = basin
         return
@@ -125,7 +115,9 @@ class GloverRectBasinSteady:
         # Plot results
         if plot:
             import matplotlib.pyplot as plt
-            df.plot(grid=True, marker='.', ylabel='Displacement')
+            df.plot(
+                grid=True, marker='.', lw=3, alpha=0.5, ylabel='Displacement'
+                )
             plt.title('Impress\n' +
                 'T = ' + str(self.aq.T) +
                 ', S = ' + str(self.aq.S) +
@@ -227,7 +219,7 @@ class GloverRectBasinSteady:
             ax2.plot(
                 x[self.grid.grdim*(mid_row-1):self.grid.grdim*mid_row],
                 impress[self.grid.grdim*(mid_row-1):self.grid.grdim*mid_row],
-                lw=2
+                '.-', lw=3, alpha=0.5
             )
             ax2.set_title('Distance Impress')
             ax2.set_xlabel('dx')
@@ -235,7 +227,7 @@ class GloverRectBasinSteady:
             ax3.plot(
                 [y[i] for i in range(mid_row, self.grid.npts, self.grid.grdim)],
                 [impress[i] for i in range(mid_row, self.grid.npts, self.grid.grdim)],
-                lw=2
+                '.-', lw=3, alpha=0.5
             )
             ax3.set_xlabel('dy')
             ax3.grid(True)
