@@ -12,15 +12,14 @@ class SteadyBC:
     Note a utilities function is available to calculate conductance values
 
     Attributes:
-        type (str) : Boundary condition type. Choices are type=1 (Dirichlet,
-            first-type or constant head); type=2 (Neumann, second-type or
-            constant flow) and type=3 (Cauchy or general head).
-        head (float) : Value of head at the boundary for type 1 condition
-            condition and value of external head for type 2 boundary condition.
-        flow (float) : value of normal flow at the boundary for type 2
-            boundary condition.
-        cond (float) : Value of conductance at the boundary for type 3
-            boundary condition.
+        type (str) : Boundary condition type; choices are type=1 (Dirichlet,
+            first-type or constant head), type=2 (Neumann, second-type or
+            constant flow) or type=3 (Cauchy or general head).
+        head (float) : Value of head at the boundary for type 1 and value of
+        external head for type 2 (units L, default 10.0).
+        flow (float) : value of normal flow at boundary for type 2 (units L/T,
+            default 0.0).
+        cond (float) : Value of conductance for type 3 (units L2/T, default 0.0).
 
     """
     def __init__(self, type=2, head=10.0, flow=0.0, cond=0.0):

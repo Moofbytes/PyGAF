@@ -1,8 +1,6 @@
 class Steady1dConfFlow:
     """Steady state flow in a 1D confined aquifer.
 
-    The default Steady1dFlow object...
-
     Attributes:
         aq (obj) : Aquifer object.
         x0_bc (obj) : SteadyBC object at x=0 (default type=2).
