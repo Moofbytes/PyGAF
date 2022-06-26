@@ -12,9 +12,9 @@ class GloverRectBasinSteady:
     """
     from pygaf.aquifers import Aq2dConf
     from pygaf.grids import BasinGrid
-    def __init__(self, aq=Aq2dConf(), basin=BasinGrid()):
-        self.aq = aq
-        self.basin = basin
+    def __init__(self):
+        self.aq = self.Aq2dConf()
+        self.basin = self.BasinGrid()
         return
 
     def info(self):
@@ -171,7 +171,8 @@ class GloverRectBasinSteady:
         import pandas
         self.gr = gr
         self.gd = gd
-        self.grid = BasinGrid(basin=self.basin, gr=self.gr, gd=self.gd)
+        self.grid = BasinGrid(gr=self.gr, gd=self.gd)
+        self.grid.basin = self.basin
         # Set coordinates
         if local:
             x, y = list(self.grid.pts.locx), list(self.grid.pts.locy)

@@ -1,63 +1,22 @@
-class Basin:
-    """Basin parent class.
-
-    The Basin parent class defines attributes and properties common to all
-    basins. They include the x and y coordinates of the basin center, rotation
-    angle of the basin in clockwise direction and a name label for use in
-    figures.
-
-    The default Basin object has center at cx=0, cy=0 and rotation angle
-    rot=0.0.
+class CircBasin:
+    """Circular basin.
 
     Attributes:
         cx (float) : Basin center x coordinate (units L, default 0.0).
         cy (float) : Basin center y coordinate (units L, default 0.0).
+        diam (float) : Basin diameter (default 10.0).
         rot (float) : Basin rotation angle in radians (default 0.0).
         name (str) : Basin name (default 'unnamed').
-
-    """
-    def __init__(self, cx=0.0, cy=0.0, rot=0, name='unnamed'):
-        self.cx = cx
-        self.cy = cy
-        self.rot = rot
-        self.name = name
-        return
-
-    @property
-    def rot_rad(self):
-        """float : Basin rotation angle in radians."""
-        from pygaf.utils import deg2rad
-        rad = deg2rad(self.rot)
-        return rad
-
-    def info(self):
-        """Print the basin information."""
-        print('BASIN INFORMATION')
-        print('-----------------')
-        print('Type: parent class')
-        print('Name:', self.name)
-        print('Basin center: (' + str(round(self.cx, 1)) + ', ' +\
-            str(round(self.cy, 1)) + ') [L]')
-        print('Rotation angle:', self.rot, '[deg cw]')
-        print()
-        return
-
-class CircBasin(Basin):
-    """Circular basin subclass.
-
-    The default CircBasin object has diameter dia=10.0.
-
-    Attributes:
-        diam (float) : Basin diameter (default 10.0).
 
     """
     is_rectangular = False
     is_circular = True
     def __init__(self, cx=0.0, cy=0.0, diam=10, name='Unnamed Basin'):
-        super().__init__(cx, cy, name)
+        self.cx = cx
+        self.cy = cy
         self.diam = diam
-        self.type = 'Circular Basin'
         self.name = name
+        self.type = 'Circular Basin'
         return
 
     @property
@@ -69,7 +28,6 @@ class CircBasin(Basin):
 
         """
         return self._diam
-
     @diam.setter
     def diam(self, v):
         if not (v > 0):
@@ -138,28 +96,28 @@ class CircBasin(Basin):
         plt.show()
         return
 
-class RectBasin(Basin):
-    """Rectangular basin subclass.
-
-    The default RectBasin object has length in x direction lx=10.0, length in
-    y direction ly=10.0 and clockwise rotation angle rot=0.0 degrees.
+class RectBasin:
+    """Rectangular basin.
 
     Attributes:
+        cx (float) : Basin center x coordinate (units L, default 0.0).
+        cy (float) : Basin center y coordinate (units L, default 0.0).
         lx (float) : Basin length in x direction (default 10.0)
         ly (float) : Basin length in y direction (default 10.0)
+        rot (float) : Basin rotation angle in radians (default 0.0).
+        name (str) : Basin name (default 'unnamed').
 
     """
     is_rectangular = True
     is_circular = False
-    def __init__(
-    self, cx=0.0, cy=0.0, lx=10, ly=10, rot=0, name='Unnamed Basin'
-    ):
-        super().__init__(cx, cy, rot, name)
+    def __init__(self, cx=0.0, cy=0.0, lx=10, ly=10, rot=0, name='Unnamed'):
+        self.cx = cx
+        self.cy = cy
         self.lx = lx
         self.ly = ly
         self.rot = rot
-        self.type = 'Rectangular Basin'
         self.name = name
+        self.type = 'Rectangular Basin'
         return
 
     @property
@@ -170,7 +128,6 @@ class RectBasin(Basin):
         invalid values are specified.
         """
         return self._lx
-
     @lx.setter
     def lx(self, v):
         if not (v > 0):
@@ -185,7 +142,6 @@ class RectBasin(Basin):
         invalid values are specified.
         """
         return self._ly
-
     @ly.setter
     def ly(self, v):
         if not (v > 0):
@@ -200,12 +156,18 @@ class RectBasin(Basin):
         invalid values are specified.
         """
         return self._rot
-
     @rot.setter
     def rot(self, v):
         if v <= -90 or v >= 90:
             raise Exception('Rotation angle must be between -90 and 90 deg.')
         self._rot = v
+
+    @property
+    def rot_rad(self):
+        """float : Basin rotation angle in radians."""
+        from pygaf.utils import deg2rad
+        rad = deg2rad(self.rot)
+        return rad
 
     @property
     def area(self):

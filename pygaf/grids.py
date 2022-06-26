@@ -23,8 +23,8 @@ class WellGrid:
 
     """
     from .wells import Well
-    def __init__(self, well=Well(), gr=100, gd=21):
-        self.well = well
+    def __init__(self, gr=100, gd=21):
+        self.well = self.Well()
         self.gr = gr
         self.gd = gd
         self.max_gd = 41
@@ -38,7 +38,6 @@ class WellGrid:
         invalid values are specified.
         """
         return self._gr
-
     @gr.setter
     def gr(self, v):
         if not (v > 0):
@@ -145,9 +144,9 @@ class BasinGrid:
             minimum and maximum constraints are enforced (default 21).
 
     """
-    from .basins import Basin
-    def __init__(self, basin=Basin(), gr=100, gd=21):
-        self.basin = basin
+    from .basins import RectBasin
+    def __init__(self, gr=100, gd=21):
+        self.basin = self.RectBasin()
         self.gr = gr
         self.gd = gd
         self.max_gd = 41
@@ -161,7 +160,6 @@ class BasinGrid:
         invalid values are specified.
         """
         return self._gr
-
     @gr.setter
     def gr(self, v):
         if not (v > 0):

@@ -43,6 +43,20 @@ class TheisWell:
         print('- No groundwater recharge.')
         print()
 
+    def rinf(self, T, S, t, qf):
+        """Radius of influence."""
+        from numpy import sqrt, log
+        return sqrt(-4.0 * T * t * log(1-qf) / S)
+
+    def disp(self, r, S, T, t, Q):
+        """Drawdown displacement."""
+        from numpy import pi
+        from scipy.special import expn
+        u = (r**2) * S / (4.0 * T * t)
+        W = expn(1, u) # Well Function
+        return Q * W / (4.0 * pi * T)
+
+
     def ri(self, t=[1.0], q=-1000, plot=True, csv='', xlsx=''):
         """Calculate radius of influence at specified times.
 
@@ -73,7 +87,6 @@ class TheisWell:
             Results in pandas dataframe.
 
         """
-        from numpy import sqrt, log
         import pandas
         self.well.q = q
         # Checks
@@ -86,7 +99,7 @@ class TheisWell:
         # Radius of influence
         ri = []
         for tim in t:
-            ri.append(sqrt(-4.0 * self.aq.T * tim * log(1-self.qfp) / self.aq.S))
+            ri.append(self.rinf(self.aq.T, self.aq.S, tim, self.qfp))
         d = {'Time':t, 'ri':ri}
         df = pandas.DataFrame(data=d)
         df.set_index('Time', inplace=True)
@@ -144,8 +157,6 @@ class TheisWell:
             Results in a pandas dataframe.
 
         """
-        from numpy import pi
-        from scipy.special import expn
         import pandas
         self.well.q = q
         # Checks
@@ -159,9 +170,7 @@ class TheisWell:
         for rad in r:
             drawdown = []
             for tim in t:
-                u = (rad**2) * self.aq.S / (4.0 * self.aq.T * tim)
-                W = expn(1, u) # Well Function
-                dd = self.well.q * W / (4.0 * pi * self.aq.T)
+                dd = self.disp(rad, self.aq.S, self.aq.T, tim, self.well.q)
                 drawdown.append(dd)
             df['r' + str(rad)] = drawdown
         # Plot results
@@ -220,8 +229,6 @@ class TheisWell:
             Results in a pandas dataframe.
 
         """
-        from numpy import pi
-        from scipy.special import expn
         import matplotlib.pyplot as plt
         import pandas
         self.well.q = q
@@ -242,9 +249,7 @@ class TheisWell:
             r = self.grid.pts.rad[i]
             if r <= self.grid.well.r:
                 r = self.grid.pts.rad[i-1]
-            u = (r**2) * self.aq.S / (4.0 * self.aq.T * t)
-            W = expn(1, u)
-            dd = self.well.q * W / (4.0 * pi * self.aq.T)
+            dd = self.disp(r, self.aq.S, self.aq.T, t, self.well.q)
             radius.append(r)
             drawdown.append(dd)
         # Plot results

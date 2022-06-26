@@ -36,7 +36,6 @@ from .grids import (
 )
 
 from .basins import (
-    Basin,
     RectBasin,
     CircBasin
 )

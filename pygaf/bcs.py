@@ -12,7 +12,7 @@ class SteadyBC:
     Note a utilities function is available to calculate conductance values
 
     Attributes:
-        type (str) : Boundary condition type; choices are type=1 (Dirichlet,
+        type (int) : Boundary condition type; choices are type=1 (Dirichlet,
             first-type or constant head), type=2 (Neumann, second-type or
             constant flow) or type=3 (Cauchy or general head).
         head (float) : Value of head at the boundary for type 1 and value of
@@ -29,6 +29,20 @@ class SteadyBC:
         self.cond = cond
 
     @property
+    def type(self):
+        """int : Boundary condition type.
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._type
+    @type.setter
+    def type(self, v):
+        if v not in [1, 2, 3]:
+            raise Exception('Boundary condition type must be 1, 2 or 3.')
+        self._type = v
+
+    @property
     def value(self):
         """dic : Boundary condition value(s)."""
         if self.type == 1:
@@ -37,6 +51,11 @@ class SteadyBC:
             return {'flow' : self.flow}
         elif self.type == 3:
             return {'head' : self.head, 'cond' : self.cond}
-        else:
-            raise Exception('Boundary condition type must be 1, 2 or 3.')
-            return
+
+    def info(self):
+        """Print the solution information."""
+        print('BOUNDARY CONDITION INFORMATION')
+        print('------------------------------')
+        print('BC type', str(self.type)+',', self.value)
+        print()
+        return

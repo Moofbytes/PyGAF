@@ -49,7 +49,6 @@ class StressSeries:
         invalid values are specified.
         """
         return self._periods
-
     @periods.setter
     def periods(self, v):
         if not (min(v) > 0):
@@ -64,7 +63,6 @@ class StressSeries:
         invalid values are specified.
         """
         return self._values
-
     @values.setter
     def values(self, v):
         if len(v) != len(self.periods):
