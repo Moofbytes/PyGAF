@@ -10,7 +10,7 @@ class Well:
         name (str) : Well name (default '').
 
     """
-    def __init__(self, x=0.0, y=0.0, r=0.05, pf=1.0, name='unnamed'):
+    def __init__(self, x=0.0, y=0.0, r=0.05, pf=1.0, name='Unnamed'):
         self.x = x
         self.y = y
         self.r = r
@@ -81,7 +81,7 @@ class SteadyWell:
     """
     is_steady = True
     is_transient = False
-    def __init__(self, x=0.0, y=0.0, r=0.05, q=0.0, pf=1, name='unnamed'):
+    def __init__(self, x=0.0, y=0.0, r=0.05, q=0.0, pf=1, name='Unnamed'):
         self.x = x
         self.y = y
         self.r = r
@@ -169,7 +169,7 @@ class TransientWell:
     is_transient = True
     import pandas
     from .stresses import StressSeries
-    def __init__(self, x=0.0, y=0.0, r=0.05, pf=1, name='unnamed'):
+    def __init__(self, x=0.0, y=0.0, r=0.05, pf=1, name='Unnamed'):
         self.x = x
         self.y = y
         self.r = r

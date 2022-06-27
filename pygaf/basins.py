@@ -6,12 +6,12 @@ class CircBasin:
         cy (float) : Basin center y coordinate (units L, default 0.0).
         diam (float) : Basin diameter (default 10.0).
         rot (float) : Basin rotation angle in radians (default 0.0).
-        name (str) : Basin name (default 'unnamed').
+        name (str) : Basin name (default 'Unnamed').
 
     """
     is_rectangular = False
     is_circular = True
-    def __init__(self, cx=0.0, cy=0.0, diam=10, name='Unnamed Basin'):
+    def __init__(self, cx=0.0, cy=0.0, diam=10, name='Unnamed'):
         self.cx = cx
         self.cy = cy
         self.diam = diam
@@ -105,7 +105,7 @@ class RectBasin:
         lx (float) : Basin length in x direction (default 10.0)
         ly (float) : Basin length in y direction (default 10.0)
         rot (float) : Basin rotation angle in radians (default 0.0).
-        name (str) : Basin name (default 'unnamed').
+        name (str) : Basin name (default 'Unnamed').
 
     """
     is_rectangular = True

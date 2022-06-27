@@ -15,9 +15,9 @@ class TheisWell:
     """
     from pygaf.aquifers import Aq2dConf
     from pygaf.grids import WellGrid
-    def __init__(self, aq=Aq2dConf(), grd=WellGrid()):
-        self.aq = aq
-        self.grid = grd
+    def __init__(self):
+        self.aq = self.Aq2dConf()
+        self.grid = self.WellGrid()
         self.well = self.grid.well
         self.qf = 0.99
         return
