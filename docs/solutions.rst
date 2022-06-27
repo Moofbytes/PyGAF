@@ -5,4 +5,4 @@ Solution classes
 
    theis_1935
    glover_1960
-   steady_flow.py
+   steady_flow
