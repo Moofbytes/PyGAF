@@ -8,3 +8,4 @@ from .glover_1960 import GloverRectBasinSteady
 from .steady_flow import Steady1dConfFlow
 from .mine_flow import MineSteadyRadUnconf
 from .mine_flow import MineSteadyRadUnconf2
+from .mine_flow import MineSteadyRadLeaky

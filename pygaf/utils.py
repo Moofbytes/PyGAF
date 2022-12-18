@@ -113,3 +113,28 @@ def conductance(K=1.0, B=1.0, W=1.0, L=1.0):
 
     """
     return K * B * W / L
+
+def display_image(fname, dw=8):
+    """Display an image file from the images folder.
+
+    Args:
+        fname (str) : Image file name.
+        dw (float) : Width of figure (default 8.0).
+
+    """
+    import pygaf
+    import os
+    import matplotlib.pyplot as plt
+    import matplotlib. image as mpimg
+    file_path = pygaf.__file__
+    dir = os.path.join(os.path.dirname(file_path), 'images')
+    image_file = os.path.join(dir, fname)
+    image = mpimg.imread(image_file)
+    image_h = len(image)
+    image_w = len(image[0])
+    plt. figure(figsize = (dw, dw*image_h/image_w))
+    image_plot = plt.imshow(image)
+    plt.axis('off')
+    plt.show()
+    plt.close()
+    return
