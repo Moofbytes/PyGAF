@@ -959,3 +959,169 @@ class MineTransRadConf:
         from pygaf.utils import display_image
         display_image('MineTransRadConf.png', dw=dw)
         return
+
+class MineSteadyStripUnconf:
+    """Constant, unconfined flow to a large diameter well.
+
+    Predict steady mine inflow for a specified mine pit water level. The
+    MineSteadyStripUnconf class uses the default Aq2dUnconf aquifer object with
+    initial saturated thickness 100.
+
+    Attributes:
+        aq (obj) : Aquifer object.
+        R (float) : Groundwater recharge rate (units L/T, default 1.0e-4).
+
+    """
+    from pygaf.aquifers import Aq2dConf
+    def __init__(self):
+        self.aq = self.Aq2dConf(B=100)
+        self.hp = 90
+        self.R = 1.0e-4
+
+    @property
+    def hp(self):
+        """float : Mine pit water level (units L, default 90).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._hp
+
+    @hp.setter
+    def hp(self, v):
+        if not (v < self.aq.B and v > 0):
+            raise Exception('Pit water level (hp) must be 0 < hp < B.')
+        self._hp = v
+
+    @property
+    def dp(self):
+        """float : Drawdown of mine pit water level from initial water table
+        (units L, default 10).
+        """
+        return self.aq.B - self.hp
+
+    @property
+    def R(self):
+        """float : Groundwater recharge rate (units L/T, default 1.0e-4).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._R
+
+    @R.setter
+    def R(self, v):
+        if not (v > 0):
+            raise Exception('Recharge rate (R) must be positive.')
+        self._R = v
+
+    @property
+    def xi(self):
+        """Length of influence."""
+        from numpy import sqrt
+        l = sqrt(self.aq.K * (self.aq.B**2 - self.hp**2) / self.R)
+        return l
+
+    @property
+    def qp(self):
+        """Mine pit inflow rate."""
+        q = 2 * self.R * self.xi * self.Y
+        return q
+
+
+    def info(self):
+        """Print the solution information."""
+        print('METHOD REFERENCE')
+        print('----------------')
+        print('Singh R. N., Ngah S. A. and Atkins A. S. (1985) - Applicability'
+        '\nof Current Groundwater Theories for the Prediction of Water Inflows'
+        '\nto Surface mining Excavations.')
+        print('\nConceptual Model:')
+        print('- Semi-infinite, unconfined and homogeneous aquifer each side\n'
+        '  of the mine pit.')
+        print('- Mine pit walls are approximated by a vertical faces.')
+        print('- Flow is steady, horizontal and perpendicular to the pit walls.')
+        print('- Uniform recharge.')
+        print('- Horizontal pre-mining water table.')
+        print('\nNotes:')
+        print('- Steady state approximation is reasonable for moderate to\n'
+        '  to large hydraulic conductivity and mine pits excavated over years.')
+        print('- The length of influence is defined by the length of aquifer\n'
+        '  over which recharge is equal to mine pit inflow.')
+        print('- The mine pit should be long compared to its width such that\n'
+        '  it is reasonable to neglect groundwater inflow from the end walls.')
+        print()
+
+    def hx(self, x):
+        """Head at distance x from pit wall."""
+        from numpy import sqrt
+        h = sqrt(self.hp**2 + self.R * (2*self.xi*x - x**2) / self.aq.K)
+        return h
+
+    def dx(self, x):
+        """Drawdown at distance x from pit wall."""
+        d = self.aq.B - self.hx(x)
+        return d
+
+    def dd(self, n=25, plot=True, csv='', xlsx=''):
+        """Evaluate steady drawdown.
+
+        Evaluate steady state drawdown at specified distances from the mine pit
+        wall. Results are returned in a Pandas dataframe. A drawdown graph is
+        displayed as default and can be suppressed by setting plot=False.
+
+        Args:
+            n (int) : Number of values for evaluating drawdown (default 25).
+            plot (bool) : Display a plot of results (default True).
+            csv (str) : Full filepath for export of results to csv file;
+                results are exported if the string is not empty (default '').
+            xlsx (str) : Full filepath for export of result to xlsx file;
+                results are exported if the string is not empty (default '').
+
+        Returns:
+            Results in a pandas dataframe.
+
+        """
+        from numpy import linspace
+        import pandas
+        x = linspace(0, self.xi, n)
+        h = [self.hx(i) for i in x]
+        d = [self.dx(i) for i in x]
+        df = pandas.DataFrame()
+        df['distance'] = x
+        df['drawdown'] = d
+        df['head'] = h
+        # Plot results
+        if plot:
+            import matplotlib.pyplot as plt
+            df.plot(
+                x='distance', y='drawdown', grid=True, marker='.', lw=3,
+                alpha=0.5, legend=False, ylabel='drawdown'
+                )
+            plt.axis([0, None, max(d), min(d)])
+            plt.title('Distance Drawdown')
+            plt.show()
+        # Export result to csv
+        if csv != '':
+            if csv.split('.') != 'csv':
+                csv = csv + '.csv'
+            df.to_csv(csv)
+            print('Results exported to:', csv)
+        # Export result to Excel
+        if xlsx != '':
+            if xlsx.split('.') != 'xlsx':
+                xlsx = xlsx + '.xlsx'
+            df.to_excel(xlsx, sheet_name='ri')
+            print('Results exported to:', xlsx)
+        return df
+
+    def draw(self, dw=8):
+        """Display the drawing definition.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('MineSteadyStripUnconf.png', dw=dw)
+        return
