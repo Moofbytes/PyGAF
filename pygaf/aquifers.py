@@ -329,6 +329,187 @@ class Aq2dUnconf(Aquifer):
         return
 
 
+class Aq2dLeaky(Aquifer):
+    """2D leaky aquifer subclass.
+
+    A subclass of the Aquifer class defining a horizontal, 2D leaky aquifer
+    with infinite lateral extent and confined storage.
+
+    The default Aq2dLeak object has hydraulic conductivity K=1, specific
+    storativity Ss=0.0001, aquifer saturated thickness B=10, aquifer bottom
+    (datum) elevation bot=0, leaky hydraulic conductivity Kleak=0.00001 and
+    leaky thickness Bleak=10. Exceptions will occur if invalid values are
+    provided for K, Ss, B, Kleak or Bleak.
+
+    The .info and .draw methods display the aquifer information and diagram.
+
+    Attributes:
+        Ss (float) : Aquifer specific storativity (units 1/L, default 1.0e-4).
+
+    """
+    is_infinite = True
+    is_semifinite = False
+    is_finite = False
+    is_homogeneous = True
+    is_heterogeneous = False
+    is_1d = False
+    is_2d = True
+    is_confined = False
+    is_leaky = True
+    is_unconfined = False
+    def __init__(self, K=1, Ss=1e-4, B=10, bot=0, Kleak=1e-5, Bleak=10, name='Unnamed'):
+        super().__init__(K, B, bot, name)
+        self.Ss = Ss
+        self.Kleak = Kleak
+        self.Bleak = Bleak
+        self.type = '2D, leaky homogeneous aquifer'
+        return
+
+    @property
+    def K(self):
+        """float : Aquifer hydraulic conductivity (units L/T, default 1.0).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._K
+
+    @K.setter
+    def K(self, v):
+        if not (v > 0):
+            raise Exception('Hydraulic conductivity (K) must be positive.')
+        self._K = v
+
+    @property
+    def Ss(self):
+        """float : aquifer specific storativity (units 1/L, default 1.0e-4).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._Ss
+
+    @Ss.setter
+    def Ss(self, v):
+        if not (v > 0):
+            raise Exception('Specific storage (Ss) must be positive.')
+        self._Ss = v
+
+    @property
+    def B(self):
+        """float : Aquifer thickness (units L, default 10.0).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._B
+
+    @B.setter
+    def B(self, v):
+        if not (v > 0):
+            raise Exception('Aquifer thickness (B) must be positive.')
+        self._B = v
+
+    @property
+    def Kleak(self):
+        """float: Leaky layer hydraulic conductivity (units L/T, default 0.00001).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._Kleak
+
+    @Kleak.setter
+    def Kleak(self, v):
+        if not (v > 0):
+            raise Exception('Leaky hydraulic conductivity (Kleak) must be positive.')
+        self._Kleak = v
+
+    @property
+    def Bleak(self):
+        """float: Leaky layer thickness (units L, default 10.0).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._Bleak
+
+    @Bleak.setter
+    def Bleak(self, v):
+        if not (v > 0):
+            raise Exception('Leaky layer thickness (Bleak) must be positive.')
+        self._Bleak = v
+
+    @property
+    def S(self):
+        """float : Aquifer storage coefficient (units 1, default 1.0e-3)."""
+        return self.Ss * self.B
+
+    @property
+    def D(self):
+        """float : Aquifer diffusivity (units L2/T, default 1.0e+4)."""
+        return self.T / self.S
+
+    def info(self):
+        """Print the aquifer information."""
+        print('AQUIFER INFORMATION')
+        print('-------------------')
+        print('Type:', self.type)
+        print('Name:', self.name)
+        print('Hydraulic conductivity:', self.K, '[L/T]')
+        print('Specific storativity:', self.Ss, '[1/L]')
+        print('Aquifer thickness:', self.B, '[L]')
+        print('Transmissivity:', self.T, '[L2/T]')
+        print('Storage coefficient:', self.S, '[1]')
+        print('Diffusivity:', self.D, '[L2/T]')
+        print('Bottom elevation:', self.bot, '[RL]')
+        print('Top elevation:', self.top, '[RL]')
+        print('Leaky layer hydraulic conductivity:', self.Kleak, '[L/T]')
+        print('Leaky layer thickness:', self.Bleak, '[L]')
+        print()
+        return
+
+    def draw(self, dw=6):
+        """Display a drawing of the aquifer.
+
+        Args:
+            dw (float) : Width of figure (default 6.0).
+
+        """
+        import matplotlib.pyplot as plt
+        drawing_ratio = 3
+        w, h = dw, dw/drawing_ratio
+        fig = plt.figure(figsize=(w, h))
+        fig.suptitle(self.name, fontsize=14, fontweight=530)
+        ax = plt.gca()
+        ax.add_patch(
+            plt.Rectangle((0, 0), width=w, height=h*0.1, facecolor='grey',
+            edgecolor='black', hatch='///')
+        ) # bottom aquitard
+        ax.add_patch(
+            plt.Rectangle((0, h*0.1), width=w, height=h*0.8, hatch='...',
+            facecolor='white')
+        ) # aquifer
+        ax.add_patch(
+            plt.Rectangle((0, h*0.9), width=w, height=h*0.2, facecolor='grey',
+            edgecolor='black', hatch='....')
+        ) # top leaky layer
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.1, h*0.1), color='black', lw=0.5)
+        ) # aquifer bottom tick
+        ax.add_line(
+            plt.Line2D((w, w*1.01), (h*0.9, h*0.9), color='black', lw=0.5)
+        ) # aquifer top tick
+        ax.text(w*1.02, h*0.05, str(self.bot) +' RL', fontsize=12)
+        ax.text(w*1.02, h*0.85, str(self.top) +' RL', fontsize=12)
+        plt.axis('scaled')
+        plt.axis('off')
+        plt.tight_layout()
+        plt.show()
+        plt.close()
+        return
+
+
 class Aq1dFiniteConf(Aquifer):
     """1D, finite confined aquifer subclass.
 

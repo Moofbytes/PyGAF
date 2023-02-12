@@ -1,13 +1,12 @@
-class MineSteadyRadUnconf:
+class MineSteadyRadUnconfQ:
     """Steady, radial, unconfined flow to a large diameter well.
 
     Predict steady mine inflow for a specified mine pit water level. The
-    MineSteadyRadUnconf class uses the default Aq2dUnconf aquifer object with
+    MineSteadyRadUnconfQ class uses the default Aq2dUnconf aquifer object with
     initial saturated thickness 100.
 
     Attributes:
         aq (obj) : Aquifer object.
-        R (float) : Groundwater recharge rate (units L/T, default 1.0e-4).
 
     """
     from pygaf.aquifers import Aq2dUnconf
@@ -65,7 +64,7 @@ class MineSteadyRadUnconf:
 
     @property
     def ri(self):
-        """Radius of influence."""
+        """float : Radius of influence (units L)."""
         from numpy import sqrt
         from numpy import log
         r1 = self.rp * 10 # initial estimate
@@ -85,7 +84,7 @@ class MineSteadyRadUnconf:
 
     @property
     def qp(self):
-        """Mine pit inflow rate."""
+        """float : Mine pit inflow rate (units L3/T)."""
         import numpy as np
         q = np.pi * self.R * (self.ri**2 - self.rp**2)
         return q
@@ -117,19 +116,29 @@ class MineSteadyRadUnconf:
         print()
 
     def hr(self, r):
-        """Head at radius r."""
+        """Head at specified radius (units L).
+
+        Args:
+            r (float) : Radius at which to evaluate head (units L).
+
+        """
         from numpy import sqrt
         from numpy import log
         h = sqrt(self.aq.B**2 - (self.R*self.ri**2*log(self.ri/r))/self.aq.K)
         return h
 
     def dr(self, r):
-        """Drawdown at radius r."""
+        """Drawdown at specified radius (units L).
+
+        Args:
+            r (float) : Radius at which to evaluate head (units L).
+
+        """
         d = self.aq.B - self.hr(r)
         return d
 
     def dd(self, n=25, plot=True, csv='', xlsx=''):
-        """Evaluate steady drawdown.
+        """Evaluate distance-drawdown (units L).
 
         Evaluate steady state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
@@ -191,12 +200,12 @@ class MineSteadyRadUnconf:
         display_image('MineSteadyRadUnconf.png', dw=dw)
         return
 
-class MineSteadyRadUnconf2:
+class MineSteadyRadUnconfQ2:
     """Steady, radial, unconfined flow to a large diameter well with pit
     floor inflow.
 
     Predict steady mine inflow for a specified mine pit water level. The
-    MineSteadyRadUnconf2 class uses the default Aq2dUnconf aquifer object with
+    MineSteadyRadUnconfQ2 class uses the default Aq2dUnconf aquifer object with
     initial saturated thickness 100 for the upper unconfined aquifer.
 
     Attributes:
@@ -279,7 +288,7 @@ class MineSteadyRadUnconf2:
 
     @property
     def ri(self):
-        """Radius of influence."""
+        """float : Radius of influence (units L)."""
         from numpy import sqrt
         from numpy import log
         r1 = self.rp * 10 # initial estimate
@@ -300,29 +309,27 @@ class MineSteadyRadUnconf2:
 
     @property
     def qp1(self):
-        """Mine pit inflow rate from upper aquifer."""
+        """float : Mine pit inflow rate from upper aquifer (units L3/T)."""
         from numpy import pi
         q = pi * self.R * (self.ri**2 - self.rp**2)
         return q
 
     @property
     def qp2(self):
-        """Mine pit inflow rate from lower aquifer."""
+        """float : Mine pit inflow rate from lower aquifer (units L3/T)."""
         from numpy import sqrt
         q = 4.0 * self.rp * (self.aq.B-self.D) * sqrt(self.aq2kx * self.aq2kz)
         return q
 
     @property
     def qp(self):
-        """Total mine pit inflow rate."""
+        """float : Total mine pit inflow rate (units L3/T)."""
         q = self.qp1 + self.qp2
         return q
 
     @property
     def dp(self):
-        """float : Drawdown of mine pit water level from initial water table
-        (units L, default 10).
-        """
+        """float : Drawdown of mine pit water level (units L, default 10)."""
         return self.aq.B - self.hp
 
     def info(self):
@@ -355,10 +362,10 @@ class MineSteadyRadUnconf2:
         print()
 
     def hr(self, r):
-        """Head at radius r.
+        """Head at radius r (units L).
 
         Args:
-            r (float) : radius (units L).
+            r (float) : radius at which to evaluate head (units L).
         """
         from numpy import sqrt
         from numpy import log
@@ -369,16 +376,16 @@ class MineSteadyRadUnconf2:
         return h
 
     def dr(self, r):
-        """Drawdown at radius r.
+        """Drawdown at radius r (units L).
 
         Args:
-            r (float) : radius (units L).
+            r (float) : radius at which to evaluate drawdown (units L).
         """
         d = self.aq.B - self.hr(r)
         return d
 
     def dd(self, n=25, plot=True, csv='', xlsx=''):
-        """Evaluate steady drawdown.
+        """Evaluate distance-drawdown (units L).
 
         Evaluate steady state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
@@ -440,24 +447,22 @@ class MineSteadyRadUnconf2:
         display_image('MineSteadyRadUnconf2.png', dw=dw)
         return
 
-class MineSteadyRadLeaky:
+class MineSteadyRadLeakyDD:
     """Steady, radial, leaky flow to a large diameter well.
 
     Predict steady drawdown for a specified mine pit inflow. The
-    MineSteadyRadleaky class uses the default Aq2dConf aquifer object with
+    MineSteadyRadleakyDD class uses the default Aq2dLeaky aquifer object with
     initial thickness 100 for the lower confined aquifer.
 
     Attributes:
         aq (obj) : Lower aquifer object.
 
     """
-    from pygaf.aquifers import Aq2dConf
+    from pygaf.aquifers import Aq2dLeaky
     def __init__(self):
-        self.aq = self.Aq2dConf(B=100)
+        self.aq = self.Aq2dLeaky(B=100)
         self.rp = 100
         self.qp = 1000
-        self.Kleak = 1.0e-5
-        self.Bleak = 10
         self.h0 = 120
         return
 
@@ -502,51 +507,20 @@ class MineSteadyRadLeaky:
 
     @h0.setter
     def h0(self, v):
-        if not (v > (self.aq.B + self.Bleak)):
+        if not (v > (self.aq.B + self.aq.Bleak)):
             raise Exception('Initial water level must be above the aquitard.')
         self._h0 = v
-
-    @property
-    def Kleak(self):
-        """float : Hydraulic conductivity of leaky aquitard (units L/T,
-            default 1e-5).
-
-        Setter method checks for valid values and triggers an exception if
-        invalid values are specified.
-        """
-        return self._Kleak
-
-    @Kleak.setter
-    def Kleak(self, v):
-        if not (v > 0):
-            raise Exception('Aquitard conductivity (Kleak) must be positive.')
-        self._Kleak = v
-
-    @property
-    def Bleak(self):
-        """float : Thickness of leaky aquitard (units L, default 10)
-
-        Setter method checks for valid values and triggers an exception if
-        invalid values are specified.
-        """
-        return self._Bleak
-
-    @Bleak.setter
-    def Bleak(self, v):
-        if not (v > 0):
-            raise Exception('Aquitard thickness (Bleak) must be positive.')
-        self._Bleak = v
 
     @property
     def lfac(self):
         """float : Aquitard leakage factor (units L)."""
         from numpy import sqrt
-        lf = sqrt(self.aq.T * self.Bleak / self.Kleak)
+        lf = sqrt(self.aq.T * self.aq.Bleak / self.aq.Kleak)
         return lf
 
     @property
     def ri(self):
-        """Radius of influence.
+        """float : Radius of influence (units L).
 
             Defined as radius at which drawdown is less than 0.1% of initial
             groundwater head.
@@ -575,10 +549,10 @@ class MineSteadyRadLeaky:
         return r3
 
     def dr(self, r):
-        """Drawdown at radius r.
+        """Drawdown at specified radius (units L).
 
         Args:
-            r (float) : radius (units L).
+            r (float) : radius at which to evaluate drawdown (units L).
         """
         from numpy import pi
         from scipy.special import k0
@@ -586,25 +560,25 @@ class MineSteadyRadLeaky:
         return d
 
     def hr(self, r):
-        """Head at radius r.
+        """Head at sepcified radius (units L).
 
         Args:
-            r (float) : radius (units L).
+            r (float) : radius at which to evaluate head (units L).
         """
         h = self.h0 - self.dr(r)
         return h
 
     def leakr(self, r):
-        """Leakage rate at radius r.
+        """Leakage rate at specified radius (units L/T).
 
         Args:
-            r (float) : radius (units L).
+            r (float) : radius at which to evaluate leakage (units L).
         """
-        lr = self.dr(r) * self.Kleak/self.Bleak
+        lr = self.dr(r) * self.aq.Kleak/self.aq.Bleak
         return lr
 
     def dd(self, n=25, plot=True, csv='', xlsx=''):
-        """Evaluate steady drawdown.
+        """Evaluate distance-drawdown.
 
         Evaluate steady state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
@@ -665,7 +639,7 @@ class MineSteadyRadLeaky:
         print('\nLower Aquifer Conceptual Model:')
         print('- Infinite, leaky and homogeneous lower aquifer.')
         print('- Mine pit is approximated by a cylinder.')
-        print('- Mine pit fully penetrates aquifer.')
+        print('- Mine pit fully penetrates lower aquifer.')
         print('- Steady, horizontal, axially symmetric and confined flow.')
         print('- Horizontal pre-mining groundwater head.')
         print('\nNotes:')
@@ -684,11 +658,11 @@ class MineSteadyRadLeaky:
         display_image('MineSteadyRadLeaky.png', dw=dw)
         return
 
-class MineTransRadConf:
-    """Constant, radial, confined flow to a large diameter well.
+class MineTransRadConfDD:
+    """Transient, radial, confined flow to a large diameter well.
 
     Predict transient drawdown for a specified mine pit inflow. The
-    MineTransRadConf class uses the default Aq2dConf aquifer object with
+    MineTransRadConfDD class uses the default Aq2dConf aquifer object with
     initial thickness 100 for the lower confined aquifer.
 
     Attributes:
@@ -764,11 +738,11 @@ class MineTransRadConf:
         self._dp_targ = v
 
     def drt(self, r, t):
-        """Drawdown at specified radius and time.
+        """Drawdown at specified radius and time (units L).
 
         Args:
             r (float) : radius (units L).
-            t (float) : time (units L).
+            t (float) : time (units T).
         """
         from numpy import pi
         from scipy.special import expn
@@ -778,18 +752,19 @@ class MineTransRadConf:
         return d
 
     def hrt(self, r, t):
-        """Head at specified radius and time.
+        """Head at specified radius and time (units L).
 
         Args:
             r (float) : radius (units L).
-            t (float) : time (units L).
+            t (float) : time (units T).
         """
         h = self.h0 - self.drt(r, t)
         return h
 
     @property
     def dp_targ_time(self):
-        """Time at which the mine pit drawdown target is reached."""
+        """float : Time at which the mine pit drawdown target is reached
+        (units T)."""
         t1 = 1 # intitialise
         t2 = 1.0e10 # initialise
         d1 = self.drt(self.rp, t1)
@@ -817,7 +792,7 @@ class MineTransRadConf:
         total discharge.
 
         Args:
-            t (float) : time (units L).
+            t (float) : time (units T).
         """
         from numpy import sqrt
         from numpy import log
@@ -879,7 +854,7 @@ class MineTransRadConf:
         return df
 
     def dd(self, t, n=25, plot=True, csv='', xlsx=''):
-        """Evaluate radial drawdown at specified time.
+        """Evaluate radial-drawdown at specified time.
 
         Results are returned in a Pandas dataframe. A drawdown graph is
         displayed as default and can be suppressed by setting plot=False.
@@ -960,16 +935,15 @@ class MineTransRadConf:
         display_image('MineTransRadConf.png', dw=dw)
         return
 
-class MineSteadyStripUnconf:
-    """Constant, unconfined flow to a large diameter well.
+class MineSteadyStripUnconfQ:
+    """Steady, unconfined 1D flow to mine pit wall.
 
     Predict steady mine inflow for a specified mine pit water level. The
-    MineSteadyStripUnconf class uses the default Aq2dUnconf aquifer object with
+    MineSteadyStripUnconfQ class uses the default Aq2dUnconf aquifer object with
     initial saturated thickness 100.
 
     Attributes:
         aq (obj) : Aquifer object.
-        R (float) : Groundwater recharge rate (units L/T, default 1.0e-4).
 
     """
     from pygaf.aquifers import Aq2dConf
@@ -977,6 +951,7 @@ class MineSteadyStripUnconf:
         self.aq = self.Aq2dConf(B=100)
         self.hp = 90
         self.R = 1.0e-4
+        self.Y = 1000
 
     @property
     def hp(self):
@@ -1016,15 +991,30 @@ class MineSteadyStripUnconf:
         self._R = v
 
     @property
+    def Y(self):
+        """float : Length of mine strip (units L, default 1000).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._Y
+
+    @Y.setter
+    def Y(self, v):
+        if not (v > 0):
+            raise Exception('Mine strip length (Y) must be positive.')
+        self._Y = v
+
+    @property
     def xi(self):
-        """Length of influence."""
+        """float : Length of influence (units L)."""
         from numpy import sqrt
         l = sqrt(self.aq.K * (self.aq.B**2 - self.hp**2) / self.R)
         return l
 
     @property
     def qp(self):
-        """Mine pit inflow rate."""
+        """float : Mine pit inflow rate (units L3/T)."""
         q = 2 * self.R * self.xi * self.Y
         return q
 
@@ -1043,28 +1033,38 @@ class MineSteadyStripUnconf:
         print('- Flow is steady, horizontal and perpendicular to the pit walls.')
         print('- Uniform recharge.')
         print('- Horizontal pre-mining water table.')
+        print('- The mine pit should be long compared to its width such that\n'
+        '  it is reasonable to neglect groundwater inflow from the end walls.')
         print('\nNotes:')
         print('- Steady state approximation is reasonable for moderate to\n'
         '  to large hydraulic conductivity and mine pits excavated over years.')
         print('- The length of influence is defined by the length of aquifer\n'
         '  over which recharge is equal to mine pit inflow.')
-        print('- The mine pit should be long compared to its width such that\n'
-        '  it is reasonable to neglect groundwater inflow from the end walls.')
         print()
 
     def hx(self, x):
-        """Head at distance x from pit wall."""
+        """Head at specified distance from pit wall (units L).
+
+        Args:
+            x (float) : Distance from pit wall (units L).
+
+        """
         from numpy import sqrt
         h = sqrt(self.hp**2 + self.R * (2*self.xi*x - x**2) / self.aq.K)
         return h
 
     def dx(self, x):
-        """Drawdown at distance x from pit wall."""
+        """Drawdown at specified distance from pit wall (unit L).
+
+        Args:
+            x (float) : Distance from pit wall (units L).
+
+        """
         d = self.aq.B - self.hx(x)
         return d
 
     def dd(self, n=25, plot=True, csv='', xlsx=''):
-        """Evaluate steady drawdown.
+        """Evaluate distance-drawdown (units L).
 
         Evaluate steady state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
@@ -1125,3 +1125,603 @@ class MineSteadyStripUnconf:
         from pygaf.utils import display_image
         display_image('MineSteadyStripUnconf.png', dw=dw)
         return
+
+class MineSteadyStripLeakyQ:
+    """Steady, leaky 1D flow to mine pit wall.
+
+    Predict steady mine inflow for a specified mine pit water level. The
+    MineSteadyStripLeakyQ class uses the default Aq2dLeaky aquifer
+    object with initial thickness 100 for the lower confined aquifer.
+
+    Attributes:
+        aq (obj) : Aquifer object.
+
+    """
+    from pygaf.aquifers import Aq2dLeaky
+    def __init__(self):
+        self.aq = self.Aq2dLeaky(B=100)
+        self.hp = 90
+        self.h0 = 120
+        self.Y = 1000
+        return
+
+    @property
+    def hp(self):
+        """float : Mine pit water level (units L, default 90).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._hp
+
+    @hp.setter
+    def hp(self, v):
+        if not (v > 0):
+            raise Exception('Pit water level (hp) must be positive.')
+        self._hp = v
+
+    @property
+    def dp(self):
+        """float : Drawdown of mine pit water level from initial water table
+        (units L, default 10).
+        """
+        return self.h0 - self.hp
+
+    @property
+    def h0(self):
+        """float : Initial groundwater head (units L, default 120).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._h0
+
+    @h0.setter
+    def h0(self, v):
+        if not (v > (self.aq.B + self.aq.Bleak)):
+            raise Exception('Initial water level must be above the aquitard.')
+        self._h0 = v
+
+    @property
+    def Y(self):
+        """float : Length of mine strip (units L, default 1000).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._Y
+
+    @Y.setter
+    def Y(self, v):
+        if not (v > 0):
+            raise Exception('Mine strip length (Y) must be positive.')
+        self._Y = v
+
+    @property
+    def beta(self):
+        """float : Solution term (units L)."""
+        from numpy import sqrt
+        b = sqrt(self.aq.K * self.aq.B * self.aq.Bleak / self.aq.Kleak)
+        return b
+
+    @property
+    def xi(self):
+        """float : Length of influence defined where drawdown is equal to 0.1%
+        of initial aquifer head (units L).
+        """
+        from numpy import log
+        e = 0.001
+        l = -self.beta * log(e * self.h0 / self.dp)
+        return l
+
+    @property
+    def qp(self):
+        """float : Mine pit inflow rate (units L3/T)."""
+        q = 2 * self.Y * self.aq.K * self.aq.B * self.dp / self.beta
+        return q
+
+    def info(self):
+        """Print the solution information."""
+        print('METHOD REFERENCE')
+        print('----------------')
+        print('Nguyen V. U. and Raudkivi A. J. 1982. Transient two-dimensional'
+        '\ngroundwater flow. Hydrological Sciences; 4, 427-438.')
+        print('\nConceptual Model:')
+        print('\nLower Aquifer Conceptual Model:')
+        print('- Infinite, leaky and homogeneous lower aquifer each side of'
+        '\n  mine pit.')
+        print('- Mine pit fully penetrates lower aquifer.')
+        print('- Steady, horizontal, 1D and leaky flow.')
+        print('- Horizontal pre-mining groundwater head.')
+        print('- The mine pit should be long compared to its width such that\n'
+        '  it is reasonable to neglect groundwater inflow from the end walls.')
+        print('\nNotes:')
+        print('- A steady state occurs when inflow to the mine pit is equal\n'
+        '  to leakage from the upper aquifer to the lower aquifer.')
+        print()
+
+    def hx(self, x):
+        """Head at specified distance from pit wall (units L).
+
+        Args:
+            x (float) : Distance from pit wall (units L).
+
+        """
+        from numpy import exp
+        h = self.h0 - self.dp * exp(-x / self.beta)
+        return h
+
+    def dx(self, x):
+        """Drawdown at specified distance from pit wall (unit L).
+
+        Args:
+            x (float) : Distance from pit wall (units L).
+
+        """
+        d = self.h0 - self.hx(x)
+        return d
+
+    def dd(self, n=25, plot=True, csv='', xlsx=''):
+        """Evaluate distance-drawdown (units L).
+
+        Evaluate steady state drawdown at specified distances from the mine pit
+        wall. Results are returned in a Pandas dataframe. A drawdown graph is
+        displayed as default and can be suppressed by setting plot=False.
+
+        Args:
+            n (int) : Number of values for evaluating drawdown (default 25).
+            plot (bool) : Display a plot of results (default True).
+            csv (str) : Full filepath for export of results to csv file;
+                results are exported if the string is not empty (default '').
+            xlsx (str) : Full filepath for export of result to xlsx file;
+                results are exported if the string is not empty (default '').
+
+        Returns:
+            Results in a pandas dataframe.
+
+        """
+        from numpy import linspace
+        import pandas
+        x = linspace(0, self.xi, n)
+        h = [self.hx(i) for i in x]
+        d = [self.dx(i) for i in x]
+        df = pandas.DataFrame()
+        df['distance'] = x
+        df['drawdown'] = d
+        df['head'] = h
+        # Plot results
+        if plot:
+            import matplotlib.pyplot as plt
+            df.plot(
+                x='distance', y='drawdown', grid=True, marker='.', lw=3,
+                alpha=0.5, legend=False, ylabel='drawdown'
+                )
+            plt.axis([0, None, max(d), min(d)])
+            plt.title('Distance Drawdown')
+            plt.show()
+        # Export result to csv
+        if csv != '':
+            if csv.split('.') != 'csv':
+                csv = csv + '.csv'
+            df.to_csv(csv)
+            print('Results exported to:', csv)
+        # Export result to Excel
+        if xlsx != '':
+            if xlsx.split('.') != 'xlsx':
+                xlsx = xlsx + '.xlsx'
+            df.to_excel(xlsx, sheet_name='ri')
+            print('Results exported to:', xlsx)
+        return df
+
+    def draw(self, dw=8):
+        """Display the drawing definition.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('MineSteadyStripLeaky.png', dw=dw)
+        return
+
+class MineSteadyStripLeakyDD:
+    """Steady, leaky 1D flow to mine pit wall.
+
+    Predict steady mine drawdown for a specified mine pit inflow. The
+    MineSteadyStripLeakyDD class uses the default Aq2dLeaky aquifer
+    object with initial thickness 100 for the lower confined aquifer.
+
+    Attributes:
+        aq (obj) : Aquifer object.
+
+    """
+    from pygaf.aquifers import Aq2dLeaky
+    def __init__(self):
+        self.aq = self.Aq2dLeaky(B=100)
+        self.qp = 0.0
+        self.h0 = 120
+        self.Y = 1000
+        return
+
+    @property
+    def qp(self):
+        """float : Mine pit inflow rate (units L/T, default 0.0).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._qp
+
+    @qp.setter
+    def qp(self, v):
+        if not (v >= 0):
+            raise Exception('Pit inflow rate (qp) must be positive.')
+        self._qp = v
+
+    @property
+    def h0(self):
+        """float : Initial groundwater head (units L, default 120).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._h0
+
+    @h0.setter
+    def h0(self, v):
+        if not (v > (self.aq.B + self.aq.Bleak)):
+            raise Exception('Initial water level must be above the aquitard.')
+        self._h0 = v
+
+    @property
+    def Y(self):
+        """float : Length of mine strip (units L, default 1000).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._Y
+
+    @Y.setter
+    def Y(self, v):
+        if not (v > 0):
+            raise Exception('Mine strip length (Y) must be positive.')
+        self._Y = v
+
+    @property
+    def beta(self):
+        """float : Solution term (units L)."""
+        from numpy import sqrt
+        b = sqrt(self.aq.K * self.aq.B * self.aq.Bleak / self.aq.Kleak)
+        return b
+
+    @property
+    def xi(self):
+        """float : Length of influence defined where drawdown is equal to 0.1%
+        of initial aquifer head (units L).
+        """
+        from numpy import log
+        e = 0.001
+        l = -self.beta * log(2 * e * self.h0 * self.aq.T / (self.qp * self.beta / self.Y))
+        return l
+
+    @property
+    def hp(self):
+        """float : Mine pit head (units L)."""
+        from numpy import exp
+        h = self.h0 - self.qp * self.beta / (self.Y * 2 * self.aq.T)
+        return h
+
+    @property
+    def dp(self):
+        """float : Mine pit drawdown (units L)."""
+        d = self.h0 - self.hp
+        return d
+
+    def info(self):
+        """Print the solution information."""
+        print('METHOD REFERENCE')
+        print('----------------')
+        print('Nguyen V. U. and Raudkivi A. J. 1982. Transient two-dimensional'
+        '\ngroundwater flow. Hydrological Sciences; 4, 427-438.')
+        print('\nConceptual Model:')
+        print('\nLower Aquifer Conceptual Model:')
+        print('- Infinite, leaky and homogeneous lower aquifer each side of'
+        '\n  mine pit.')
+        print('- Mine pit fully penetrates lower aquifer.')
+        print('- Steady, horizontal, 1D and leaky flow.')
+        print('- Horizontal pre-mining groundwater head.')
+        print('- The mine pit should be long compared to its width such that\n'
+        '  it is reasonable to neglect groundwater inflow from the end walls.')
+        print('\nNotes:')
+        print('- A steady state occurs when inflow to the mine pit is equal\n'
+        '  to leakage from the upper aquifer to the lower aquifer.')
+        print()
+
+    def hx(self, x):
+        """Head at specified distance from pit wall (units L).
+
+        Args:
+            x (float) : Distance from pit wall (units L).
+
+        """
+        from numpy import exp
+        h = self.h0 - self.qp * self.beta * exp(-x/self.beta) / (self.Y * 2 * self.aq.T)
+        return h
+
+    def dx(self, x):
+        """Drawdown at specified distance from pit wall (unit L).
+
+        Args:
+            x (float) : Distance from pit wall (units L).
+
+        """
+        d = self.h0 - self.hx(x)
+        return d
+
+    def dd(self, n=25, plot=True, csv='', xlsx=''):
+        """Evaluate distance-drawdown (units L).
+
+        Evaluate steady state drawdown at specified distances from the mine pit
+        wall. Results are returned in a Pandas dataframe. A drawdown graph is
+        displayed as default and can be suppressed by setting plot=False.
+
+        Args:
+            n (int) : Number of values for evaluating drawdown (default 25).
+            plot (bool) : Display a plot of results (default True).
+            csv (str) : Full filepath for export of results to csv file;
+                results are exported if the string is not empty (default '').
+            xlsx (str) : Full filepath for export of result to xlsx file;
+                results are exported if the string is not empty (default '').
+
+        Returns:
+            Results in a pandas dataframe.
+
+        """
+        from numpy import linspace
+        import pandas
+        x = linspace(0, self.xi, n)
+        h = [self.hx(i) for i in x]
+        d = [self.dx(i) for i in x]
+        df = pandas.DataFrame()
+        df['distance'] = x
+        df['drawdown'] = d
+        df['head'] = h
+        # Plot results
+        if plot:
+            import matplotlib.pyplot as plt
+            df.plot(
+                x='distance', y='drawdown', grid=True, marker='.', lw=3,
+                alpha=0.5, legend=False, ylabel='drawdown'
+                )
+            plt.axis([0, None, max(d), min(d)])
+            plt.title('Distance Drawdown')
+            plt.show()
+        # Export result to csv
+        if csv != '':
+            if csv.split('.') != 'csv':
+                csv = csv + '.csv'
+            df.to_csv(csv)
+            print('Results exported to:', csv)
+        # Export result to Excel
+        if xlsx != '':
+            if xlsx.split('.') != 'xlsx':
+                xlsx = xlsx + '.xlsx'
+            df.to_excel(xlsx, sheet_name='ri')
+            print('Results exported to:', xlsx)
+        return df
+
+    def draw(self, dw=8):
+        """Display the drawing definition.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('MineSteadyStripLeaky.png', dw=dw)
+        return
+
+class MineTransStripUnconfQ:
+    """Transient, unconfined 1D flow to mine pit wall.
+
+    Predict transient inflow for a specified mine pit water level.
+    The MineTransStripUnconfQ class uses the default Aq2dUnconf aquifer
+    object initial saturated thickness 100.
+
+    Attributes:
+        aq (obj) : Aquifer object.
+
+    """
+    from pygaf.aquifers import Aq2dUnconf
+    def __init__(self):
+        self.aq = self.Aq2dUnconf(B=100)
+        self.hp = 90.0
+        self.Y = 1000
+        return
+
+    @property
+    def hp(self):
+        """float : Mine pit water level (units L, default 90).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._hp
+
+    @hp.setter
+    def hp(self, v):
+        if not (v > 0):
+            raise Exception('Pit water level (hp) must be positive.')
+        self._hp = v
+
+    @property
+    def dp(self):
+        """float : Drawdown of mine pit water level (units L)."""
+        return self.aq.B - self.hp
+
+    @property
+    def Y(self):
+        """float : Length of mine strip (units L, default 1000).
+
+        Setter method checks for valid values and triggers an exception if
+        invalid values are specified.
+        """
+        return self._Y
+
+    @Y.setter
+    def Y(self, v):
+        if not (v > 0):
+            raise Exception('Mine strip length (Y) must be positive.')
+        self._Y = v
+
+    def xi(self, t):
+        """Length of influence at specified time, defined where drawdown
+        is equal to 0.1% of initial aquifer head (units L).
+
+        Args:
+            t (float) : time (units T)
+        """
+        from scipy.special import erfinv
+        from numpy import sqrt
+        e = 0.001
+        t1 = sqrt(4 * self.aq.T * t / self.aq.Sy)
+        t2 = ((self.aq.B - e*self.aq.B)**2 - self.hp**2) / (self.aq.B**2 - self.hp**2)
+        l = t1 * erfinv(t2)
+        return l
+
+    def qp(self, t):
+        """Inflow to mine pit at specified time (units L3/T).
+
+        Args:
+            t (float) : time (units T)
+        """
+        from numpy import sqrt
+        from numpy import pi
+        e = 0.001
+        t1 = self.Y * self.aq.K * (self.aq.B**2 - self.hp**2)
+        t2 = self.aq.Sy / (pi * self.aq.T * t)
+        q = t1 * sqrt(t2)
+        return q
+
+    def qp_cum(self, t):
+        """Cumulative inflow to mine pit at specified time (units L3).
+
+        Args:
+            t (float) : time (units T)
+        """
+        from numpy import sqrt
+        from numpy import pi
+        e = 0.001
+        t1 = 2 * self.Y * self.aq.K * t * (self.aq.B**2 - self.hp**2)
+        t2 = self.aq.Sy / (pi * self.aq.T * t)
+        q = t1 * sqrt(t2)
+        return q
+
+    def info(self):
+        """Print the solution information."""
+        print('METHOD REFERENCE')
+        print('----------------')
+        print('Nguyen V. U. and Raudkivi A. J. 1982. Transient two-dimensional'
+        '\ngroundwater flow. Hydrological Sciences; 4, 427-438.')
+        print('\nConceptual Model:')
+        print('- Infinite, unconfined and homogeneous aquifer each side of mine pit.')
+        print('- Mine pit fully penetrates the aquifer.')
+        print('- Transient, horizontal, 1D and unconfined flow.')
+        print('- Horizontal pre-mining groundwater head.')
+        print('- The mine pit should be long compared to its width such that\n'
+        '  it is reasonable to neglect groundwater inflow from the end walls.')
+        print('\nNotes:')
+        print('- Time zero corresponds to an instantaneous drawdown of the mine pit\n'
+        '  water level from the initial condition.')
+        print('- No steady state is reached (inflow tends toward zero at large times).')
+        print('- The analytical solution was obtained by linearising the non-linear\n'
+        '  PDE; the soultion will be most reliable when dp is small compared to hp.')
+        print()
+
+    def hxt(self, x, t):
+        """Head at specified distance and time (units L).
+
+        Args:
+            x (float) : distance from pit wall (units L).
+            t (float) : time (units T).
+        """
+        from scipy.special import erf
+        from numpy import sqrt
+        t1 = self.aq.B**2 - self.hp**2
+        t2 = x * sqrt(self.aq.Sy / (4 * self.aq.T * t))
+        h = sqrt(self.hp**2 + t1 * erf(t2))
+        return h
+
+    def dxt(self, x, t):
+        """Drawdown at specified distance and time (units L).
+
+        Args:
+            x (float) : distance from pit wall (units L).
+            t (float) : time (units T).
+        """
+        return self.aq.B - self.hxt(x,t)
+
+    def draw(self, dw=8):
+        """Display the drawing definition.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('MineTransStripUnconf.png', dw=dw)
+        return
+
+    def dd(self, t, n=25, plot=True, csv='', xlsx=''):
+        """Evaluate distance-drawdown at specified time(units L).
+
+        Evaluate drawdown at specified distances from the mine pit wall at
+        specified time. Results are returned in a Pandas dataframe. A drawdown
+        grapph is displayed as default and can be suppressed by setting plot=False.
+
+        Args:
+            t (float) : Time (units T)
+            n (int) : Number of values for evaluating drawdown (default 25).
+            plot (bool) : Display a plot of results (default True).
+            csv (str) : Full filepath for export of results to csv file;
+                results are exported if the string is not empty (default '').
+            xlsx (str) : Full filepath for export of result to xlsx file;
+                results are exported if the string is not empty (default '').
+
+        Returns:
+            Results in a pandas dataframe.
+
+        """
+        from numpy import linspace
+        import pandas
+        x = linspace(0, self.xi(t), n)
+        h = [self.hxt(i,t) for i in x]
+        d = [self.dxt(i,t) for i in x]
+        df = pandas.DataFrame()
+        df['distance'] = x
+        df['drawdown'] = d
+        df['head'] = h
+        # Plot results
+        if plot:
+            import matplotlib.pyplot as plt
+            df.plot(
+                x='distance', y='drawdown', grid=True, marker='.', lw=3,
+                alpha=0.5, legend=False, ylabel='drawdown'
+                )
+            plt.axis([0, None, max(d), min(d)])
+            plt.title('Distance Drawdown')
+            plt.show()
+        # Export result to csv
+        if csv != '':
+            if csv.split('.') != 'csv':
+                csv = csv + '.csv'
+            df.to_csv(csv)
+            print('Results exported to:', csv)
+        # Export result to Excel
+        if xlsx != '':
+            if xlsx.split('.') != 'xlsx':
+                xlsx = xlsx + '.xlsx'
+            df.to_excel(xlsx, sheet_name='ri')
+            print('Results exported to:', xlsx)
+        return df

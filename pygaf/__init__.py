@@ -13,6 +13,7 @@ Documentation: https://pygaf.readthedocs.io/en/latest/index.html
 from .aquifers import (
     Aquifer,
     Aq2dConf,
+    Aq2dLeaky,
     Aq2dUnconf,
     Aq1dFiniteConf,
     Aq1dFiniteUnconf,
