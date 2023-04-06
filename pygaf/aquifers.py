@@ -14,7 +14,7 @@ class Aquifer:
         name (str) : Aquifer label (default 'Unnamed').
 
     """
-    def __init__(self, K=1, B=10, bot=0, name='Unnamed'):
+    def __init__(self, K=1, B=10, bot=0, name='Parent aquifer class'):
         self.K = K
         self.B = B
         self.bot = bot
@@ -59,7 +59,7 @@ class Aq2dConf(Aquifer):
     is_confined = True
     is_leaky = False
     is_unconfined = False
-    def __init__(self, K=1, Ss=1e-4, B=10, bot=0, name='Unnamed'):
+    def __init__(self, K=1, Ss=1e-4, B=10, bot=0, name='Aq2dConf class'):
         super().__init__(K, B, bot, name)
         self.Ss = Ss
         self.type = '2D, confined homogeneous aquifer'
@@ -204,7 +204,7 @@ class Aq2dUnconf(Aquifer):
     is_confined = False
     is_leaky = False
     is_unconfined = True
-    def __init__(self, K=1, Sy=0.1, B=10, bot=0, name='Unnamed'):
+    def __init__(self, K=1, Sy=0.1, B=10, bot=0, name='Aq2dUnconf class'):
         super().__init__(K, B, bot, name)
         self.Sy = Sy
         self.type = '2D, unconfined homogeneous aquifer'
@@ -357,7 +357,7 @@ class Aq2dLeaky(Aquifer):
     is_confined = False
     is_leaky = True
     is_unconfined = False
-    def __init__(self, K=1, Ss=1e-4, B=10, bot=0, Kleak=1e-5, Bleak=10, name='Unnamed'):
+    def __init__(self, K=1, Ss=1e-4, B=10, bot=0, Kleak=1e-5, Bleak=10, name='Aq2dLeaky class'):
         super().__init__(K, B, bot, name)
         self.Ss = Ss
         self.Kleak = Kleak
@@ -539,7 +539,7 @@ class Aq1dFiniteConf(Aquifer):
     is_confined = True
     is_leaky = False
     is_unconfined = False
-    def __init__(self, K=1, Ss=1e-4, B=10, L=1000, bot=0, name='Unnamed'):
+    def __init__(self, K=1, Ss=1e-4, B=10, L=1000, bot=0, name='Aq1dFiniteConf class'):
         super().__init__(K, B, bot, name)
         self.Ss = Ss
         self.L = L
@@ -718,7 +718,7 @@ class Aq1dFiniteUnconf(Aquifer):
     is_confined = False
     is_leaky = False
     is_unconfined = True
-    def __init__(self, K=1, Sy=0.1, B=10, L=1000, bot=0, name='Unnamed'):
+    def __init__(self, K=1, Sy=0.1, B=10, L=1000, bot=0, name='Aq1dFiniteUnconf class'):
         super().__init__(K, B, bot, name)
         self.Sy = Sy
         self.L = L
@@ -905,7 +905,7 @@ class Aq1dSemifiniteConf(Aquifer):
     is_confined = True
     is_leaky = False
     is_unconfined = False
-    def __init__(self, K=1, Ss=1e-4, B=10, bot=0, name='Unnamed'):
+    def __init__(self, K=1, Ss=1e-4, B=10, bot=0, name='Aq1dSemifiniteConf class'):
         super().__init__(K, B, bot, name)
         self.Ss = Ss
         self.type = '1D, semi-infinite, confined homogeneous aquifer'
@@ -1061,7 +1061,7 @@ class Aq1dSemifiniteUnconf(Aquifer):
     is_confined = False
     is_leaky = False
     is_unconfined = True
-    def __init__(self, K=1, Sy=0.1, B=10, bot=0, name='Unnamed'):
+    def __init__(self, K=1, Sy=0.1, B=10, bot=0, name='Aq1dSemifiniteUnconf class'):
         super().__init__(K, B, bot, name)
         self.Sy = Sy
         self.type = '1D, semi-infinite, unconfined homogeneous aquifer'

@@ -11,7 +11,7 @@ class CircBasin:
     """
     is_rectangular = False
     is_circular = True
-    def __init__(self, cx=0.0, cy=0.0, diam=10, name='Unnamed'):
+    def __init__(self, cx=0.0, cy=0.0, diam=10, name='Circle basin'):
         self.cx = cx
         self.cy = cy
         self.diam = diam
@@ -110,7 +110,7 @@ class RectBasin:
     """
     is_rectangular = True
     is_circular = False
-    def __init__(self, cx=0.0, cy=0.0, lx=10, ly=10, rot=0, name='Unnamed'):
+    def __init__(self, cx=0.0, cy=0.0, lx=10, ly=10, rot=0, name='Rectangle basin'):
         self.cx = cx
         self.cy = cy
         self.lx = lx
