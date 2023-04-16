@@ -1,5 +1,5 @@
-Steady State Flow in 1D Aquifers
-================================
+Steady state 1D aquifer flow
+============================
 
 .. automodule:: pygaf.solutions.steady_flow
    :members:
