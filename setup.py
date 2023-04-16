@@ -23,4 +23,5 @@ setuptools.setup(
     ],
     license='MIT',
     packages=['pygaf', 'pygaf.solutions'],
+    package_data={'pygaf': ['images/*.png']}
 )
