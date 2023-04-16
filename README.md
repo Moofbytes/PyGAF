@@ -5,7 +5,7 @@ PyGAF is a Python package for evaluation and display of analytic solutions of gr
 
 Documentation
 =============
-PyGAF's documentation is hosted at Read the Docs.
+PyGAF's documentation is hosted at Read the Docs
 
 https://pygaf.readthedocs.io/en/latest/index.html
 
