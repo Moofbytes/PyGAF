@@ -4,6 +4,7 @@ setup.py
 pygaf/__init__.py
 pygaf/aquifers.py
 pygaf/basins.py
+pygaf/bcs.py
 pygaf/grids.py
 pygaf/stresses.py
 pygaf/utils.py
@@ -14,4 +15,6 @@ pygaf.egg-info/dependency_links.txt
 pygaf.egg-info/top_level.txt
 pygaf/solutions/__init__.py
 pygaf/solutions/glover_1960.py
+pygaf/solutions/mine_flow.py
+pygaf/solutions/steady_flow.py
 pygaf/solutions/theis_1935.py
