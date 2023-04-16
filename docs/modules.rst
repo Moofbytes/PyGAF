@@ -1,5 +1,5 @@
-Modules
-=======
+PyGAF modules
+=============
 
 .. toctree::
 
