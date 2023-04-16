@@ -13,6 +13,15 @@ pygaf.egg-info/PKG-INFO
 pygaf.egg-info/SOURCES.txt
 pygaf.egg-info/dependency_links.txt
 pygaf.egg-info/top_level.txt
+pygaf/images/MineSteadyRadLeaky.png
+pygaf/images/MineSteadyRadUnconf.png
+pygaf/images/MineSteadyRadUnconf2.png
+pygaf/images/MineSteadyStripLeaky.png
+pygaf/images/MineSteadyStripUnconf.png
+pygaf/images/MineTransRadConf.png
+pygaf/images/MineTransStripConf.png
+pygaf/images/MineTransStripLeaky.png
+pygaf/images/MineTransStripUnconf.png
 pygaf/solutions/__init__.py
 pygaf/solutions/glover_1960.py
 pygaf/solutions/mine_flow.py
