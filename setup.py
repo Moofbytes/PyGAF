@@ -4,7 +4,7 @@ long_description = 'Evaluation and display of analytic groundwater solutions.'
 
 setuptools.setup(
     name='pygaf',
-    version='0.0.1',
+    version='0.0.2',
     author='Tony Smith',
     author_email='tony@moofbytes.com',
     description='Python Groundwater Analytic Flow',
