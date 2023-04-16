@@ -1,4 +1,6 @@
 How to install and use PyGAF
 ============================
 
-To come...
+Install the development version of PyGAF from PyPITest using pip
+
+`pip install -i https://test.pypi.org/simple/ pygaf==0.1.0`
