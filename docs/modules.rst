@@ -6,6 +6,7 @@ PyGAF modules
    aquifers
    basins
    bcs
+   grids
    stresses
    utils
    wells
