@@ -1,7 +1,7 @@
-class WellGrid:
+class SteadyWellGrid:
     """Square grid class with regular spacing and well at grid center.
 
-    The default WellGrid object has radius gr=100 defining the square's
+    The default SteadyWellGrid object has radius gr=100 defining the square's
     extent and grid density gd=21. An exception occurs if the grid radius is
     not positive. Grid density defines the numbers of rows and columns
     comprising the grid; thus, the default grid has 21 rows x 21 cols = 441
@@ -22,9 +22,9 @@ class WellGrid:
             minimum and maximum constraints are enforced (default 21).
 
     """
-    from .wells import Well
+    from .wells import SteadyWell
     def __init__(self, gr=100, gd=21):
-        self.well = self.Well()
+        self.well = self.SteadyWell()
         self.gr = gr
         self.gd = gd
         self.max_gd = 41

@@ -1,24 +1,25 @@
 class TheisWell:
     """Theis (1935) radial flow solution.
 
-    The default TheisWell object uses the default Aq2dConf and WellGrid
-    classes. The WellGrid class includes the default Well class. Methods
-    include radius of influence .ri, transient drawdown at a point .dd and
-    grid-contoured drawdown at specified time .dd_grid.
+    The default TheisWell object uses the Aq2dConf, WellGrid and SteadyWell
+    classes. Methods include radius of influence .ri, transient drawdown at a
+    point .dd and grid-contoured drawdown at specified time .dd_grid.
 
     Attributes:
         aq (obj) : Aq2dConf aquifer object.
         grd (obj) : WellGrid object.
+        well (obj) : SteadyWell object.
         qf (float) : Fraction of pumped volume used for calculating radius of
             influence (default 0.99).
 
     """
     from pygaf.aquifers import Aq2dConf
-    from pygaf.grids import WellGrid
+    from pygaf.grids import SteadyWellGrid
     def __init__(self):
         self.aq = self.Aq2dConf()
-        self.grid = self.WellGrid()
+        self.grid = self.SteadyWellGrid()
         self.well = self.grid.well
+        self.well.q = -1000
         self.qf = 0.99
         return
 
@@ -57,7 +58,7 @@ class TheisWell:
         return Q * W / (4.0 * pi * T)
 
 
-    def ri(self, t=[1.0], q=-1000, plot=True, csv='', xlsx=''):
+    def ri(self, t=[1.0], plot=True, csv='', xlsx=''):
         """Calculate radius of influence at specified times.
 
         Radius of influence is defined as the radius from within which a
@@ -88,7 +89,6 @@ class TheisWell:
 
         """
         import pandas
-        self.well.q = q
         # Checks
         if self.qfp < 0 or self.qfp > 1:
             print('Error! The value of qf must be between 0 and 1.')
@@ -130,7 +130,7 @@ class TheisWell:
             print('Results exported to:', xlsx)
         return df
 
-    def dd(self, t=[1], r=[1], q=-1000.0, plot=True, csv='', xlsx=''):
+    def dd(self, t=[1], r=[1], plot=True, csv='', xlsx=''):
         """Evaluate drawdown at specified radii and times.
 
         Evaluate drawdown at each radius and time specified in the lists t
@@ -158,7 +158,6 @@ class TheisWell:
 
         """
         import pandas
-        self.well.q = q
         # Checks
         if min(t) <= 0 or min(r) <= 0:
             print('Error! All times and radii must be greater than 0.')
@@ -202,8 +201,7 @@ class TheisWell:
             print('Results exported to:', xlsx)
         return df
 
-    def dd_grid(self, t=1.0, q=-1000.0, plot=True, local=False, csv='',
-    xlsx=''):
+    def dd_grid(self, t=1.0, plot=True, local=False, csv='', xlsx=''):
         """Evaluate drawdown on a regular grid.
 
         Evaluate drawdown on a grid of points at specified time and well rate.
@@ -231,23 +229,23 @@ class TheisWell:
         """
         import matplotlib.pyplot as plt
         import pandas
-        self.well.q = q
         # Set coordinates
         if local:
             x, y = list(self.grid.pts.locx), list(self.grid.pts.locy)
             wx, wy = 0, 0
-            plot_title = 'Drawdown at radius < ' + str(self.grid.gr) +\
-            ' and t = ' + str(t) + '\n(local coordinates)'
+            plot_title = 'Drawdown at radius < ' + str(self.grid.gr) + ' and t = ' + str(t) +\
+            '\nT = ' + str(self.aq.T) + ', S = ' + str(self.aq.S) + ', q = ' + str(self.well.q)
         else:
             x, y = list(self.grid.pts.worldx), list(self.grid.pts.worldy)
-            wx, wy = self.grid.well.x, self.grid.well.y
-            plot_title = 'Drawdown at radius < ' + str(self.grid.gr) +\
-            ' and t = ' + str(t) + '\n(world coordinates)'
+            wx, wy = self.well.x, self.well.y
+            plot_title = 'Drawdown at radius < ' + str(self.grid.gr) + ' and t = ' + str(t) +\
+            '\nT = ' + str(self.aq.T) + ', S = ' + str(self.aq.S) + ', q = ' + str(self.well.q)
         # Calculate drawdown
         radius, drawdown = [], []
         for i in range(self.grid.npts):
             r = self.grid.pts.rad[i]
-            if r <= self.grid.well.r:
+            #if r <= self.grid.well.r:
+            if r <= self.well.r:
                 r = self.grid.pts.rad[i-1]
             dd = self.disp(r, self.aq.S, self.aq.T, t, self.well.q)
             radius.append(r)
@@ -267,7 +265,10 @@ class TheisWell:
             )
             ax1.clabel(cs, inline=1, fontsize=10)
             ax1.plot(wx, wy, '.', c='red')
-            ax1.set_title('Displacement Contours')
+            if local:
+                ax1.set_title('Displacement Contours (local)')
+            else:
+                ax1.set_title('Displacement Contours')
             ax1.grid(True)
             ax1.axis('equal')
             ax2.plot(
@@ -275,7 +276,10 @@ class TheisWell:
                 drawdown[self.grid.grdim*(mid_row-1):self.grid.grdim*mid_row],
                 '.-', lw=3, alpha=0.5
             )
-            ax2.set_title('Radial Displacement')
+            if local:
+                ax2.set_title('Radial Displacement (local)')
+            else:
+                ax2.set_title('Radial Displacement')
             ax2.grid(True)
             plt.show()
             plt.close()

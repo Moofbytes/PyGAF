@@ -32,7 +32,7 @@ from .stresses import (
 )
 
 from .grids import (
-    WellGrid,
+    SteadyWellGrid,
     BasinGrid
 )
 
