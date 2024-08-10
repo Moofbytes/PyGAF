@@ -7,7 +7,7 @@ class TheisWell:
 
     Attributes:
         aq (obj) : Aq2dConf aquifer object.
-        grd (obj) : WellGrid object.
+        grd (obj) : SteadyWellGrid object.
         well (obj) : SteadyWell object.
         qf (float) : Fraction of pumped volume used for calculating radius of
             influence (default 0.99).
