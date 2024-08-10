@@ -2,7 +2,7 @@ class GloverRectBasinSteady:
     """Glover (1960) solution class.
 
     The default GloverRectBasinSteady object uses the default Aq2dConf and
-    BasinGrid classes. It's methods include impress at a point .impress and
+    BasinGrid classes. Its methods include impress at a point .impress and
     grid-contoured impress at specified time .impress_grid.
 
     Attributes:
