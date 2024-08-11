@@ -7,7 +7,6 @@ PyGAF modules
    basins
    bcs
    grids
-   solutions
    stresses
    utils
    wells
