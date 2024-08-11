@@ -27,3 +27,4 @@ pygaf/solutions/glover_1960.py
 pygaf/solutions/mine_flow.py
 pygaf/solutions/steady_flow.py
 pygaf/solutions/theis_1935.py
+pygaf/solutions/thiem_1906.py
