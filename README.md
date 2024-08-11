@@ -13,7 +13,7 @@ Installation
 ============
 Install the development version of PyGAF from PyPITest using pip
 
-`pip install -i https://test.pypi.org/simple/ pygaf==0.1.0`
+`pip install -i https://test.pypi.org/simple/ pygaf==1.0.0`
 
 Jupyter Notebook Examples
 =========================
