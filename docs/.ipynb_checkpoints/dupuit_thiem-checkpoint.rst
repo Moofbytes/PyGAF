@@ -1,7 +1,7 @@
-Thiem (1906) radial flow
+Dupuit-Thiem radial flow
 ========================
 
-.. automodule:: pygaf.solutions.thiem_1906
+.. automodule:: pygaf.solutions.dupuit_thiem
    :members:
    :undoc-members:
    :show-inheritance:

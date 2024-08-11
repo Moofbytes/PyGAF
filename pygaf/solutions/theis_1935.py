@@ -1,9 +1,10 @@
 class TheisWell:
     """Theis (1935) radial flow solution.
 
-    The default TheisWell object uses the Aq2dConf, WellGrid and SteadyWell
-    classes. Methods include radius of influence .ri, transient drawdown at a
-    point .dd and grid-contoured drawdown at specified time .dd_grid.
+    The default TheisWell object uses the Aq2dConf, SteadyWellGrid and
+    SteadyWell classes. Methods include radius of influence .ri, transient
+    drawdown at a point .dd and grid-contoured drawdown at specified time
+    .dd_grid.
 
     Attributes:
         aq (obj) : Aq2dConf aquifer object.
@@ -97,6 +98,7 @@ class TheisWell:
             print('Error! All times must be greater than 0.')
             return
         # Radius of influence
+        t.sort()
         ri = []
         for tim in t:
             ri.append(self.rinf(self.aq.T, self.aq.S, tim, self.qfp))
@@ -163,6 +165,7 @@ class TheisWell:
             print('Error! All times and radii must be greater than 0.')
             return
         # Calculate drawdown
+        t.sort()
         d = {'Time':t}
         df = pandas.DataFrame(data=d)
         df.set_index('Time', inplace=True)
@@ -229,22 +232,21 @@ class TheisWell:
         """
         import matplotlib.pyplot as plt
         import pandas
+        # Checks
+        if t <= 0:
+            print('Error! Time must be greater than 0.')
+            return
         # Set coordinates
         if local:
             x, y = list(self.grid.pts.locx), list(self.grid.pts.locy)
             wx, wy = 0, 0
-            plot_title = 'Drawdown at radius < ' + str(self.grid.gr) + ' and t = ' + str(t) +\
-            '\nT = ' + str(self.aq.T) + ', S = ' + str(self.aq.S) + ', q = ' + str(self.well.q)
         else:
             x, y = list(self.grid.pts.worldx), list(self.grid.pts.worldy)
             wx, wy = self.well.x, self.well.y
-            plot_title = 'Drawdown at radius < ' + str(self.grid.gr) + ' and t = ' + str(t) +\
-            '\nT = ' + str(self.aq.T) + ', S = ' + str(self.aq.S) + ', q = ' + str(self.well.q)
         # Calculate drawdown
         radius, drawdown = [], []
         for i in range(self.grid.npts):
             r = self.grid.pts.rad[i]
-            #if r <= self.grid.well.r:
             if r <= self.well.r:
                 r = self.grid.pts.rad[i-1]
             dd = self.disp(r, self.aq.S, self.aq.T, t, self.well.q)
@@ -252,6 +254,9 @@ class TheisWell:
             drawdown.append(dd)
         # Plot results
         mid_row = int(self.grid.grdim/2)
+        plot_title = 'Drawdown at radius < ' + str(self.grid.gr) + ' and t = ' + str(t) +\
+        '\nT = ' + str(self.aq.T) + ', S = ' + str(self.aq.S) + ', q = ' + str(self.well.q) +\
+        ', ri99 = ' + str(round(self.rinf(self.aq.T, self.aq.S, t, qf=0.99),0))
         if plot:
             cm = plt.cm.get_cmap('Blues').reversed()
             fig, (ax1, ax2) = plt.subplots(
