@@ -1,16 +1,9 @@
 PyGAF modules
 =============
 
-.. automodule:: pygaf.aquifers
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   
-.. automodule:: pygaf.basins
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   
+.. toctree::
+
+   aquifers
    basins
    bcs
    grids
