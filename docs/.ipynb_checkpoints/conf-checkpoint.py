@@ -43,13 +43,7 @@ extensions = [
     "sphinx.ext.intersphinx",
 ]
 
-intersphinx_mapping = {
-    "rtd": ("https://docs.readthedocs.io/en/stable/", None),
-    "python": ("https://docs.python.org/3/", None),
-    "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
-}
-intersphinx_disabled_domains = ["std"]
-
+# Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
 # -- Options for EPUB output

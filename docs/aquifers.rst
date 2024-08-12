@@ -1,7 +1,7 @@
 Aquifer classes
 ===============
 
-.. automodule:: pygaf.aquifers.py
+.. automodule:: aquifers.py
    :members:
    :undoc-members:
    :show-inheritance:

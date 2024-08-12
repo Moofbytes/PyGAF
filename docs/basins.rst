@@ -1,7 +1,7 @@
 Basin classes
 =============
 
-.. automodule:: pygaf.basins.py
+.. automodule:: basins.py
    :members:
    :undoc-members:
    :show-inheritance:
