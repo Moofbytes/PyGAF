@@ -1,6 +1,0 @@
-Solution classes
-================
-
-.. toctree::
-
-   solutions
