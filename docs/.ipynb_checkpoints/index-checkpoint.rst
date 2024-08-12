@@ -20,5 +20,4 @@ Contents
 
    Home <self>
    usage
-   solutions
-   modules
+   pygaf
