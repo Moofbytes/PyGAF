@@ -2,12 +2,12 @@ PyGAF modules
 =============
 
 .. toctree::
-  :maxdepth: 3
+  :maxdepth: 2
 
-   aquifers
-   basins
-   bcs
-   grids
-   stresses
-   utils
-   wells
+     aquifers
+     basins
+     bcs
+     grids
+     stresses
+     utils
+     wells
