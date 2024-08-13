@@ -21,3 +21,4 @@ Contents
    Home <self>
    usage
    modules
+     basins
