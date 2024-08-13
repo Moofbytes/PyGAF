@@ -18,8 +18,8 @@ Contents
 
 .. toctree::
   :maxdepth: 2
-  :numbered:
+    :numbered:
 
-   Home <self>
-   usage
-   modules
+     Home <self>
+     usage
+     modules
