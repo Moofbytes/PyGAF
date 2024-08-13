@@ -1,5 +1,5 @@
-PyGAF modules
-=============
+Analytic solutions
+==================
 
 .. toctree::
 
