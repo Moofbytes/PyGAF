@@ -17,8 +17,9 @@ Contents
 --------
 
 .. toctree::
+  :maxdepth: 2
+  :numbered:
 
    Home <self>
    usage
    modules
-     basins
