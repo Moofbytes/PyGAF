@@ -2,6 +2,7 @@ PyGAF modules
 =============
 
 .. toctree::
+  :maxdepth: 3
 
    aquifers
    basins
