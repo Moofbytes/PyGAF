@@ -1,7 +1,7 @@
 Aquifer classes
 ===============
 
-.. automodule:: aquifers.py
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autosummary::
+   :toctree: generated
+
+   aquifers
