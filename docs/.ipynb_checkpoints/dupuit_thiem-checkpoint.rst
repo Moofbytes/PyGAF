@@ -1,7 +1,7 @@
 Dupuit-Thiem radial flow
 ========================
 
-.. automodule:: pygaf.dupuit_thiem
+.. automodule:: pygaf.solutions.dupuit_thiem
    :members:
    :undoc-members:
    :show-inheritance:
