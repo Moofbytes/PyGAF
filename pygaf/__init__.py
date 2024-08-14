@@ -36,7 +36,7 @@ from .grids import (
     BasinGrid
 )
 
-from .basins import (
+from pygaf.basins import (
     RectBasin,
     CircBasin
 )

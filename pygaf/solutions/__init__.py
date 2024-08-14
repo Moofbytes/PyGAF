@@ -3,7 +3,7 @@ Analytic solutions for groundwater flow.
 
 """
 
-from .thiem_1906 import ThiemWell
+from pygaf.solutions.thiem_1906 import ThiemWell
 from .dupuit_thiem import DupuitThiemWell
 from .theis_1935 import TheisWell
 from .glover_1960 import GloverRectBasinSteady
