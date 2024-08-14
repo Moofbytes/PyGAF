@@ -1,7 +1,7 @@
 Aquifer classes
 ===============
 
-.. autosummary::
-   :toctree: generated
-
-   aquifers
+.. automodule:: pygaf.aquifers
+   :members:
+   :undoc-members:
+   :show-inheritance:
