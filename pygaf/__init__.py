@@ -21,13 +21,13 @@ from pygaf.aquifers import (
     Aq1dSemifiniteUnconf
  )
 
-from .wells import (
+from pygaf.wells import (
     Well,
     SteadyWell,
     TransientWell
 )
 
-from .stresses import (
+from pygaf.stresses import (
     StressSeries
 )
 
@@ -41,10 +41,10 @@ from pygaf.basins import (
     CircBasin
 )
 
-from .bcs import (
+from pygaf.bcs import (
     SteadyBC
 )
 
-from .solutions import *
+from pygaf.solutions import *
 
 import pygaf.utils
