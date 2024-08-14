@@ -4,7 +4,7 @@ Analytic solutions
 .. toctree::
    :maxdepth: 2
 
-   dupuit-thiem
+   dupuit_thiem
    glover_1960
    mine_flow
    steady_flow
