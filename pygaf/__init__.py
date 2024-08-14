@@ -31,7 +31,7 @@ from pygaf.stresses import (
     StressSeries
 )
 
-from .grids import (
+from pygaf.grids import (
     SteadyWellGrid,
     BasinGrid
 )
