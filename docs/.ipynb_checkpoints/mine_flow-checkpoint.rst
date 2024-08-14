@@ -1,5 +1,5 @@
-Mine pit inflow solutions
-=========================
+Mine pit inflow
+===============
 
 .. automodule:: pygaf.solutions.mine_flow
    :members:
