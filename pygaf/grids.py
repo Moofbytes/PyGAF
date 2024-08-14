@@ -22,7 +22,7 @@ class SteadyWellGrid:
             minimum and maximum constraints are enforced (default 21).
 
     """
-    from .wells import SteadyWell
+    from pygaf.wells import SteadyWell
     def __init__(self, gr=100, gd=21):
         self.well = self.SteadyWell()
         self.gr = gr
@@ -144,7 +144,7 @@ class BasinGrid:
             minimum and maximum constraints are enforced (default 21).
 
     """
-    from .basins import RectBasin
+    from pygaf.basins import RectBasin
     def __init__(self, gr=100, gd=21):
         self.basin = self.RectBasin()
         self.gr = gr

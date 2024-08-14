@@ -168,7 +168,7 @@ class TransientWell:
     is_steady = False
     is_transient = True
     import pandas
-    from .stresses import StressSeries
+    from pygaf.stresses import StressSeries
     def __init__(self, x=0.0, y=0.0, r=0.05, pf=1, name='Transient flowing well'):
         self.x = x
         self.y = y
