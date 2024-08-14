@@ -1,7 +1,7 @@
 Steady state boundary conditions
 ================================
 
-.. automodule:: pygaf.bcs
+.. automodule:: bcs
    :members:
    :undoc-members:
    :show-inheritance:

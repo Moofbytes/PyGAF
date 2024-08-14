@@ -1,7 +1,7 @@
 Grid classes
 ============
 
-.. automodule:: pygaf.grids
+.. automodule:: grids
    :members:
    :undoc-members:
    :show-inheritance:

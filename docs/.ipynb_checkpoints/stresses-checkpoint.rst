@@ -1,7 +1,7 @@
 Stress classes
 ==============
 
-.. automodule:: pygaf.stresses
+.. automodule:: stresses
    :members:
    :undoc-members:
    :show-inheritance:

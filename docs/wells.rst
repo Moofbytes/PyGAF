@@ -1,7 +1,7 @@
 Well classes
 ============
 
-.. automodule:: pygaf.wells
+.. automodule:: wells
    :members:
    :undoc-members:
    :show-inheritance:
