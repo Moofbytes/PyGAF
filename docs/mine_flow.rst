@@ -1,7 +1,7 @@
 Mine pit inflow
 ===============
 
-.. automodule:: pygaf.solutions.mine_flow
+.. automodule:: mine_flow
    :members:
    :undoc-members:
    :show-inheritance:

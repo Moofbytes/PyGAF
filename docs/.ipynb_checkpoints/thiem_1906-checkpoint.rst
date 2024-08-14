@@ -1,7 +1,7 @@
 Thiem (1906) radial flow
 ========================
 
-.. automodule:: pygaf.solutions.thiem_1906
+.. automodule:: thiem_1906
    :members:
    :undoc-members:
    :show-inheritance:
