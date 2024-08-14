@@ -10,7 +10,7 @@ Documentation: https://pygaf.readthedocs.io/en/latest/index.html
 
 """
 
-from .aquifers import (
+from pygaf.aquifers import (
     Aquifer,
     Aq2dConf,
     Aq2dLeaky,
