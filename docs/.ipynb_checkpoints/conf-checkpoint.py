@@ -18,7 +18,9 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('./solutions'))
+# sys.path.insert(0, os.path.abspath('.'))
+#sys.path.insert(0, os.path.abspath('../pygaf/solutions'))
+#sys.path.insert(0, os.path.abspath('../pygaf'))
 
 
 # -- Project information -----------------------------------------------------
@@ -44,7 +46,7 @@ extensions = [
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
+templates_path = []
 
 # -- Options for EPUB output
 epub_show_urls = "footnote"
