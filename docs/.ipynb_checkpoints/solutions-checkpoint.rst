@@ -3,9 +3,9 @@ Analytic solutions
 
 .. toctree::
 
-   dupuit-thiem
-   glover_1960
-   mine_flow
-   steady_flow
-   theis_1935
-   thiem_1906
+   solutions/dupuit-thiem
+   solutions/glover_1960
+   solutions/mine_flow
+   solutions/steady_flow
+   solutions/theis_1935
+   solutions/thiem_1906
