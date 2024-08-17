@@ -11,7 +11,7 @@ The package name is an acronym of ``Py``\ thon ``G``\ roundwater ``A``\ nalytic 
 
 .. note::
 
-   This project is under active development.
+   PyGAF and this documentation are under active development, but please download and try it out.
 
 Contents
 --------
@@ -19,7 +19,7 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   Home <self>
+   about
    usage
    solutions
    modules
