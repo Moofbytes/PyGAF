@@ -2,8 +2,8 @@ class GloverRectBasinSteady:
     """Glover (1960) solution class.
 
     The default GloverRectBasinSteady object uses the default Aq2dConf and
-    BasinGrid classes. Its methods include impress at a point .impress and
-    grid-contoured impress at specified time .impress_grid.
+    BasinGrid classes. Methods include impress at a point (.impress) and
+    grid-contoured impress at specified time (.impress_grid).
 
     Attributes:
         aq (obj) : Confined aquifer object.
@@ -143,7 +143,7 @@ class GloverRectBasinSteady:
 
     def impress_grid(self, t=1, q=0.0, gr=100, gd=20, plot=True, local=False,
         csv='', xlsx=''):
-        """Calculate impress on a regular grid.
+        """Calculate impress on a regular grid of points.
 
         Args:
             t (float) : Time to evaluate impress (default [1.0]).
