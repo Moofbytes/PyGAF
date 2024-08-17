@@ -1,8 +1,8 @@
 class DupuitThiemWell:
     """Dupuit-Thiem radial flow solution for uniform recharge.
 
-    The default DupuitThiemWell object uses the Aq2dConf, SteadyWellGrid and
-    SteadyWell classes.
+    The default DupuitThiemWell object adopts the Aq2dConf, SteadyWellGrid
+    and SteadyWell classes.
 
     Attributes:
         aq (obj) : Aq2dConf aquifer object.
@@ -101,15 +101,15 @@ class DupuitThiemWell:
         return df
     
     def dd_grid(self, plot=True, local=False, csv='', xlsx=''):
-        """Evaluate drawdown on a regular grid.
+        """Evaluate drawdown on a regular grid of points.
 
-        Evaluate drawdown on a grid of points. Unless otherwise specified, a
-        default WellGrid object is used; it can be accessed and adjusted via
-        the .grid.gr (grid radius) and .grid.gd (grid density) attributes.
+        Unless otherwise specified, a default WellGrid object is used and
+        is accessed and adjusted via the .grid.gr (grid radius) and .grid.gd
+        (grid density) attributes.
 
-        Results are returned in a Pandas dataframe with column x-coord, y-coord
-        and drawdown value. A drawdown graph is displayed as default and can
-        be suppressed by setting plot=False.
+        Results are returned in a Pandas dataframe with columns x-coord,
+        y-coord and drawdown value. A drawdown graph is displayed as default
+        and can be suppressed by setting plot=False.
 
         Args:
             plot (bool) : Display a plot of results (default True).
