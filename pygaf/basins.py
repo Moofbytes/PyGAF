@@ -1,5 +1,5 @@
 class CircBasin:
-    """Circular basin.
+    """Circular recharge basin class.
 
     Attributes:
         cx (float) : Basin center x coordinate (units L, default 0.0).
@@ -97,7 +97,7 @@ class CircBasin:
         return
 
 class RectBasin:
-    """Rectangular basin.
+    """Rectangular recharge basin class.
 
     Attributes:
         cx (float) : Basin center x coordinate (units L, default 0.0).
