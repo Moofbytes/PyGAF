@@ -1,7 +1,7 @@
 class SteadyBC:
     """Boundary condition for steady state groundwater flow.
 
-    The boundary condition can be type 1, 2 or 3 (see the 'type' attribute). An
+    The boundary condition can be type 1, 2 or 3 (see 'type' attribute). An
     exception occurs if any other value is specified for type. The default
     SteadyBC object is a type 2 boundary condition with flow=0.0, which is
     equivalent to a no-flow boundary. The default type 1 Boundary has head=10.0
@@ -9,7 +9,7 @@ class SteadyBC:
     boundary condition has head=10.0 and cond=0.0, which is equivalent to
     a no-flow condition.
 
-    Note a utilities function is available to calculate conductance values
+    Note, a utilities function is available to calculate conductance values.
 
     Attributes:
         type (int) : Boundary condition type; choices are type=1 (Dirichlet,
