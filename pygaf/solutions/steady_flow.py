@@ -1,8 +1,8 @@
 class Steady1dConfFlow:
     """Steady state flow in a 1D confined aquifer.
 
-    The Steady1dConfFlow class uses the default Aq1dFiniteConf aquifer object,
-    default SteadyBC type 2 boundary condition object at x=0 and default
+    The Steady1dConfFlow class adopts the default Aq1dFiniteConf aquifer object,
+    default SteadyBC type 2 boundary condition object at x=0, and default
     SteadyBC type 1 boundary condition object at x=L.
 
     Attributes:
