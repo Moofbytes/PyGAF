@@ -35,12 +35,12 @@ class Aquifer:
 class Aq2dConf(Aquifer):
     """2D confined aquifer class.
 
-    A subclass of the Aquifer class defining a horizontal, 2D confined aquifer
+    Subclass of the Aquifer class defining a horizontal, 2D confined aquifer
     with infinite lateral extent and confined storage.
 
     The default Aq2dConf object has hydraulic conductivity K=1, specific
     storativity Ss=0.0001, aquifer saturated thickness B=10 and aquifer bottom
-    (datum) elevation bot=0. Exceptions will occur if invalid values are
+    (datum) elevation bot=0. Exceptions occur if invalid values are
     provided for K, Ss or B.
 
     The .info and .draw methods display the aquifer information and diagram.
@@ -181,12 +181,12 @@ class Aq2dConf(Aquifer):
 class Aq2dUnconf(Aquifer):
     """2D unconfined aquifer subclass.
 
-    A subclass of the Aquifer class defining a horizontal, 2D unconfined aquifer
+    Subclass of the Aquifer class defining a horizontal, 2D unconfined aquifer
     with infinite lateral extent and unconfined storage.
 
     The default Aq2dUnconf object has hydraulic conductivity K=1, specific yield
     Sy=0.1, static saturated thickness B=10 and aquifer bottom (datum) elevation
-    bot=0. Exceptions will occur if invalid values are provided for K, Sy or B.
+    bot=0. Exceptions occur if invalid values are provided for K, Sy or B.
 
     The .info and .draw methods display the aquifer information and diagram.
 
@@ -332,13 +332,13 @@ class Aq2dUnconf(Aquifer):
 class Aq2dLeaky(Aquifer):
     """2D leaky aquifer subclass.
 
-    A subclass of the Aquifer class defining a horizontal, 2D leaky aquifer
+    Subclass of the Aquifer class defining a horizontal, 2D leaky aquifer
     with infinite lateral extent and confined storage.
 
     The default Aq2dLeak object has hydraulic conductivity K=1, specific
     storativity Ss=0.0001, aquifer saturated thickness B=10, aquifer bottom
     (datum) elevation bot=0, leaky hydraulic conductivity Kleak=0.00001 and
-    leaky thickness Bleak=10. Exceptions will occur if invalid values are
+    leaky thickness Bleak=10. Exceptions occur if invalid values are
     provided for K, Ss, B, Kleak or Bleak.
 
     The .info and .draw methods display the aquifer information and diagram.
@@ -513,12 +513,12 @@ class Aq2dLeaky(Aquifer):
 class Aq1dFiniteConf(Aquifer):
     """1D, finite confined aquifer subclass.
 
-    A subclass of the Aquifer class defining a horizontal, 1D confined aquifer
+    Subclass of the Aquifer class defining a horizontal, 1D confined aquifer
     with finite lateral extent and confined storage.
 
     The default Aq1dFiniteConf object has hydraulic conductivity K=1, specific
     storativity Ss=0.0001, aquifer saturated thickness B=10, aquifer length
-    L=1000 and aquifer bottom (datum) elevation bot=0. Exceptions will occur if
+    L=1000 and aquifer bottom (datum) elevation bot=0. Exceptions occur if
     invalid values are provided for K, Ss, B or L.
 
     The .info and .draw methods display the aquifer information and diagram.
@@ -692,12 +692,12 @@ class Aq1dFiniteConf(Aquifer):
 class Aq1dFiniteUnconf(Aquifer):
     """1D, finite unconfined aquifer subclass.
 
-    A subclass of the Aquifer class defining a horizontal, 1D unconfined aquifer
+    Subclass of the Aquifer class defining a horizontal, 1D unconfined aquifer
     with finite lateral extent and unconfined storage.
 
     The default Aq1dFiniteUnconf object has hydraulic conductivity K=1, specific
     yield Sy=0.1, static saturated thickness B=10, aquifer length L=1000 and
-    aquifer bottom (datum) elevation bot=0. Exceptions will occur if invalid
+    aquifer bottom (datum) elevation bot=0. Exceptions occur if invalid
     values are provided for K, Sy, B or L.
 
     The .info and .draw methods display the aquifer information and diagram.
@@ -880,12 +880,12 @@ class Aq1dFiniteUnconf(Aquifer):
 class Aq1dSemifiniteConf(Aquifer):
     """1D, semi-infinite confined aquifer subclass.
 
-    A subclass of the Aquifer class defining a horizontal, 1D confined aquifer
+    Subclass of the Aquifer class defining a horizontal, 1D confined aquifer
     with semi-finite (semi-infinite) lateral extent and confined storage.
 
     The default Aq1dSemifiniteConf object has hydraulic conductivity K=1,
     specific storativity Ss=0.0001, aquifer saturated thickness B=10 and aquifer
-    bottom (datum) elevation bot=0. Exceptions will occur if invalid values are
+    bottom (datum) elevation bot=0. Exceptions occur if invalid values are
     provided for K, Ss or B.
 
     The .info and .draw methods display the aquifer information and diagram.
@@ -1036,12 +1036,12 @@ class Aq1dSemifiniteConf(Aquifer):
 class Aq1dSemifiniteUnconf(Aquifer):
     """1D, semi-infinite unconfined aquifer subclass.
 
-    A subclass of the Aquifer class defining a horizontal, 1D unconfined aquifer
-    with semi-finite (semi-infinte) lateral extent and unconfined storage.
+    Subclass of the Aquifer class defining a horizontal, 1D unconfined aquifer
+    with semi-finite (semi-infinite) lateral extent and unconfined storage.
 
     The default Aq1dFiniteUnconf object has hydraulic conductivity K=1,
     specific yield Sy=0.1, static saturated thickness B=10 and aquifer bottom
-    (datum) elevation bot=0. Exceptions will occur if invalid values are
+    (datum) elevation bot=0. Exceptions occur if invalid values are
     provided for K, Sy or B.
 
     The .info and .draw methods display the aquifer information and diagram.
