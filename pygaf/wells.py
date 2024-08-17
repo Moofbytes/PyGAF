@@ -1,5 +1,5 @@
 class Well:
-    """Non-flowing well.
+    """Non-flowing well class.
 
     Attributes:
         x (float) : Well x coordinate (units L, default 0.0).
@@ -61,7 +61,7 @@ class Well:
 
 
 class SteadyWell:
-    """Steady state flowing well.
+    """Steady state flowing well class.
 
     The default SteadyWell object has coordinates x=0.0 and y=0.0, well radius
     r=0.05, penetration fraction pf=1.0 and well rate q=0.0. Exceptions occur if
@@ -147,7 +147,7 @@ class SteadyWell:
 
 
 class TransientWell:
-    """Transient state flowing well.
+    """Transient state flowing well class.
 
     The default TransientWell object has well coordinates x=0.0 and y=0.0, well
     radius r=0.05, penetration fraction pf=1.0 and default StressSeries object.
