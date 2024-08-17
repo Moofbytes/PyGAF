@@ -1,9 +1,9 @@
 class MineSteadyRadUnconfQ:
     """Steady, radial, unconfined flow to a large diameter well.
 
-    Predict steady mine inflow for a specified mine pit water level. The
-    MineSteadyRadUnconfQ class uses the default Aq2dUnconf aquifer object with
-    initial saturated thickness 100.
+    Evaluate steady-state mine inflow for a specified mine pit water level.
+    The MineSteadyRadUnconfQ class adopts the default Aq2dUnconf aquifer object
+    with initial saturated thickness 100.
 
     Attributes:
         aq (obj) : Aquifer object.
@@ -141,7 +141,7 @@ class MineSteadyRadUnconfQ:
     def dd(self, n=25, plot=True, csv='', xlsx=''):
         """Evaluate distance-drawdown (units L).
 
-        Evaluate steady state drawdown at specified distances from the mine pit
+        Evaluate steady-state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
         displayed as default and can be suppressed by setting plot=False.
 
@@ -205,9 +205,9 @@ class MineSteadyRadUnconfQ2:
     """Steady, radial, unconfined flow to a large diameter well with pit
     floor inflow.
 
-    Predict steady mine inflow for a specified mine pit water level. The
-    MineSteadyRadUnconfQ2 class uses the default Aq2dUnconf aquifer object with
-    initial saturated thickness 100 for the upper unconfined aquifer.
+    Evaluate steady-state mine inflow for a specified mine pit water level.
+    The MineSteadyRadUnconfQ2 class adopts the default Aq2dUnconf aquifer object
+    with initial saturated thickness 100 for the upper unconfined aquifer.
 
     Attributes:
         aq (obj) : Upper aquifer object.
@@ -389,7 +389,7 @@ class MineSteadyRadUnconfQ2:
     def dd(self, n=25, plot=True, csv='', xlsx=''):
         """Evaluate distance-drawdown (units L).
 
-        Evaluate steady state drawdown at specified distances from the mine pit
+        Evaluate steady-state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
         displayed as default and can be suppressed by setting plot=False.
 
@@ -452,9 +452,9 @@ class MineSteadyRadUnconfQ2:
 class MineSteadyRadLeakyDD:
     """Steady, radial, leaky flow to a large diameter well.
 
-    Predict steady drawdown for a specified mine pit inflow. The
-    MineSteadyRadleakyDD class uses the default Aq2dLeaky aquifer object with
-    aquifer thickness 100 for the lower confined aquifer.
+    Evaluate steady-state drawdown for a specified mine pit inflow. The
+    MineSteadyRadleakyDD class adopts the default Aq2dLeaky aquifer object
+    with aquifer thickness 100 for the confined aquifer.
 
     Attributes:
         aq (obj) : Lower aquifer object.
@@ -581,7 +581,7 @@ class MineSteadyRadLeakyDD:
     def dd(self, n=25, plot=True, csv='', xlsx=''):
         """Evaluate distance-drawdown.
 
-        Evaluate steady state drawdown at specified distances from the mine pit
+        Evaluate steady-state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
         displayed as default and can be suppressed by setting plot=False.
 
@@ -665,9 +665,9 @@ class MineSteadyRadLeakyDD:
 class MineTransRadConfDD:
     """Transient, radial, confined flow to a large diameter well.
 
-    Predict transient drawdown for a specified mine pit inflow. The
-    MineTransRadConfDD class uses the default Aq2dConf aquifer object with
-    aquifer thickness 100 for the lower confined aquifer.
+    Evaluate transient drawdown for a specified mine pit inflow. The
+    MineTransRadConfDD class adopts the default Aq2dConf aquifer object with
+    aquifer thickness 100.
 
     Attributes:
         aq (obj) : Lower aquifer object.
@@ -944,8 +944,8 @@ class MineTransRadConfDD:
 class MineSteadyStripUnconfQ:
     """Steady, unconfined 1D flow to mine pit wall.
 
-    Predict steady mine inflow for a specified mine pit water level. The
-    MineSteadyStripUnconfQ class uses the default Aq2dUnconf aquifer object with
+    Evaluate steady-state mine inflow for a specified mine pit water level. The
+    MineSteadyStripUnconfQ class adopts the default Aq2dUnconf aquifer object with
     initial saturated thickness 100.
 
     Attributes:
@@ -1076,7 +1076,7 @@ class MineSteadyStripUnconfQ:
     def dd(self, n=25, plot=True, csv='', xlsx=''):
         """Evaluate distance-drawdown (units L).
 
-        Evaluate steady state drawdown at specified distances from the mine pit
+        Evaluate steady-state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
         displayed as default and can be suppressed by setting plot=False.
 
@@ -1139,9 +1139,9 @@ class MineSteadyStripUnconfQ:
 class MineSteadyStripLeakyQ:
     """Steady, leaky 1D flow to mine pit wall.
 
-    Predict steady mine inflow for a specified mine pit water level. The
-    MineSteadyStripLeakyQ class uses the default Aq2dLeaky aquifer
-    object with aquifer thickness 100 for the lower confined aquifer.
+    Evaluate steady-state mine inflow for a specified mine pit water level.
+    The MineSteadyStripLeakyQ class adopts the default Aq2dLeaky aquifer
+    object with aquifer thickness 100 for the confined aquifer.
 
     Attributes:
         aq (obj) : Aquifer object.
@@ -1276,7 +1276,7 @@ class MineSteadyStripLeakyQ:
     def dd(self, n=25, plot=True, csv='', xlsx=''):
         """Evaluate distance-drawdown (units L).
 
-        Evaluate steady state drawdown at specified distances from the mine pit
+        Evaluate steady-state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
         displayed as default and can be suppressed by setting plot=False.
 
@@ -1339,9 +1339,9 @@ class MineSteadyStripLeakyQ:
 class MineSteadyStripLeakyDD:
     """Steady, leaky 1D flow to mine pit wall.
 
-    Predict steady mine drawdown for a specified mine pit inflow. The
-    MineSteadyStripLeakyDD class uses the default Aq2dLeaky aquifer
-    object with aquifer thickness 100 for the lower confined aquifer.
+    Evaluate steady-state mine drawdown for a specified mine pit inflow.
+    The MineSteadyStripLeakyDD class adopts the default Aq2dLeaky aquifer
+    object with aquifer thickness 100 for the confined aquifer.
 
     Attributes:
         aq (obj) : Aquifer object.
@@ -1478,7 +1478,7 @@ class MineSteadyStripLeakyDD:
     def dd(self, n=25, plot=True, csv='', xlsx=''):
         """Evaluate distance-drawdown (units L).
 
-        Evaluate steady state drawdown at specified distances from the mine pit
+        Evaluate steady-state drawdown at specified distances from the mine pit
         wall. Results are returned in a Pandas dataframe. A drawdown graph is
         displayed as default and can be suppressed by setting plot=False.
 
@@ -1541,9 +1541,9 @@ class MineSteadyStripLeakyDD:
 class MineTransStripUnconfQ:
     """Transient, unconfined 1D flow to mine pit wall.
 
-    Predict transient inflow for a specified mine pit water level.
-    The MineTransStripUnconfQ class uses the default Aq2dUnconf aquifer
-    object initial saturated thickness 100.
+    Evaluate transient inflow for a specified mine pit water level.
+    The MineTransStripUnconfQ class adopts the default Aq2dUnconf aquifer
+    object with initial saturated thickness 100.
 
     Attributes:
         aq (obj) : Aquifer object.
@@ -1746,8 +1746,8 @@ class MineTransStripUnconfQ:
 class MineTransStripConfQ:
     """Transient, confined 1D flow to mine pit wall.
 
-    Predict transient inflow for a specified mine pit water level.
-    The MineTransStripConfQ class uses the default Aq2dConf aquifer
+    Evaluate transient inflow for a specified mine pit water level.
+    The MineTransStripConfQ class adopts the default Aq2dConf aquifer
     object with aquifer thickness 100.
 
     Attributes:
@@ -1965,8 +1965,8 @@ class MineTransStripConfQ:
 class MineTransStripLeakyQ:
     """Transient, leaky 1D flow to mine pit wall.
 
-    Predict transient inflow for a specified mine pit water level.
-    The MineTransStripLeakyQ class uses the default Aq2dLeaky aquifer
+    Evaluate transient inflow for a specified mine pit water level.
+    The MineTransStripLeakyQ class adopts the default Aq2dLeaky aquifer
     object with aquifer thickness 100.
 
     Attributes:
