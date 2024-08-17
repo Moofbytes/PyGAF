@@ -1,13 +1,13 @@
 class ThiemWell:
     """Thiem (1906) radial flow solution.
 
-    The default ThiemWell object uses the Aq2dConf and SteadyWell classes.
-    A single method .hd is defined representing the head difference between
-    two radii under a pumping stress; for example, representing the head
-    difference between two observation boress at different radial distances
-    from a pumping bore, or representing the head difference between the pumping
-    bore at its well radius and an observation bore. Default radii are r1=0.1
-    and r2=1.
+    The default ThiemWell object adopts the Aq2dConf aquifer class and
+    SteadyWell class. A single method (.hd) is defined representing the
+    head difference between two radii under a pumping stress; for example,
+    representing the head difference between two observation boress at different
+    radial distances from the pumping bore, or representing the head difference
+    between the pumping bore at its well radius and an observation bore. Default
+    radii are r1=0.1 and r2=1.
 
     Attributes:
         aq (obj) : Aq2dConf aquifer object.
