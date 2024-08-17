@@ -2,7 +2,8 @@ class DupuitThiemWell:
     """Dupuit-Thiem radial flow solution for uniform recharge.
 
     The default DupuitThiemWell object adopts the Aq2dConf, SteadyWellGrid
-    and SteadyWell classes.
+    and SteadyWell classes. Methods include drawdown at a point (.dd) and
+    drawdown on a regular grid of points (.dd_grid).
 
     Attributes:
         aq (obj) : Aq2dConf aquifer object.
