@@ -1,10 +1,10 @@
 class TheisWell:
     """Theis (1935) radial flow solution.
 
-    The default TheisWell object uses the Aq2dConf, SteadyWellGrid and
-    SteadyWell classes. Methods include radius of influence .ri, transient
-    drawdown at a point .dd and grid-contoured drawdown at specified time
-    .dd_grid.
+    The default TheisWell object adopts the Aq2dConf class, SteadyWellGrid
+    class and SteadyWell class. Methods include radius of influence (.ri),
+    transient drawdown at a point (.dd) and grid-contoured drawdown at specified
+    time (.dd_grid).
 
     Attributes:
         aq (obj) : Aq2dConf aquifer object.
@@ -70,7 +70,7 @@ class TheisWell:
         Time for calculating ri are provided in a list. A results graph is
         displayed as default and can be suppressed by setting plot=False. A
         pandas dataframe is returned with time as the row index and ri as
-        a column.
+        column values.
 
         Results can be exported to csv and Excel files by setting non-blank
         filename strings for the .csv and .xlsx attributes. Filenames can be
@@ -136,12 +136,12 @@ class TheisWell:
         """Evaluate drawdown at specified radii and times.
 
         Evaluate drawdown at each radius and time specified in the lists t
-        and r and for well rate q. Defaults are t=[1.0], r=[1.0] and
+        and r for specified well rate q. Defaults are t=[1.0], r=[1.0] and
         q=-1000.0. A drawdown graph is displayed as default and can be
         suppressed by setting plot=False.
 
         A pandas dataframe of drawdown values is returned with time as the row
-        index and radius values as the column headers. Results can be exported
+        index and column values for each radius. Results can be exported
         to csv and Excel files by setting non-blank filename strings for the
         .csv and .xlsx attributes. Filenames can be supplied with or without
         file extentions, which are added if ommitted.
@@ -209,11 +209,11 @@ class TheisWell:
 
         Evaluate drawdown on a grid of points at specified time and well rate.
         Default values are t=1.0 and q=-1000. Unless otherwise specified, a
-        default WellGrid object is used; it can be accessed and adjusted via
-        the .grid.gr (grid radius) and .grid.gd (grid density) attributes.
+        default WellGrid object is adopted and can be accessed via the grid
+        radius (.grid.gr) and grid density (.grid.gd) attributes.
 
-        Results are returned in a Pandas dataframe with column x-coord, y-coord
-        and drawdown value. A drawdown graph is displayed as default and can
+        Results are returned in a Pandas dataframe with column values x-coord,
+        y-coord and drawdown. A drawdown graph is displayed as default and can
         be suppressed by setting plot=False.
 
         Args:
