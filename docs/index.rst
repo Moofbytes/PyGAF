@@ -11,7 +11,7 @@ The package name is an acronym of ``Py``\ thon ``G``\ roundwater ``A``\ nalytic 
 
 .. note::
 
-   PyGAF and its documentation are under active development and contributors are welcome. Please download and try it out!
+   PyGAF and its documentation are under active development and contributors are welcome! Please download and try it out.
 
 Contents
 --------
