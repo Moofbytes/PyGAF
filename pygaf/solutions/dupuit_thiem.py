@@ -1,19 +1,19 @@
 class DupuitThiemWell:
     """Dupuit-Thiem radial flow solution for uniform recharge.
 
-    The default DupuitThiemWell object adopts the Aq2dConf, SteadyWellGrid
+    The default DupuitThiemWell object adopts the Aq2dUnconf, SteadyWellGrid
     and SteadyWell classes. Methods include drawdown at a point (.dd) and
     drawdown on a regular grid of points (.dd_grid).
 
     Attributes:
-        aq (obj) : Aq2dConf aquifer object.
+        aq (obj) : Aq2dUnconf aquifer object.
         grd (obj) : SteadyWellGrid object.
         well (obj) : SteadyWell object.
     """
-    from pygaf.aquifers import Aq2dConf
+    from pygaf.aquifers import Aq2dUnconf
     from pygaf.grids import SteadyWellGrid
     def __init__(self):
-        self.aq = self.Aq2dConf()
+        self.aq = self.Aq2dUnconf()
         self.grid = self.SteadyWellGrid()
         self.well = self.grid.well
         self.well.q = -1000
@@ -46,6 +46,17 @@ class DupuitThiemWell:
         print('- Steady state and fully penetrating well.')
         print('- Uniform groundwater recharge.')
         print()
+    
+    def draw(self, dw=8):
+        """Display the definition diagram.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('DupuitThiemWell.png', dw=dw)
+        return
         
     def ri(self):
         """Radius of influence."""

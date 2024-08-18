@@ -1,20 +1,22 @@
 class GloverRectBasinSteady:
     """Glover (1960) solution class.
 
-    The default GloverRectBasinSteady object uses the default Aq2dConf and
-    BasinGrid classes. Methods include impress at a point (.impress) and
-    grid-contoured impress at specified time (.impress_grid).
+    The default GloverRectBasinSteady object uses the default Aq2dUnconf,
+    aquifer class, RectBasin class and BasinGrid class. Methods include
+    impress at a point (.impress) and grid-contoured impress at specified
+    time (.impress_grid).
 
     Attributes:
         aq (obj) : Confined aquifer object.
         basin (obj) : Basin object.
+        grid (obj) : Basin grid object.
 
     """
-    from pygaf.aquifers import Aq2dConf
-    from pygaf.grids import BasinGrid
+    from pygaf.aquifers import Aq2dUnconf
+    from pygaf.basins import RectBasin
     def __init__(self):
-        self.aq = self.Aq2dConf()
-        self.basin = self.BasinGrid()
+        self.aq = self.Aq2dUnconf()
+        self.basin = self.RectBasin()
         return
 
     def info(self):
@@ -36,6 +38,17 @@ class GloverRectBasinSteady:
         print('- Spatially uniform infiltration rate.')
         print('- Instant transfer of infiltration to water table.')
         print()
+    
+    def draw(self, dw=8):
+        """Display the definition diagram.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('GloverRectBasin.png', dw=dw)
+        return
 
     def u1(self, x, xL, T, S, t, tau):
         """Glover u1 solution term; tau is an integration variable."""
@@ -92,6 +105,8 @@ class GloverRectBasinSteady:
 
         """
         import pandas
+        # Sort times
+        t.sort()
         # Checks
         if min(t) <= 0:
             print('Error! All times must be greater than 0.')
@@ -177,13 +192,13 @@ class GloverRectBasinSteady:
         if local:
             x, y = list(self.grid.pts.locx), list(self.grid.pts.locy)
             bx, by = 0, 0
-            plot_title = 'Impress at r < ' + str(self.grid.gr) +\
-            ' and t = ' + str(t) + '\n(local coordinates)'
+            #plot_title = 'Impress at r < ' + str(self.grid.gr) +\
+            #' and t = ' + str(t) + '\n(local coordinates)'
         else:
             x, y = list(self.grid.pts.worldx), list(self.grid.pts.worldy)
             bx, by = self.grid.basin.cx, self.grid.basin.cy
-            plot_title = 'Impress at r < ' + str(self.grid.gr) +\
-            ' and t = ' + str(t) + '\n(world coordinates)'
+            #plot_title = 'Impress at r < ' + str(self.grid.gr) +\
+            #' and t = ' + str(t) + '\n(world coordinates)'
         # Hydraulic loading
         Q = self.basin.area * q
         # Impress
@@ -202,6 +217,7 @@ class GloverRectBasinSteady:
         # Plot results
         mid_row = int(self.grid.grdim/2)
         if plot:
+            plot_title = 'Impress at r < ' + str(self.grid.gr) + ' and t = ' + str(t)
             cm = plt.cm.get_cmap('Blues')
             fig, (ax1, ax2, ax3) = plt.subplots(
                 3, 1, gridspec_kw={'height_ratios': [4, 1, 1]},
@@ -214,7 +230,10 @@ class GloverRectBasinSteady:
             )
             ax1.clabel(cs, inline=1, fontsize=10)
             ax1.plot(bx, by, '.', c='red')
-            ax1.set_title('Impress Contours')
+            if local:
+                ax1.set_title('Impress Contours (local coordinates)')
+            else:
+                ax1.set_title('Impress Contours')
             ax1.grid(True)
             ax1.axis('equal')
             ax2.plot(
@@ -222,7 +241,10 @@ class GloverRectBasinSteady:
                 impress[self.grid.grdim*(mid_row-1):self.grid.grdim*mid_row],
                 '.-', lw=3, alpha=0.5
             )
-            ax2.set_title('Distance Impress')
+            if local:
+                ax2.set_title('Distance Impress (local coordinates)')
+            else:
+                ax2.set_title('Distance Impress')
             ax2.set_xlabel('dx')
             ax2.grid(True)
             ax3.plot(

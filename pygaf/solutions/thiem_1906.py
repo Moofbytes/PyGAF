@@ -33,6 +33,17 @@ class ThiemWell:
         print('- No groundwater recharge.')
         print()
     
+    def draw(self, dw=8):
+        """Display the definition diagram.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('ThiemWell.png', dw=dw)
+        return
+    
     def hd(self, r1=0.1, r2=1):
         """Head difference between two radii."""
         from numpy import log, pi
