@@ -13,6 +13,8 @@ pygaf.egg-info/PKG-INFO
 pygaf.egg-info/SOURCES.txt
 pygaf.egg-info/dependency_links.txt
 pygaf.egg-info/top_level.txt
+pygaf/images/DupuitThiemWell.png
+pygaf/images/GloverRectBasin.png
 pygaf/images/MineSteadyRadLeaky.png
 pygaf/images/MineSteadyRadUnconf.png
 pygaf/images/MineSteadyRadUnconf2.png
@@ -22,7 +24,10 @@ pygaf/images/MineTransRadConf.png
 pygaf/images/MineTransStripConf.png
 pygaf/images/MineTransStripLeaky.png
 pygaf/images/MineTransStripUnconf.png
+pygaf/images/TheisWell.png
+pygaf/images/ThiemWell.png
 pygaf/solutions/__init__.py
+pygaf/solutions/dupuit_thiem.py
 pygaf/solutions/glover_1960.py
 pygaf/solutions/mine_flow.py
 pygaf/solutions/steady_flow.py
