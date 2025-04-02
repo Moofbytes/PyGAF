@@ -51,8 +51,8 @@ class Steady1dConfFlow:
 
     def info(self):
         """Print the solution information."""
-        print('SOLUTION INFORMATION')
-        print('--------------------')
+        print('FLOW SOLUTION INFORMATION')
+        print('-------------------------')
         print('Flow in', self.aq.type)
         print('BC at x=0: type', str(self.bc0.type)+',', self.bc0.value)
         print('BC at x=L: type', str(self.bcL.type)+',', self.bcL.value)
@@ -312,8 +312,8 @@ class Steady1dUnconfFlow:
 
     def info(self):
         """Print the solution information."""
-        print('SOLUTION INFORMATION')
-        print('--------------------')
+        print('FLOW SOLUTION INFORMATION')
+        print('-------------------------')
         print('Flow in', self.aq.type)
         print('BC at x=0: type', str(self.bc0.type)+',', self.bc0.value)
         print('BC at x=L: type', str(self.bcL.type)+',', self.bcL.value)
