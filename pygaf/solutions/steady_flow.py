@@ -37,7 +37,15 @@ class Steady1dConfFlow:
         """Aquifer solution for type 2 bc at x=0 and type 1 bc at x=L."""
         h = H + R*(L**2-x**2)/(2*T) + Q*(L-x)/T
         q = R*x + Q
-        h_grad = q/T
+        h_grad = -q/T
+        return h, q, h_grad
+    
+    
+    def bc_t1_t2(self, H, Q, L, T, R, x):
+        """Aquifer solution for type 1 bc at x=0 and type 2 bc at x=L."""
+        h = H + R*(L**2-(L-x)**2)/(2*T) - Q*x/T
+        q = -(R*(L-x) - Q)
+        h_grad = -q/T
         return h, q, h_grad
 
 
@@ -45,7 +53,7 @@ class Steady1dConfFlow:
         """Aquifer solution for type 1 bc at x=0 and type 1 bc at x=L."""
         h = H0*(1-(x/L)) + HL*(x/L) + R*(L*x-x**2)/(2*T)
         q = T*(H0-HL)/L - R*(L-2*x)/2
-        h_grad = q/T
+        h_grad = -q/T
         return h, q, h_grad
 
 
@@ -54,6 +62,7 @@ class Steady1dConfFlow:
         print('FLOW SOLUTION INFORMATION')
         print('-------------------------')
         print('Flow in', self.aq.type)
+        print('Boundary value solution for flow equation T.d2h/dx2 + R = 0')
         print('BC at x=0: type', str(self.bc0.type)+',', self.bc0.value)
         print('BC at x=L: type', str(self.bcL.type)+',', self.bcL.value)
         print('Recharge rate:', self.R, '[L/T]')
@@ -88,7 +97,21 @@ class Steady1dConfFlow:
                     self.bcL.value['head'], self.bc0.value['flow'],
                     self.aq.L, self.aq.T, self.R, x
                     )
-                if h <= self.aq.bot:
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
+                    raise Exception('Aquifer is dry at x = ' + str(x))
+                head.append(h)
+            df['h'] = head
+        elif self.bc0.type==1 and self.bcL.type==2:
+            for x in list(df.x):
+                h, q, g = self.bc_t1_t2(
+                    self.bc0.value['head'], self.bcL.value['flow'],
+                    self.aq.L, self.aq.T, self.R, x
+                    )
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
                     raise Exception('Aquifer is dry at x = ' + str(x))
                 head.append(h)
             df['h'] = head
@@ -98,7 +121,9 @@ class Steady1dConfFlow:
                     self.bc0.value['head'], self.bcL.value['head'],
                     self.aq.L, self.aq.T, self.R, x
                     )
-                if h <= self.aq.bot:
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
                     raise Exception('Aquifer is dry at x = ' + str(x))
                 head.append(h)
             df['h'] = head
@@ -157,7 +182,21 @@ class Steady1dConfFlow:
                     self.bcL.value['head'], self.bc0.value['flow'],
                     self.aq.L, self.aq.T, self.R, x
                     )
-                if h <= self.aq.bot:
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
+                    raise Exception('Aquifer is dry at x = ' + str(x))
+                flow.append(flx)
+            df['q'] = flow
+        elif self.bc0.type==1 and self.bcL.type==2:
+            for x in list(df.x):
+                h, flx, g = self.bc_t1_t2(
+                    self.bc0.value['head'], self.bcL.value['flow'],
+                    self.aq.L, self.aq.T, self.R, x
+                    )
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
                     raise Exception('Aquifer is dry at x = ' + str(x))
                 flow.append(flx)
             df['q'] = flow
@@ -167,7 +206,9 @@ class Steady1dConfFlow:
                     self.bc0.value['head'], self.bcL.value['head'],
                     self.aq.L, self.aq.T, self.R, x
                     )
-                if h <= self.aq.bot:
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
                     raise Exception('Aquifer is dry at x = ' + str(x))
                 flow.append(flx)
             df['q'] = flow
@@ -220,7 +261,21 @@ class Steady1dConfFlow:
                     self.bcL.value['head'], self.bc0.value['flow'],
                     self.aq.L, self.aq.T, self.R, x
                     )
-                if h <= self.aq.bot:
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
+                    raise Exception('Aquifer is dry at x = ' + str(x))
+                grad.append(g)
+            df['h_grad'] = grad
+        elif self.bc0.type==1 and self.bcL.type==2:
+            for x in list(df.x):
+                h, q, g = self.bc_t1_t2(
+                    self.bc0.value['head'], self.bcL.value['flow'],
+                    self.aq.L, self.aq.T, self.R, x
+                    )
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
                     raise Exception('Aquifer is dry at x = ' + str(x))
                 grad.append(g)
             df['h_grad'] = grad
@@ -230,7 +285,9 @@ class Steady1dConfFlow:
                     self.bc0.value['head'], self.bcL.value['head'],
                     self.aq.L, self.aq.T, self.R, x
                     )
-                if h <= self.aq.bot:
+                if h < self.aq.top:
+                    raise Exception('Aquifer is unconfined at x = ' + str(x))
+                if h < self.aq.bot:
                     raise Exception('Aquifer is dry at x = ' + str(x))
                 grad.append(g)
             df['h_grad'] = grad
@@ -298,15 +355,27 @@ class Steady1dUnconfFlow:
             raise Exception('Aquifer is dry at x = ' + str(x))
         h = sqrt(H**2 + R*(L**2-x**2)/K + 2*Q*(L-x)/K)
         q = R*x + Q
-        h_grad = q/(K*h)
+        h_grad = -q/(K*h)
+        return h, q, h_grad
+    
+    def bc_t1_t2(self, H, Q, L, K, R, x):
+        """Aquifer solution for type 1 bc at x=0 and type 2 bc at x=L."""
+        from numpy import sqrt
+        if (H**2 + R*(L**2-(L-x)**2)/K - 2*Q*x/K) < 0:
+            raise Exception('Aquifer is dry at x = ' + str(L-x))
+        h = sqrt(H**2 + R*(L**2-(L-x)**2)/K - 2*Q*x/K)
+        q = -(R*(L-x) - Q)
+        h_grad = -q/(K*h)
         return h, q, h_grad
 
     def bc_t1_t1(self, H0, HL, L, K, R, x):
         """Aquifer solution for type 1 bc at x=0 and type 1 bc at x=L."""
         from numpy import sqrt
+        if ((H0**2)*(1-(x/L)) + (HL**2)*(x/L) + R*(L*x-x**2)/K) < 0:
+            raise Exception('Aquifer is dry at x = ' + str(x))
         h = sqrt((H0**2)*(1-(x/L)) + (HL**2)*(x/L) + R*(L*x-x**2)/K)
-        q = K*(H0-HL)/(2*L) - R*(L-2*x)/2
-        h_grad = q/(K*h)
+        q = K*(H0**2-HL**2)/(2*L) - R*(L-2*x)/2
+        h_grad = -q/(K*h)
         return h, q, h_grad
 
 
@@ -315,6 +384,7 @@ class Steady1dUnconfFlow:
         print('FLOW SOLUTION INFORMATION')
         print('-------------------------')
         print('Flow in', self.aq.type)
+        print('Boundary value solution for flow equation d(K.h.dh/dx)/dx + R = 0')
         print('BC at x=0: type', str(self.bc0.type)+',', self.bc0.value)
         print('BC at x=L: type', str(self.bcL.type)+',', self.bcL.value)
         print('Recharge rate:', self.R, '[L/T]')
@@ -349,8 +419,14 @@ class Steady1dUnconfFlow:
                     self.bcL.value['head'], self.bc0.value['flow'],
                     self.aq.L, self.aq.K, self.R, x
                     )
-                if h <= self.aq.bot:
-                    raise Exception('Aquifer is dry at x = ' + str(x))
+                head.append(h)
+            df['h'] = head
+        elif self.bc0.type==1 and self.bcL.type==2:
+            for x in list(df.x):
+                h, q, g = self.bc_t1_t2(
+                    self.bc0.value['head'], self.bcL.value['flow'],
+                    self.aq.L, self.aq.K, self.R, x
+                    )
                 head.append(h)
             df['h'] = head
         elif self.bc0.type==1 and self.bcL.type==1:
@@ -359,8 +435,6 @@ class Steady1dUnconfFlow:
                     self.bc0.value['head'], self.bcL.value['head'],
                     self.aq.L, self.aq.K, self.R, x
                     )
-                if h <= self.aq.bot:
-                    raise Exception('Aquifer is dry at x = ' + str(x))
                 head.append(h)
             df['h'] = head
         # Plot results
@@ -418,8 +492,14 @@ class Steady1dUnconfFlow:
                     self.bcL.value['head'], self.bc0.value['flow'],
                     self.aq.L, self.aq.K, self.R, x
                     )
-                if h <= self.aq.bot:
-                    raise Exception('Aquifer is dry at x = ' + str(x))
+                flow.append(flx)
+            df['q'] = flow
+        elif self.bc0.type==1 and self.bcL.type==2:
+            for x in list(df.x):
+                h, flx, g = self.bc_t1_t2(
+                    self.bc0.value['head'], self.bcL.value['flow'],
+                    self.aq.L, self.aq.K, self.R, x
+                    )
                 flow.append(flx)
             df['q'] = flow
         elif self.bc0.type==1 and self.bcL.type==1:
@@ -428,8 +508,6 @@ class Steady1dUnconfFlow:
                     self.bc0.value['head'], self.bcL.value['head'],
                     self.aq.L, self.aq.K, self.R, x
                     )
-                if h <= self.aq.bot:
-                    raise Exception('Aquifer is dry at x = ' + str(x))
                 flow.append(flx)
             df['q'] = flow
         # Plot results
@@ -481,8 +559,14 @@ class Steady1dUnconfFlow:
                     self.bcL.value['head'], self.bc0.value['flow'],
                     self.aq.L, self.aq.K, self.R, x
                     )
-                if h <= self.aq.bot:
-                    raise Exception('Aquifer is dry at x = ' + str(x))
+                grad.append(g)
+            df['h_grad'] = grad
+        elif self.bc0.type==1 and self.bcL.type==2:
+            for x in list(df.x):
+                h, q, g = self.bc_t1_t2(
+                    self.bc0.value['head'], self.bcL.value['flow'],
+                    self.aq.L, self.aq.K, self.R, x
+                    )
                 grad.append(g)
             df['h_grad'] = grad
         elif self.bc0.type==1 and self.bcL.type==1:
@@ -491,8 +575,6 @@ class Steady1dUnconfFlow:
                     self.bc0.value['head'], self.bcL.value['head'],
                     self.aq.L, self.aq.K, self.R, x
                     )
-                if h <= self.aq.bot:
-                    raise Exception('Aquifer is dry at x = ' + str(x))
                 grad.append(g)
             df['h_grad'] = grad
         # Plot results
