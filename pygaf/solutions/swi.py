@@ -7,7 +7,7 @@ class GloverSWI:
         K (float) : Aquifer hydraulic conductivity (units L/T, default 1.0).
         L (float) : Length of aquifer for evaluating the solution (units L, default 100).
         Q (float) : Groundwater flow toward the sea (units L3/T per L of shoreline, default 0.2).
-        n (int) : Number of x values at which to evaluate the interface solution (default 25).
+        n (int) : Number of x values for evaluating the solution (default 25).
 
     """
     from pygaf.aquifers import Aq1dFiniteUnconf
