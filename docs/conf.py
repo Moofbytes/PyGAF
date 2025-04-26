@@ -30,7 +30,7 @@ project = 'PyGAF'
 copyright = '2022, Tony Smith'
 author = 'Tony Smith'
 #release = '0.1'
-version = '1.0.2'
+version = '1.0.3'
 
 
 # -- General configuration ---------------------------------------------------

@@ -13,7 +13,7 @@ Installation
 ============
 Install the current version of PyGAF from PyPITest using pip
 
-`pip install -i https://test.pypi.org/simple/ pygaf==1.0.2`
+`pip install -i https://test.pypi.org/simple/ pygaf==1.0.3`
 
 Jupyter Notebook Examples
 =========================
