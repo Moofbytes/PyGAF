@@ -8,6 +8,7 @@ Analytic solutions
    glover_1960
    mine_flow
    steady_flow
+   swi
    theis_1935
    thiem_1906
    

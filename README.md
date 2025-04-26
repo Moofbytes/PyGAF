@@ -11,9 +11,9 @@ https://pygaf.readthedocs.io/en/latest/index.html
 
 Installation
 ============
-Install the development version of PyGAF from PyPITest using pip
+Install the current version of PyGAF from PyPITest using pip
 
-`pip install -i https://test.pypi.org/simple/ pygaf==1.0.1`
+`pip install -i https://test.pypi.org/simple/ pygaf==1.0.2`
 
 Jupyter Notebook Examples
 =========================
