@@ -1,6 +1,6 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: pygaf
-Version: 1.0.1
+Version: 1.0.2
 Summary: Python Groundwater Analytic Flow
 Home-page: https://github.com/Moofbytes/PyGAF
 Author: Tony Smith
@@ -14,5 +14,15 @@ Classifier: Topic :: Scientific/Engineering :: Hydrology
 Classifier: Development Status :: 3 - Alpha
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: project-url
+Dynamic: summary
 
 Evaluation and display of analytic groundwater solutions.
