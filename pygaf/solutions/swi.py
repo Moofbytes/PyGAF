@@ -10,7 +10,6 @@ class GloverSWI:
         n (int) : Number of x values for evaluating the solution (default 25).
 
     """
-    from pygaf.aquifers import Aq1dFiniteUnconf
     def __init__(self, rho_fresh=1000.0, rho_salt=1023.0, K=1.0, L=100.0, Q=0.2, n=25):
         self.rho_fresh = rho_fresh
         self.rho_salt = rho_salt
