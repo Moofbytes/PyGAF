@@ -29,8 +29,8 @@ sys.path.insert(1, os.path.abspath('../pygaf/solutions'))
 project = 'PyGAF'
 copyright = '2022, Tony Smith'
 author = 'Tony Smith'
-release = '0.1'
-version = '1.0.0'
+#release = '0.1'
+version = '1.0.2'
 
 
 # -- General configuration ---------------------------------------------------
