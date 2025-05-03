@@ -134,6 +134,17 @@ class GloverSWI:
         print('- Homogeneous and isotropic aquifer.')
         print('- Seepage face between shoreline and interface.')
         print()
+
+    def draw(self, dw=8):
+        """Display the definition diagram.
+
+        Args:
+            dw (float) : Width of figure (default 8.0).
+
+        """
+        from pygaf.utils import display_image
+        display_image('GloverSWI.png', dw=dw)
+        return
     
     def swi(self, plot=True, csv='', xlsx=''):
         """Glover (1959) saltwater interface.
